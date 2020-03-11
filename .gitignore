@@ -79,3 +79,5 @@ UpgradeLog*.htm
 /Resource/Log
 /Resource/*.res
 
+/cpp.hint
+/cpp.hint

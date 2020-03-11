@@ -9,28 +9,28 @@
 
 #define	MAX_ACTMSG	0xff
 
-// 무버의 동작상태를 기술
+// Enumeration of the different behaviours of the character
 enum ACTTYPE
 {
 	ACT_NONE,
 
-	ACT_STOP,				// 대기
-	ACT_STOPWALK,			// 제자리걷기
-	ACT_FORWARD,			// 전진
-	ACT_BACKWARD,			// 후진
-	ACT_LEFT,				// 왼쪽으로이동
-	ACT_RIGHT,				// 오른쪽으로 이동
+	ACT_STOP,				// idle state
+	ACT_STOPWALK,			// idle after walking
+	ACT_FORWARD,			// moving forward
+	ACT_BACKWARD,			// moving backward
+	ACT_LEFT,				// going left
+	ACT_RIGHT,				// going right
 
-	ACT_WALKMODE,			// 걷기/뛰기모드
+	ACT_WALKMODE,			// going from idle to walking
 
-	ACT_LEFTTURN,			// 왼족으로 도는중
-	ACT_RIGHTTURN,			// 오른쪽으로 도는중
+	ACT_LEFTTURN,			// turn left
+	ACT_RIGHTTURN,			// turn right
 
 	ACT_FJUMPREADY,
-	ACT_FJUMP,				// 앞으로 점프중
+	ACT_FJUMP,				
 	ACT_FLAND,
 	ACT_SJUMPREADY,
-	ACT_SJUMP,				// 제자리 점프중
+	ACT_SJUMP,				
 	ACT_SLAND,
 	ACT_BJUMPREADY,
 	ACT_BJUMP,				// 백 점프중
@@ -42,19 +42,19 @@ enum ACTTYPE
 	ACT_RJUMP,				// 오른쪽 점프중
 	ACT_RLAND,
 
-	ACT_ATTACKMODE,			// 전투모드
-	ACT_ATTACK1,			// 공격동작 1
+	ACT_ATTACKMODE,			// going from idle to attack
+	ACT_ATTACK1,			// different attacks
 	ACT_ATTACK2,
 	ACT_ATTACK3,
 	ACT_ATTACK4,
 
-	ACT_RANGE1,				// 공격동작 1
+	ACT_RANGE1,				// range of the character 1
 	ACT_RANGE2,
 	ACT_RANGE3,
 	ACT_RANGE4,
 
-	ACT_DAMAGE,				// 피격중
-	ACT_DIE					// 죽어있는 중(?)
+	ACT_DAMAGE,				// related to damage
+	ACT_DIE					// going from idle to dead
 };
 
 class CAction;
