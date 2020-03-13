@@ -92,7 +92,7 @@ MATERIAL*	CTextureManager :: AddMaterial( LPDIRECT3DDEVICE9 pd3dDevice, D3DMATER
 	{
 		if( pMList->m_bActive )
 		{
-			if( strcmpi(strFileName, pMList->strBitMapFileName) == 0 && pMList->m_pd3dDevice == pd3dDevice )	// 이미 읽은건 다시 읽지 않음.  역시 땜빵 -_-;;
+			if( _strcmpi(strFileName, pMList->strBitMapFileName) == 0 && pMList->m_pd3dDevice == pd3dDevice )	// 이미 읽은건 다시 읽지 않음.  역시 땜빵 -_-;;
 			{
 				pMList->m_nUseCnt ++;	// 이미로딩한걸 공유하고 있다면 카운트 올림.
 				return pMList;

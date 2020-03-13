@@ -937,7 +937,7 @@ template <class T> void CItemContainer<T>::Serialize( CAr & ar )	// 0-673	// 466
 		}
 
 		ar.Read( adwObjIndex, sizeof(DWORD) * m_dwItemMax );
-		for( int i = 0; i < m_dwItemMax; i++ )
+		for( unsigned int i = 0; i < m_dwItemMax; i++ )
 		{
 			m_apItem[i].m_dwObjIndex	= adwObjIndex[i];
 		}

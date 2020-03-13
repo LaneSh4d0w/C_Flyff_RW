@@ -20,7 +20,7 @@ m_idParty( 0 ),
 m_idGuild( 0 ),
 m_idWar( 0 ),
 m_nSlot( 0 ),
-m_dwCreation( GetTickCount() )
+m_dwCreation( GetTickCount64() )
 {
 	*m_szPlayer	= '\0';
 	*m_szAccount	= '\0';
@@ -135,7 +135,7 @@ CPlayer* CPlayerMng::GetPlayerBySerial( DWORD dwSerial )
 
 void CPlayerMng::DestroyGarbage( void )
 {
-	DWORD dwTick	= GetTickCount() - SEC( 60 );
+	DWORD dwTick	= GetTickCount64() - SEC( 60 );
 	CMclAutoLock	Lock( m_AddRemoveLock );
 
 	for( MPP::iterator i = m_mapPlayers.begin(); i != m_mapPlayers.end(); ++i )

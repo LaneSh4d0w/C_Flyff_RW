@@ -5576,7 +5576,7 @@ int ParsingCommand( LPCTSTR lpszString, CMover* pMover, BOOL bItem )
 		// 이모티콘 명령
 		for( int j=0; j < MAX_EMOTICON_NUM; j++ )
 		{
-			if( stricmp( &(szText[1]), g_DialogMsg.m_EmiticonCmd[ j ].m_szCommand ) == 0 )			
+			if( _stricmp( &(szText[1]), g_DialogMsg.m_EmiticonCmd[ j ].m_szCommand ) == 0 )			
 	//		if( _tcsicmp( szText, g_DialogMsg.m_EmiticonCmd[ j ].m_szCommand ) == 0 )
 			{
 				g_DPlay.SendChat( (LPCSTR)lpszString );

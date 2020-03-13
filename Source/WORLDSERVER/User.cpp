@@ -4267,7 +4267,7 @@ void	CUserMng::AddDlgEmoticon( CCtrl* pCtrl, int nIdx )
 {
 	CHAR szString[32] = "!";
 	CHAR szNum[32];
-	itoa( nIdx, szNum, 10 );
+	_itoa( nIdx, szNum, 10 );
 	strcat( szString, szNum );
 	AddChat( pCtrl, szString );
 }

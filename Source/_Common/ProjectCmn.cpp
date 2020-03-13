@@ -583,7 +583,7 @@ BOOL CProject::LoadText( LPCTSTR lpszFileName )
 
 			pColorText = m_colorText.GetAt( i );
 			pColorText->dwColor = colorArray.GetAt( i );
-			pColorText->lpszData = strdup( strArray.GetAt( i ) ) ;
+			pColorText->lpszData = _strdup( strArray.GetAt( i ) ) ;
 		}
 	}
 	m_colorText.Optimize();
@@ -775,7 +775,7 @@ BOOL CProject::LoadInvalidName( void )
 		while( s.tok != FINISHED )
 		{
 			strcpy( szName, s.Token );
-			strlwr( szName );
+			_strlwr( szName );
 			
 			m_sInvalidNames.insert( (LPCSTR)szName );
 			s.GetToken();
@@ -789,7 +789,7 @@ BOOL CProject::IsInvalidName( LPCSTR szName )
 {
 	TCHAR pszName[ 64 ];
 	strcpy( pszName, szName );
-	strlwr( pszName );
+	_strlwr( pszName );
 //	string str	= pszName;
 	CString str = pszName;
 	for( set<string>::iterator i = m_sInvalidNames.begin(); i != m_sInvalidNames.end(); ++i )

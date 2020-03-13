@@ -114,7 +114,7 @@ void CWndPiercing::OnDraw( C2DRender* p2DRender )
 #endif // __EXT_PIERCING
 
 		char buff[10] = { 0 };
-		pWndFocusStatic->SetTitle( itoa( nCost, buff, 10 ) );		
+		pWndFocusStatic->SetTitle( _itoa( nCost, buff, 10 ) );		
 	}
 	else
 	{

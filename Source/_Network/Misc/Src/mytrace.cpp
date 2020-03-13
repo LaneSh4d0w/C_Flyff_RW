@@ -95,7 +95,7 @@ u_long CMyTrace::Key( LPCSTR szKey )
 {
 	char szLwr[256];
 	strcpy( szLwr, szKey );
-	strlwr( szLwr );
+	_strlwr( szLwr );
 
 	u_long uKey		= 0, num;
 

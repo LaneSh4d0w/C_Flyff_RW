@@ -119,13 +119,13 @@ int		CBones :: LoadBone( LPCTSTR szFileName )
 		resFp.Read( &m_pBones[i].m_mInverseTM,	sizeof(D3DXMATRIX), 1 );			// Inv NODE TM
 		resFp.Read( &m_pBones[i].m_mLocalTM,		sizeof(D3DXMATRIX), 1 );			// LocalTM
 		resFp.Read( &m_pBones[i].m_nParentIdx,	4, 1 );								// parent bone index
-		if( strcmpi( m_pBones[i].m_szName + 6, "r hand") == 0 )	// 부모이름이 R Hand면...
+		if( _strcmpi( m_pBones[i].m_szName + 6, "r hand") == 0 )	// 부모이름이 R Hand면...
 			m_nRHandIdx = i;
-		if( strcmpi( m_pBones[i].m_szName + 6, "l hand") == 0 )	// 부모이름이 L Hand면...
+		if( _strcmpi( m_pBones[i].m_szName + 6, "l hand") == 0 )	// 부모이름이 L Hand면...
 			m_nLHandIdx = i;
-		if( strcmpi(m_pBones[i].m_szName + 6, "l forearm") == 0 )	// 부모이름이 L ForeArm면...
+		if( _strcmpi(m_pBones[i].m_szName + 6, "l forearm") == 0 )	// 부모이름이 L ForeArm면...
 			m_nLArmIdx = i;
-		if( strcmpi(m_pBones[i].m_szName + 6, "r forearm") == 0 )	// 부모이름이 R ForeArm면...
+		if( _strcmpi(m_pBones[i].m_szName + 6, "r forearm") == 0 )	// 부모이름이 R ForeArm면...
 			m_nRArmIdx = i;
 	}
 
@@ -242,7 +242,7 @@ CBones *CBonesMng :: LoadBone( LPCTSTR szFileName )
 #if __VER >= 12 // __LEAK_0827
 	char sFile[MAX_PATH]	= { 0,};
 	strcpy( sFile, szFileName );
-	strlwr( sFile );
+	_strlwr( sFile );
 
 	map<string, CBones*>::iterator i	= m_mapBones.find( sFile );
 	if( i != m_mapBones.end() )
@@ -362,7 +362,7 @@ CMotion *CMotionMng :: LoadMotion( LPCTSTR szFileName )
 #if __VER >= 12 // __LEAK_0827
 	char sFile[MAX_PATH]	= { 0,};
 	strcpy( sFile, szFileName );
-	strlwr( sFile );
+	_strlwr( sFile );
 
 	map<string, CMotion*>::iterator i	= m_mapMotions.find( sFile );
 	if( i != m_mapMotions.end() )

@@ -1,7 +1,7 @@
 ﻿USE [master]
 --RAISERROR( 'Step 1: Clearing backup history',0,1) WITH NOWAIT
 GO
-EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'CHARACTER_01_DBF'
+EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'CHARACTER_DBF'
 GO
 EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'RANKING_DBF'
 GO
@@ -9,92 +9,92 @@ EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'ITEM_DBF'
 GO
 EXEC msdb.dbo.sp_delete_database_backuphistory @database_name = N'ACCOUNT_DBF'
 GO
---RAISERROR( 'Step 2: Dropping logins if exists',0,1) WITH NOWAIT
-IF EXISTS (SELECT name FROM sys.servers WHERE (server_id != 0) AND [name] = 'ACCOUNT')
-EXEC master.dbo.sp_dropserver @server=N'ACCOUNT', @droplogins='droplogins'
+--RAISERROR( 'Step 2: Deleting databases if they exist',0,1) WITH NOWAIT
 GO
-IF EXISTS (SELECT name FROM sys.servers WHERE (server_id != 0) AND [name] = 'CHR01')
-EXEC master.dbo.sp_dropserver @server=N'CHR01', @droplogins='droplogins'
-GO
-IF EXISTS (SELECT name FROM sys.servers WHERE (server_id != 0) AND [name] = 'RANKING')
-EXEC master.dbo.sp_dropserver @server=N'RANKING', @droplogins='droplogins'
-GO
-IF EXISTS (SELECT name FROM sys.servers WHERE (server_id != 0) AND [name] = 'LOG01')
-EXEC master.dbo.sp_dropserver @server=N'LOG01', @droplogins ='droplogins'
-GO
---RAISERROR( 'Step 3: Deleting if databases if exists',0,1) WITH NOWAIT
-GO
-IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'CHARACTER_01_DBF')
-DROP DATABASE [CHARACTER_01_DBF]
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'CHARACTER_DBF')
+DROP DATABASE [CHARACTER_DBF]
 GO
 IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'RANKING_DBF')
 DROP DATABASE [RANKING_DBF]
 GO
-IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'LOGGING_01_DBF')
-DROP DATABASE [LOGGING_01_DBF]
+IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'LOGIN_DBF')
+DROP DATABASE [LOGIN_DBF]
 GO
 IF  EXISTS (SELECT name FROM sys.databases WHERE name = N'ACCOUNT_DBF')
 DROP DATABASE [ACCOUNT_DBF]
 GO
---RAISERROR( 'Step 4: Create [CHARACTER_01_DBF',0,1) WITH NOWAIT
+--RAISERROR( 'Step 3: Dropping accounts if they exist',0,1) WITH NOWAIT
+IF EXISTS (SELECT name FROM sys.servers WHERE (server_id != 0) AND [name] = 'ACCOUNT')
+EXEC master.dbo.sp_dropserver @server=N'ACCOUNT', @droplogins='droplogins'
 GO
-CREATE DATABASE [CHARACTER_01_DBF]
+IF EXISTS (SELECT name FROM sys.servers WHERE (server_id != 0) AND [name] = 'CHARACTER')
+EXEC master.dbo.sp_dropserver @server=N'CHARACTER', @droplogins='droplogins'
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET COMPATIBILITY_LEVEL = 110
+IF EXISTS (SELECT name FROM sys.servers WHERE (server_id != 0) AND [name] = 'RANKING')
+EXEC master.dbo.sp_dropserver @server=N'RANKING', @droplogins='droplogins'
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET ANSI_NULL_DEFAULT OFF 
+IF EXISTS (SELECT name FROM sys.servers WHERE (server_id != 0) AND [name] = 'LOGIN')
+EXEC master.dbo.sp_dropserver @server=N'LOGIN', @droplogins ='droplogins'
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET ANSI_NULLS OFF 
+--RAISERROR( 'Step 4: Create [CHARACTER_DBF]',0,1) WITH NOWAIT
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET ANSI_PADDING OFF 
+CREATE DATABASE [CHARACTER_DBF]
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET ANSI_WARNINGS OFF 
+ALTER DATABASE [CHARACTER_DBF] SET COMPATIBILITY_LEVEL = 150
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET ARITHABORT OFF 
+ALTER DATABASE [CHARACTER_DBF] SET ANSI_NULL_DEFAULT OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET AUTO_CLOSE OFF 
+ALTER DATABASE [CHARACTER_DBF] SET ANSI_NULLS OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET AUTO_CREATE_STATISTICS ON 
+ALTER DATABASE [CHARACTER_DBF] SET ANSI_PADDING OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET AUTO_SHRINK OFF 
+ALTER DATABASE [CHARACTER_DBF] SET ANSI_WARNINGS OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET AUTO_UPDATE_STATISTICS ON 
+ALTER DATABASE [CHARACTER_DBF] SET ARITHABORT OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET CURSOR_CLOSE_ON_COMMIT OFF 
+ALTER DATABASE [CHARACTER_DBF] SET AUTO_CLOSE OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET CURSOR_DEFAULT  GLOBAL 
+ALTER DATABASE [CHARACTER_DBF] SET AUTO_CREATE_STATISTICS ON 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET CONCAT_NULL_YIELDS_NULL OFF 
+ALTER DATABASE [CHARACTER_DBF] SET AUTO_SHRINK OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET NUMERIC_ROUNDABORT OFF 
+ALTER DATABASE [CHARACTER_DBF] SET AUTO_UPDATE_STATISTICS ON 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET QUOTED_IDENTIFIER OFF 
+ALTER DATABASE [CHARACTER_DBF] SET CURSOR_CLOSE_ON_COMMIT OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET RECURSIVE_TRIGGERS OFF 
+ALTER DATABASE [CHARACTER_DBF] SET CURSOR_DEFAULT  GLOBAL 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+ALTER DATABASE [CHARACTER_DBF] SET CONCAT_NULL_YIELDS_NULL OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET DATE_CORRELATION_OPTIMIZATION OFF 
+ALTER DATABASE [CHARACTER_DBF] SET NUMERIC_ROUNDABORT OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET PARAMETERIZATION SIMPLE 
+ALTER DATABASE [CHARACTER_DBF] SET QUOTED_IDENTIFIER OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET  READ_WRITE 
+ALTER DATABASE [CHARACTER_DBF] SET RECURSIVE_TRIGGERS OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET RECOVERY SIMPLE 
+ALTER DATABASE [CHARACTER_DBF] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET  MULTI_USER 
+ALTER DATABASE [CHARACTER_DBF] SET DATE_CORRELATION_OPTIMIZATION OFF 
 GO
-ALTER DATABASE [CHARACTER_01_DBF] SET PAGE_VERIFY CHECKSUM  
+ALTER DATABASE [CHARACTER_DBF] SET PARAMETERIZATION SIMPLE 
 GO
-USE [CHARACTER_01_DBF]
+ALTER DATABASE [CHARACTER_DBF] SET  READ_WRITE 
 GO
-IF NOT EXISTS (SELECT name FROM sys.filegroups WHERE is_default=1 AND name = N'PRIMARY') ALTER DATABASE [CHARACTER_01_DBF] MODIFY FILEGROUP [PRIMARY] DEFAULT
+ALTER DATABASE [CHARACTER_DBF] SET RECOVERY SIMPLE 
 GO
---RAISERROR( 'Step 5: Create [ACCOUNT_DBF',0,1) WITH NOWAIT
+ALTER DATABASE [CHARACTER_DBF] SET  MULTI_USER 
+GO
+ALTER DATABASE [CHARACTER_DBF] SET PAGE_VERIFY CHECKSUM  
+GO
+USE [CHARACTER_DBF]
+GO
+IF NOT EXISTS (SELECT name FROM sys.filegroups WHERE is_default=1 AND name = N'PRIMARY') ALTER DATABASE [CHARACTER_DBF] MODIFY FILEGROUP [PRIMARY] DEFAULT
+GO
+--RAISERROR( 'Step 5: Create [ACCOUNT_DBF]',0,1) WITH NOWAIT
 GO
 CREATE DATABASE [ACCOUNT_DBF]
 GO
-ALTER DATABASE [ACCOUNT_DBF] SET COMPATIBILITY_LEVEL = 90
+ALTER DATABASE [ACCOUNT_DBF] SET COMPATIBILITY_LEVEL = 150
 GO
 ALTER DATABASE [ACCOUNT_DBF] SET ANSI_NULL_DEFAULT OFF 
 GO
@@ -148,7 +148,7 @@ GO
 GO
 CREATE DATABASE [RANKING_DBF]
 GO
-ALTER DATABASE [RANKING_DBF] SET COMPATIBILITY_LEVEL = 90
+ALTER DATABASE [RANKING_DBF] SET COMPATIBILITY_LEVEL = 150
 GO
 ALTER DATABASE [RANKING_DBF] SET ANSI_NULL_DEFAULT OFF 
 GO
@@ -198,125 +198,125 @@ USE [RANKING_DBF]
 GO
 IF NOT EXISTS (SELECT name FROM sys.filegroups WHERE is_default=1 AND name = N'PRIMARY') ALTER DATABASE [RANKING_DBF] MODIFY FILEGROUP [PRIMARY] DEFAULT
 GO
---RAISERROR( 'Step 7: Create [LOGGING_01_DBF]',0,1) WITH NOWAIT
+--RAISERROR( 'Step 7: Create [LOGIN_DBF]',0,1) WITH NOWAIT
 GO
-CREATE DATABASE [LOGGING_01_DBF]
+CREATE DATABASE [LOGIN_DBF]
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET COMPATIBILITY_LEVEL = 90
+ALTER DATABASE [LOGIN_DBF] SET COMPATIBILITY_LEVEL = 150
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET ANSI_NULL_DEFAULT OFF 
+ALTER DATABASE [LOGIN_DBF] SET ANSI_NULL_DEFAULT OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET ANSI_NULLS OFF 
+ALTER DATABASE [LOGIN_DBF] SET ANSI_NULLS OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET ANSI_PADDING OFF 
+ALTER DATABASE [LOGIN_DBF] SET ANSI_PADDING OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET ANSI_WARNINGS OFF 
+ALTER DATABASE [LOGIN_DBF] SET ANSI_WARNINGS OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET ARITHABORT OFF 
+ALTER DATABASE [LOGIN_DBF] SET ARITHABORT OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET AUTO_CLOSE OFF 
+ALTER DATABASE [LOGIN_DBF] SET AUTO_CLOSE OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET AUTO_CREATE_STATISTICS ON 
+ALTER DATABASE [LOGIN_DBF] SET AUTO_CREATE_STATISTICS ON 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET AUTO_SHRINK OFF 
+ALTER DATABASE [LOGIN_DBF] SET AUTO_SHRINK OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET AUTO_UPDATE_STATISTICS ON 
+ALTER DATABASE [LOGIN_DBF] SET AUTO_UPDATE_STATISTICS ON 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET CURSOR_CLOSE_ON_COMMIT OFF 
+ALTER DATABASE [LOGIN_DBF] SET CURSOR_CLOSE_ON_COMMIT OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET CURSOR_DEFAULT  GLOBAL 
+ALTER DATABASE [LOGIN_DBF] SET CURSOR_DEFAULT  GLOBAL 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET CONCAT_NULL_YIELDS_NULL OFF 
+ALTER DATABASE [LOGIN_DBF] SET CONCAT_NULL_YIELDS_NULL OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET NUMERIC_ROUNDABORT OFF 
+ALTER DATABASE [LOGIN_DBF] SET NUMERIC_ROUNDABORT OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET QUOTED_IDENTIFIER OFF 
+ALTER DATABASE [LOGIN_DBF] SET QUOTED_IDENTIFIER OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET RECURSIVE_TRIGGERS OFF 
+ALTER DATABASE [LOGIN_DBF] SET RECURSIVE_TRIGGERS OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+ALTER DATABASE [LOGIN_DBF] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET DATE_CORRELATION_OPTIMIZATION OFF 
+ALTER DATABASE [LOGIN_DBF] SET DATE_CORRELATION_OPTIMIZATION OFF 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET PARAMETERIZATION SIMPLE 
+ALTER DATABASE [LOGIN_DBF] SET PARAMETERIZATION SIMPLE 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET  READ_WRITE 
+ALTER DATABASE [LOGIN_DBF] SET  READ_WRITE 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET RECOVERY SIMPLE 
+ALTER DATABASE [LOGIN_DBF] SET RECOVERY SIMPLE 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET  MULTI_USER 
+ALTER DATABASE [LOGIN_DBF] SET  MULTI_USER 
 GO
-ALTER DATABASE [LOGGING_01_DBF] SET PAGE_VERIFY CHECKSUM  
+ALTER DATABASE [LOGIN_DBF] SET PAGE_VERIFY CHECKSUM  
 GO
-USE [LOGGING_01_DBF]
+USE [LOGIN_DBF]
 GO
-IF NOT EXISTS (SELECT name FROM sys.filegroups WHERE is_default=1 AND name = N'PRIMARY') ALTER DATABASE [LOGGING_01_DBF] MODIFY FILEGROUP [PRIMARY] DEFAULT
+IF NOT EXISTS (SELECT name FROM sys.filegroups WHERE is_default=1 AND name = N'PRIMARY') ALTER DATABASE [LOGIN_DBF] MODIFY FILEGROUP [PRIMARY] DEFAULT
 GO
---RAISERROR( 'Step 8: Create logins',0,1) WITH NOWAIT
+--RAISERROR( 'Step 8: Create LOGIN_DBFs',0,1) WITH NOWAIT
 GO
-CREATE LOGIN [account] WITH PASSWORD=N'@!@!account', DEFAULT_DATABASE=[ACCOUNT_DBF], DEFAULT_LANGUAGE=[Deutsch], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
+CREATE login [account] WITH PASSWORD=N'@!@!account', DEFAULT_DATABASE=[ACCOUNT_DBF], DEFAULT_LANGUAGE=[English], CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
 GO
-ALTER LOGIN [account] DISABLE
+ALTER login [account] DISABLE
 GO
-CREATE LOGIN [eocrm] WITH PASSWORD=N'@!eocrm',  DEFAULT_DATABASE=[ACCOUNT_DBF], DEFAULT_LANGUAGE=[Deutsch],  CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
+CREATE login [eocrm] WITH PASSWORD=N'@!eocrm',  DEFAULT_DATABASE=[ACCOUNT_DBF], DEFAULT_LANGUAGE=[English],  CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
 GO
-ALTER LOGIN [eocrm] DISABLE
+ALTER login [eocrm] DISABLE
 GO
-CREATE LOGIN [log01] WITH PASSWORD=N'@!@!log01',   DEFAULT_DATABASE=[LOGGING_01_DBF], DEFAULT_LANGUAGE=[Deutsch],   CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
+CREATE login [login] WITH PASSWORD=N'@!@!log01',   DEFAULT_DATABASE=[LOGIN_DBF], DEFAULT_LANGUAGE=[English],   CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
 GO
-ALTER LOGIN [log01] DISABLE
+ALTER login [log01] DISABLE
 GO
-CREATE LOGIN [character01] WITH PASSWORD=N'@!@!character01',   DEFAULT_DATABASE=[CHARACTER_01_DBF], DEFAULT_LANGUAGE=[Deutsch],   CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
+CREATE login [CHARACTER_DBF] WITH PASSWORD=N'@!@!CHARACTER_DBF01',   DEFAULT_DATABASE=[CHARACTER_DBF], DEFAULT_LANGUAGE=[English],   CHECK_EXPIRATION=OFF, CHECK_POLICY=OFF
 GO
-ALTER LOGIN [character01] DISABLE
+ALTER login [CHARACTER_DBF] DISABLE
 GO
 --RAISERROR( 'Step 9: Create users',0,1) WITH NOWAIT
 GO
 USE [ACCOUNT_DBF]
 GO
-CREATE USER [account] FOR LOGIN [account] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [account] FOR login [account] WITH DEFAULT_SCHEMA=[dbo]
 GO
-CREATE USER [eocrm] FOR LOGIN [eocrm] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [eocrm] FOR login [eocrm] WITH DEFAULT_SCHEMA=[dbo]
 GO
-USE [CHARACTER_01_DBF]
+USE [CHARACTER_DBF]
 GO
-CREATE USER [eocrm] FOR LOGIN [eocrm] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [eocrm] FOR login [eocrm] WITH DEFAULT_SCHEMA=[dbo]
 GO
-USE [LOGGING_01_DBF]
+USE [LOGIN_DBF]
 GO
-CREATE USER [character01] FOR LOGIN [character01] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [CHARACTER_DBF] FOR login [CHARACTER_DBF] WITH DEFAULT_SCHEMA=[dbo]
 GO
-CREATE USER [eocrm] FOR LOGIN [eocrm] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [eocrm] FOR login [eocrm] WITH DEFAULT_SCHEMA=[dbo]
 GO
-CREATE USER [log01] FOR LOGIN [log01] WITH DEFAULT_SCHEMA=[dbo]
+CREATE USER [log01] FOR login [log01] WITH DEFAULT_SCHEMA=[dbo]
 GO  
 --RAISERROR( 'Step 10: Create connection servers',0,1) WITH NOWAIT
 GO
-EXEC master.dbo.sp_addlinkedserver @server = N'CHR01', @srvproduct=N'CHR01', @provider=N'SQLNCLI', @datasrc=N'.', @catalog=N'CHARACTER_01_DBF'
+EXEC master.dbo.sp_addlinkedserver @server = N'CHARACTER', @srvproduct=N'CHARACTER', @provider=N'SQLNCLI', @datasrc=N'.', @catalog=N'CHARACTER_DBF'
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'collation compatible', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'collation compatible', @optvalue=N'false'
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'data access', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'data access', @optvalue=N'true'
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'dist', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'dist', @optvalue=N'false'
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'pub', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'pub', @optvalue=N'false'
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'rpc', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'rpc', @optvalue=N'true'
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'rpc out', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'rpc out', @optvalue=N'true'
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'sub', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'sub', @optvalue=N'false'
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'connect timeout', @optvalue=N'0'
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'connect timeout', @optvalue=N'0'
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'collation name', @optvalue=null
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'collation name', @optvalue=null
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'lazy schema validation', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'lazy schema validation', @optvalue=N'false'
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'query timeout', @optvalue=N'0'
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'query timeout', @optvalue=N'0'
 GO
-EXEC master.dbo.sp_serveroption @server=N'CHR01', @optname=N'use remote collation', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'CHARACTER', @optname=N'use remote collation', @optvalue=N'true'
 GO
 EXEC master.dbo.sp_addlinkedserver @server = N'RANKING', @srvproduct=N'RANKING', @provider=N'SQLNCLI', @datasrc=N'.', @catalog=N'RANKING_DBF'
 GO
@@ -370,35 +370,35 @@ EXEC master.dbo.sp_serveroption @server=N'ACCOUNT', @optname=N'query timeout', @
 GO
 EXEC master.dbo.sp_serveroption @server=N'ACCOUNT', @optname=N'use remote collation', @optvalue=N'true'
 GO
-EXEC master.dbo.sp_addlinkedserver @server = N'LOG01', @srvproduct=N'LOG01', @provider=N'SQLNCLI', @datasrc=N'.', @catalog=N'LOGGING_01_DBF'
+EXEC master.dbo.sp_addlinkedserver @server = N'LOGIN', @srvproduct=N'LOGIN', @provider=N'SQLNCLI', @datasrc=N'.', @catalog=N'LOGIN_DBF'
 GO
-EXEC master.dbo.sp_addlinkedsrvlogin @rmtsrvname=N'LOG01',@useself=N'True',@locallogin=NULL,@rmtuser=NULL,@rmtpassword=NULL
+EXEC master.dbo.sp_addlinkedsrvlogin @rmtsrvname=N'LOGIN',@useself=N'True',@locallogin=NULL,@rmtuser=NULL,@rmtpassword=NULL
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'collation compatible', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'collation compatible', @optvalue=N'false'
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'data access', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'data access', @optvalue=N'true'
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'dist', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'dist', @optvalue=N'false'
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'pub', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'pub', @optvalue=N'false'
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'rpc', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'rpc', @optvalue=N'true'
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'rpc out', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'rpc out', @optvalue=N'true'
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'sub', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'sub', @optvalue=N'false'
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'connect timeout', @optvalue=N'0'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'connect timeout', @optvalue=N'0'
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'collation name', @optvalue=null
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'collation name', @optvalue=null
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'lazy schema validation', @optvalue=N'false'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'lazy schema validation', @optvalue=N'false'
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'query timeout', @optvalue=N'0'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'query timeout', @optvalue=N'0'
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'use remote collation', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'use remote collation', @optvalue=N'true'
 GO
-EXEC master.dbo.sp_serveroption @server=N'LOG01', @optname=N'remote proc transaction promotion', @optvalue=N'true'
+EXEC master.dbo.sp_serveroption @server=N'LOGIN', @optname=N'remote proc transaction promotion', @optvalue=N'true'
 GO
 --RAISERROR( 'Step 11: Configure [ACCOUNT_DBF]',0,1) WITH NOWAIT
 GO
@@ -493,13 +493,13 @@ set nocount on
 declare @q1 nvarchar(4000)
 declare @m_idPlayer char(7)
 set @q1 = '
-select @m_idPlayer = m_idPlayer from CHR' + @serverindex + '.CHARACTER_' + @serverindex + '_DBF.dbo.CHARACTER_TBL where m_szName = ''' + @m_szName + ''''
+select @m_idPlayer = m_idPlayer from CHR' + @serverindex + '.CHARACTER_DBF_' + @serverindex + '_DBF.dbo.CHARACTER_DBF_TBL where m_szName = ''' + @m_szName + ''''
 exec sp_executesql @q1, N'@m_idPlayer char(7) output', @m_idPlayer output
 
 set @q1 = '
 select c.m_szName, m_idPlayer
-from CHR' + @serverindex + '.CHARACTER_' + @serverindex + '_DBF.dbo.tblMessenger as m
-	inner join CHR' + @serverindex + '.CHARACTER_' + @serverindex + '_DBF.dbo.CHARACTER_TBL as c on m.idFriend = c.m_idPlayer
+from CHR' + @serverindex + '.CHARACTER_DBF_' + @serverindex + '_DBF.dbo.tblMessenger as m
+	inner join CHR' + @serverindex + '.CHARACTER_DBF_' + @serverindex + '_DBF.dbo.CHARACTER_DBF_TBL as c on m.idFriend = c.m_idPlayer
 where m.idPlayer = ''' + @m_idPlayer + ''' and isblock = ''F'' and chUse = ''T'' order by m.idFriend'
 exec sp_executesql @q1
 GO
@@ -591,7 +591,7 @@ CREATE TABLE [dbo].[ACCOUNT_TBL_DETAIL](
 	[account] [varchar](32) NOT NULL,
 	[gamecode] [char](4) NOT NULL,
 	[tester] [char](1) NOT NULL,
-	[m_chLoginAuthority] [char](1) NOT NULL,
+	[m_chLOGIN_DBFAuthority] [char](1) NOT NULL,
 	[regdate] [datetime] NOT NULL,
 	[BlockTime] [char](8) NULL,
 	[EndTime] [char](8) NULL,
@@ -703,42 +703,30 @@ IF EXISTS(SELECT a.account FROM ACCOUNT_TBL a,ACCOUNT_TBL_DETAIL b
 			END
 		ELSE
 			BEGIN
-				SELECT fError = '1', fText = 'Wrong Password !!'
+				SELECT fError = '1', fText = 'Wrong password !'
 			END
 	END	
 ELSE
 	BEGIN
-		SELECT fError = '2', fText = 'Account Not Exists !!'
+		SELECT fError = '2', fText = 'Account does not exist !'
 	END
 RETURN
-
--- ?? ?? Rule
--- 1. (fError=2 ??) ????? ??. ????? "gamecode = A000" ? ??? ??.
--- 2. (fError=1 ??) ????.
--- 3. (fError=0 ??) ?? ? ?? ??( id_no1? a0000 )?? ??.??.??? ??
--- 4. (fError=3 ??) ?????, ???? ??.
--- 5. (fError=4 ??) ????.
--- 6. (fError=5 ??) 12? ???? ??. ???? "???? 12? ?? ??? ??? ]
---                            ????? ?? ????." ?? ??.
--- 7. (fError=6 ??) ?????? ?? ?? ?? tester = 0 ?? "14? ?? ??? ??? 
---                            ?????? ????? ?? ??? ?????"?? ??.
--- 8. (fError=0 ??) ?? ???? ?? ???? ??.
 set nocount off
 GO
-/****** Object:  StoredProcedure [dbo].[LOGIN_RELOAD_STR]    Script Date: 04/03/2010 12:41:02 ******/
+/****** Object:  StoredProcedure [dbo].[LOGIN_DBF_RELOAD_STR]    Script Date: 04/03/2010 12:41:02 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE        PROC [dbo].[LOGIN_RELOAD_STR]
+CREATE        PROC [dbo].[LOGIN_DBF_RELOAD_STR]
 /**********************************************************************************
 ***********************************************************************************
 ***********************************************************************************
 ***********************************************************************************
-	LOGIN_RELOAD_STR ????
+	LOGIN_DBF_RELOAD_STR ????
 	??? : ???
 	??? : 2005.01.24
-	ex) LOGIN_RELOAD_STR
+	ex) LOGIN_DBF_RELOAD_STR
 
 **********************************************************************************
 ***********************************************************************************
@@ -784,118 +772,29 @@ DELETE #temp2
 
 INSERT #temp2(m_idPlayer)
 SELECT a.m_idPlayer
-FROM CHR01.CHARACTER_01_DBF.dbo.CHARACTER_TBL a, #temp b
+FROM CHARACTER.CHARACTER_DBF.dbo.CHARACTER_DBF_TBL a, #temp b
 WHERE a.account = b.account
 
-DELETE CHR01.CHARACTER_01_DBF.dbo.BANK_EXT_TBL FROM CHR01.CHARACTER_01_DBF.dbo.BANK_EXT_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.BANK_TBL FROM CHR01.CHARACTER_01_DBF.dbo.BANK_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.BILING_ITEM_TBL FROM CHR01.CHARACTER_01_DBF.dbo.BILING_ITEM_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.CARD_CUBE_TBL FROM CHR01.CHARACTER_01_DBF.dbo.CARD_CUBE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.CHARACTER_TBL  FROM CHR01.CHARACTER_01_DBF.dbo.CHARACTER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.GUILD_MEMBER_TBL  FROM CHR01.CHARACTER_01_DBF.dbo.GUILD_MEMBER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.INVENTORY_EXT_TBL FROM CHR01.CHARACTER_01_DBF.dbo.INVENTORY_EXT_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.INVENTORY_TBL FROM CHR01.CHARACTER_01_DBF.dbo.INVENTORY_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
---DELETE CHR01.CHARACTER_01_DBF.dbo.ITEM_REMOVE_TBL FROM CHR01.CHARACTER_01_DBF.dbo.ITEM_REMOVE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
---DELETE CHR01.CHARACTER_01_DBF.dbo.ITEM_SEND_TBL FROM CHR01.CHARACTER_01_DBF.dbo.ITEM_SEND_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.MESSENGER_TBL FROM CHR01.CHARACTER_01_DBF.dbo.MESSENGER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.PARTY_TBL FROM CHR01.CHARACTER_01_DBF.dbo.PARTY_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.QUEST_TBL FROM CHR01.CHARACTER_01_DBF.dbo.QUEST_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.SKILLINFLUENCE_TBL  FROM CHR01.CHARACTER_01_DBF.dbo.SKILLINFLUENCE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.TAG_TBL  FROM CHR01.CHARACTER_01_DBF.dbo.TAG_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.TASKBAR_ITEM_TBL FROM CHR01.CHARACTER_01_DBF.dbo.TASKBAR_ITEM_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.TASKBAR_TBL FROM CHR01.CHARACTER_01_DBF.dbo.TASKBAR_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.WANTED_TBL FROM CHR01.CHARACTER_01_DBF.dbo.WANTED_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.tblCombatJoinPlayer FROM CHR01.CHARACTER_01_DBF.dbo.tblCombatJoinPlayer a,#temp2 b WHERE a.PlayerID = b.m_idPlayer
-DELETE CHR01.CHARACTER_01_DBF.dbo.tblSkillPoint FROM CHR01.CHARACTER_01_DBF.dbo.tblSkillPoint a,#temp2 b WHERE a.PlayerID = b.m_idPlayer
-/*
--- ?? ?? CHARACTEER_04_TBL ?? ???
-DELETE #temp2
-
-INSERT #temp2(m_idPlayer)
-SELECT a.m_idPlayer
-FROM CHR04.CHARACTER_04_DBF.dbo.CHARACTER_TBL a, #temp b
-WHERE a.account = b.account
-
-DELETE CHR04.CHARACTER_04_DBF.dbo.BANK_EXT_TBL FROM CHR04.CHARACTER_04_DBF.dbo.BANK_EXT_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.BANK_TBL FROM CHR04.CHARACTER_04_DBF.dbo.BANK_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.BILING_ITEM_TBL FROM CHR04.CHARACTER_04_DBF.dbo.BILING_ITEM_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.CARD_CUBE_TBL FROM CHR04.CHARACTER_04_DBF.dbo.CARD_CUBE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.CHARACTER_TBL  FROM CHR04.CHARACTER_04_DBF.dbo.CHARACTER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.GUILD_MEMBER_TBL  FROM CHR04.CHARACTER_04_DBF.dbo.GUILD_MEMBER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.INVENTORY_EXT_TBL FROM CHR04.CHARACTER_04_DBF.dbo.INVENTORY_EXT_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.INVENTORY_TBL FROM CHR04.CHARACTER_04_DBF.dbo.INVENTORY_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
---DELETE CHR04.CHARACTER_04_DBF.dbo.ITEM_REMOVE_TBL FROM CHR04.CHARACTER_04_DBF.dbo.ITEM_REMOVE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
---DELETE CHR04.CHARACTER_04_DBF.dbo.ITEM_SEND_TBL FROM CHR04.CHARACTER_04_DBF.dbo.ITEM_SEND_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.MESSENGER_TBL FROM CHR04.CHARACTER_04_DBF.dbo.MESSENGER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.PARTY_TBL FROM CHR04.CHARACTER_04_DBF.dbo.PARTY_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.QUEST_TBL FROM CHR04.CHARACTER_04_DBF.dbo.QUEST_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.SKILLINFLUENCE_TBL  FROM CHR04.CHARACTER_04_DBF.dbo.SKILLINFLUENCE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.TAG_TBL  FROM CHR04.CHARACTER_04_DBF.dbo.TAG_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.TASKBAR_ITEM_TBL FROM CHR04.CHARACTER_04_DBF.dbo.TASKBAR_ITEM_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.TASKBAR_TBL FROM CHR04.CHARACTER_04_DBF.dbo.TASKBAR_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.WANTED_TBL FROM CHR04.CHARACTER_04_DBF.dbo.WANTED_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.tblCombatJoinPlayer FROM CHR04.CHARACTER_04_DBF.dbo.tblCombatJoinPlayer a,#temp2 b WHERE a.PlayerID = b.m_idPlayer
-DELETE CHR04.CHARACTER_04_DBF.dbo.tblSkillPoint FROM CHR04.CHARACTER_04_DBF.dbo.tblSkillPoint a,#temp2 b WHERE a.PlayerID = b.m_idPlayer
-
-
-
--- ?? ?? CHARACTEER_05_TBL ?? ???
-DELETE #temp2
-
-INSERT #temp2(m_idPlayer)
-SELECT a.m_idPlayer
-FROM CHR05.CHARACTER_05_DBF.dbo.CHARACTER_TBL a, #temp b
-WHERE a.account = b.account
-
-DELETE CHR05.CHARACTER_05_DBF.dbo.BANK_EXT_TBL FROM CHR05.CHARACTER_05_DBF.dbo.BANK_EXT_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.BANK_TBL FROM CHR05.CHARACTER_05_DBF.dbo.BANK_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.BILING_ITEM_TBL FROM CHR05.CHARACTER_05_DBF.dbo.BILING_ITEM_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.CARD_CUBE_TBL FROM CHR05.CHARACTER_05_DBF.dbo.CARD_CUBE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.CHARACTER_TBL  FROM CHR05.CHARACTER_05_DBF.dbo.CHARACTER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.GUILD_MEMBER_TBL  FROM CHR05.CHARACTER_05_DBF.dbo.GUILD_MEMBER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.INVENTORY_EXT_TBL FROM CHR05.CHARACTER_05_DBF.dbo.INVENTORY_EXT_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.INVENTORY_TBL FROM CHR05.CHARACTER_05_DBF.dbo.INVENTORY_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
---DELETE CHR05.CHARACTER_05_DBF.dbo.ITEM_REMOVE_TBL FROM CHR05.CHARACTER_05_DBF.dbo.ITEM_REMOVE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
---DELETE CHR05.CHARACTER_05_DBF.dbo.ITEM_SEND_TBL FROM CHR05.CHARACTER_05_DBF.dbo.ITEM_SEND_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.MESSENGER_TBL FROM CHR05.CHARACTER_05_DBF.dbo.MESSENGER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.PARTY_TBL FROM CHR05.CHARACTER_05_DBF.dbo.PARTY_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.QUEST_TBL FROM CHR05.CHARACTER_05_DBF.dbo.QUEST_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.SKILLINFLUENCE_TBL  FROM CHR05.CHARACTER_05_DBF.dbo.SKILLINFLUENCE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.TAG_TBL  FROM CHR05.CHARACTER_05_DBF.dbo.TAG_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.TASKBAR_ITEM_TBL FROM CHR05.CHARACTER_05_DBF.dbo.TASKBAR_ITEM_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.TASKBAR_TBL FROM CHR05.CHARACTER_05_DBF.dbo.TASKBAR_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.WANTED_TBL FROM CHR05.CHARACTER_05_DBF.dbo.WANTED_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.tblCombatJoinPlayer FROM CHR05.CHARACTER_05_DBF.dbo.tblCombatJoinPlayer a,#temp2 b WHERE a.PlayerID = b.m_idPlayer
-DELETE CHR05.CHARACTER_05_DBF.dbo.tblSkillPoint FROM CHR05.CHARACTER_05_DBF.dbo.tblSkillPoint a,#temp2 b WHERE a.PlayerID = b.m_idPlayer
-
-DELETE #temp2
-
-INSERT #temp2(m_idPlayer)
-SELECT a.m_idPlayer
-FROM CHR06.CHARACTER_06_DBF.dbo.CHARACTER_TBL a, #temp b
-WHERE a.account = b.account
-
-DELETE CHR06.CHARACTER_06_DBF.dbo.BANK_EXT_TBL FROM CHR06.CHARACTER_06_DBF.dbo.BANK_EXT_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.BANK_TBL FROM CHR06.CHARACTER_06_DBF.dbo.BANK_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.BILING_ITEM_TBL FROM CHR06.CHARACTER_06_DBF.dbo.BILING_ITEM_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.CARD_CUBE_TBL FROM CHR06.CHARACTER_06_DBF.dbo.CARD_CUBE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.CHARACTER_TBL  FROM CHR06.CHARACTER_06_DBF.dbo.CHARACTER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.GUILD_MEMBER_TBL  FROM CHR06.CHARACTER_06_DBF.dbo.GUILD_MEMBER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.INVENTORY_EXT_TBL FROM CHR06.CHARACTER_06_DBF.dbo.INVENTORY_EXT_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.INVENTORY_TBL FROM CHR06.CHARACTER_06_DBF.dbo.INVENTORY_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
---DELETE CHR05.CHARACTER_05_DBF.dbo.ITEM_REMOVE_TBL FROM CHR05.CHARACTER_05_DBF.dbo.ITEM_REMOVE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
---DELETE CHR05.CHARACTER_05_DBF.dbo.ITEM_SEND_TBL FROM CHR05.CHARACTER_05_DBF.dbo.ITEM_SEND_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.MESSENGER_TBL FROM CHR06.CHARACTER_06_DBF.dbo.MESSENGER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.PARTY_TBL FROM CHR06.CHARACTER_06_DBF.dbo.PARTY_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.QUEST_TBL FROM CHR06.CHARACTER_06_DBF.dbo.QUEST_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.SKILLINFLUENCE_TBL  FROM CHR06.CHARACTER_06_DBF.dbo.SKILLINFLUENCE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.TAG_TBL  FROM CHR06.CHARACTER_06_DBF.dbo.TAG_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.TASKBAR_ITEM_TBL FROM CHR06.CHARACTER_06_DBF.dbo.TASKBAR_ITEM_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.TASKBAR_TBL FROM CHR06.CHARACTER_06_DBF.dbo.TASKBAR_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.WANTED_TBL FROM CHR06.CHARACTER_06_DBF.dbo.WANTED_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.tblCombatJoinPlayer FROM CHR06.CHARACTER_06_DBF.dbo.tblCombatJoinPlayer a,#temp2 b WHERE a.PlayerID = b.m_idPlayer
-DELETE CHR06.CHARACTER_06_DBF.dbo.tblSkillPoint FROM CHR06.CHARACTER_06_DBF.dbo.tblSkillPoint a,#temp2 b WHERE a.PlayerID = b.m_idPlayer
-*/
+DELETE CHARACTER.CHARACTER_DBF.dbo.BANK_EXT_TBL FROM CHARACTER.CHARACTER_DBF.dbo.BANK_EXT_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.BANK_TBL FROM CHARACTER.CHARACTER_DBF.dbo.BANK_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.BILING_ITEM_TBL FROM CHARACTER.CHARACTER_DBF.dbo.BILING_ITEM_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.CARD_CUBE_TBL FROM CHARACTER.CHARACTER_DBF.dbo.CARD_CUBE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.CHARACTER_DBF_TBL  FROM CHARACTER.CHARACTER_DBF.dbo.CHARACTER_DBF_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.GUILD_MEMBER_TBL  FROM CHARACTER.CHARACTER_DBF.dbo.GUILD_MEMBER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.INVENTORY_EXT_TBL FROM CHARACTER.CHARACTER_DBF.dbo.INVENTORY_EXT_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.INVENTORY_TBL FROM CHARACTER.CHARACTER_DBF.dbo.INVENTORY_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+--DELETE CHARACTER.CHARACTER_DBF.dbo.ITEM_REMOVE_TBL FROM CHARACTER.CHARACTER_DBF.dbo.ITEM_REMOVE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+--DELETE CHARACTER.CHARACTER_DBF.dbo.ITEM_SEND_TBL FROM CHARACTER.CHARACTER_DBF.dbo.ITEM_SEND_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.MESSENGER_TBL FROM CHARACTER.CHARACTER_DBF.dbo.MESSENGER_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.PARTY_TBL FROM CHARACTER.CHARACTER_DBF.dbo.PARTY_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.QUEST_TBL FROM CHARACTER.CHARACTER_DBF.dbo.QUEST_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.SKILLINFLUENCE_TBL  FROM CHARACTER.CHARACTER_DBF.dbo.SKILLINFLUENCE_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.TAG_TBL  FROM CHARACTER.CHARACTER_DBF.dbo.TAG_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.TASKBAR_ITEM_TBL FROM CHARACTER.CHARACTER_DBF.dbo.TASKBAR_ITEM_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.TASKBAR_TBL FROM CHARACTER.CHARACTER_DBF.dbo.TASKBAR_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.WANTED_TBL FROM CHARACTER.CHARACTER_DBF.dbo.WANTED_TBL a,#temp2 b WHERE a.m_idPlayer = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.tblCombatJoinPlayer FROM CHARACTER.CHARACTER_DBF.dbo.tblCombatJoinPlayer a,#temp2 b WHERE a.PlayerID = b.m_idPlayer
+DELETE CHARACTER.CHARACTER_DBF.dbo.tblSkillPoint FROM CHARACTER.CHARACTER_DBF.dbo.tblSkillPoint a,#temp2 b WHERE a.PlayerID = b.m_idPlayer
 drop table #temp, #temp2
 
 RETURN
@@ -949,7 +848,7 @@ begin
 	begin tran
 	INSERT ACCOUNT_TBL(account,password,isuse,member,id_no1,id_no2,realname, cash)
 	VALUES(@account, @pw, 'T', 'A', '', '', '', @cash)
-	INSERT ACCOUNT_TBL_DETAIL(account,gamecode,tester,m_chLoginAuthority,regdate,BlockTime,EndTime,WebTime,isuse,secession, email)
+	INSERT ACCOUNT_TBL_DETAIL(account,gamecode,tester,m_chloginauthority,regdate,BlockTime,EndTime,WebTime,isuse,secession, email)
 	VALUES(@account,'A000','2','F',GETDATE(),CONVERT(CHAR(8),GETDATE()-1,112),CONVERT(CHAR(8),DATEADD(year,10,GETDATE()),112),CONVERT(CHAR(8),GETDATE()-1,112),'T',NULL, @email)
 	insert AccountPlay (Account, PlayDate)
 	select @account, convert(int, convert(char(8), getdate(), 112))
@@ -1226,13 +1125,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-/*
-declare @o_Grade tinyint
-exec dbo.USP_PCZoneIP_Check '218.38.238.131', @o_Grade output
-select @o_Grade
-
-exec LOGIN_STR 'chipi', '85158c7b8a7f3113b0f32b70ed936b2c', '127.0.0.0'
-*/
 CREATE   proc [dbo].[USP_PCZoneIP_Check]
      @i_IPAddress varchar(15)
     , @o_Grade tinyint output
@@ -1338,12 +1230,12 @@ SET NOCOUNT ON
 
 	Update ACCOUNT_TBL SET Password = @password Where Account=@account
 GO
-/****** Object:  StoredProcedure [dbo].[LOGINJOIN_STR]    Script Date: 04/03/2010 12:41:02 ******/
+/****** Object:  StoredProcedure [dbo].[LOGIN_DBFJOIN_STR]    Script Date: 04/03/2010 12:41:02 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
-CREATE  PROC [dbo].[LOGINJOIN_STR]
+CREATE  PROC [dbo].[LOGIN_DBFJOIN_STR]
 	@iGu        		CHAR(2) 			= 'A1', 
 	@iaccount   	VARCHAR(32)
 /***********************************************************************************
@@ -1351,12 +1243,12 @@ CREATE  PROC [dbo].[LOGINJOIN_STR]
 ***********************************************************************************
 ***********************************************************************************
 
-	LOGINJOIN_STR ????
+	LOGIN_DBFJOIN_STR ????
 	??? : ???
 	??? : 2004.01.30 
 	??? : 2004.04.08  @iGu = 'A3' WHERE ?? ??
 
-	ex) LOGINONOFF_STR 'A1','1234'
+	ex) LOGIN_DBFONOFF_STR 'A1','1234'
 
 ***********************************************************************************
 ***********************************************************************************
@@ -1394,12 +1286,12 @@ IF @iGu = 'A3' -- ALL OFF
 
 set nocount off
 GO
-/****** Object:  StoredProcedure [dbo].[LOGIN_STR]    Script Date: 04/03/2010 12:41:02 ******/
+/****** Object:  StoredProcedure [dbo].[LOGIN_DBF_STR]    Script Date: 04/03/2010 12:41:02 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROC [dbo].[LOGIN_STR]
+CREATE PROC [dbo].[LOGIN_DBF_STR]
 	@iaccount   	VARCHAR(32),
 	@ipassword 		char(32)
    -- Ver. 14 PCZoneIP
@@ -1463,18 +1355,6 @@ ELSE BEGIN
 END
 
 RETURN
-
--- ?? ?? Rule
--- 1. (fError=2 ??) ????? ??. ????? "gamecode = A000" ? ??? ??.
--- 2. (fError=1 ??) ????.
--- 3. (fError=0 ??) ?? ? ?? ??( id_no1? a0000 )?? ??.??.??? ??
--- 4. (fError=3 ??) ?????, ???? ??.
--- 5. (fError=4 ??) ????.
--- 6. (fError=5 ??) 12? ???? ??. ???? "???? 12? ?? ??? ??? ]
---                            ????? ?? ????." ?? ??.
--- 7. (fError=6 ??) ?????? ?? ?? ?? tester = 0 ?? "14? ?? ??? ??? 
---                            ?????? ????? ?? ??? ?????"?? ??.
--- 8. (fError=0 ??) ?? ???? ?? ???? ??.
 set nocount off
 GO
 /****** Object:  Default [DF_AccountPlay_Account]    Script Date: 04/03/2010 12:41:04 ******/
@@ -1489,10 +1369,10 @@ GO
 /****** Object:  Default [DF_CashHistory_regdate]    Script Date: 04/03/2010 12:41:04 ******/
 ALTER TABLE [dbo].[CashHistory] ADD  CONSTRAINT [DF_CashHistory_regdate]  DEFAULT (getdate()) FOR [regdate]
 GO
---RAISERROR( 'Step 12: Configure [CHARACTER_01_DBF]',0,1) WITH NOWAIT
+--RAISERROR( 'Step 12: Configure [CHARACTER_DBF]',0,1) WITH NOWAIT
 GO
 
-USE [CHARACTER_01_DBF]
+USE [CHARACTER_DBF]
 GO
 /****** Object:  Table [dbo].[tblCouple_deleted]    Script Date: 04/03/2010 12:42:44 ******/
 SET ANSI_NULLS ON
@@ -1880,7 +1760,7 @@ as
 	-- first version for Sybase
 	-- 1.1 October 7th 1998 Reinoud van Leeuwen
 	-- added limited support for text fields; the first 252 
-	-- characters are selected.
+	-- CHARACTER_DBFs are selected.
 	-- 1.2 October 13th 1998 Reinoud van Leeuwen
 	-- added support for user-defined datatypes
 	-- 1.3 August 4 2000 Inez Boone
@@ -1897,7 +1777,7 @@ as
 	
 	-- NOTE: If, when executing in the Query Analyzer, the result is truncated, you can remedy
 	-- this by choosing Query / Current Connection Options, choosing the Advanced tab and
-	-- adjusting the value of 'Maximum characters per column'.
+	-- adjusting the value of 'Maximum CHARACTER_DBFs per column'.
 	-- Unchecking 'Print headers' will get rid of the line of dashes.
 	
 	
@@ -2800,14 +2680,14 @@ set @ret = 0
 return @ret
 end
 GO
-/****** Object:  Table [dbo].[CHARACTER_TBL_validity_check]    Script Date: 04/03/2010 12:42:44 ******/
+/****** Object:  Table [dbo].[CHARACTER_DBF_TBL_validity_check]    Script Date: 04/03/2010 12:42:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_PADDING ON
 GO
-CREATE TABLE [dbo].[CHARACTER_TBL_validity_check](
+CREATE TABLE [dbo].[CHARACTER_DBF_TBL_validity_check](
 	[m_idPlayer] [char](7) NULL,
 	[serverindex] [char](2) NULL,
 	[account] [varchar](32) NULL,
@@ -2823,14 +2703,14 @@ CREATE TABLE [dbo].[CHARACTER_TBL_validity_check](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[CHARACTER_TBL_penya_check]    Script Date: 04/03/2010 12:42:44 ******/
+/****** Object:  Table [dbo].[CHARACTER_DBF_TBL_penya_check]    Script Date: 04/03/2010 12:42:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_PADDING OFF
 GO
-CREATE TABLE [dbo].[CHARACTER_TBL_penya_check](
+CREATE TABLE [dbo].[CHARACTER_DBF_TBL_penya_check](
 	[account] [varchar](32) NULL,
 	[m_szName] [varchar](32) NULL,
 	[m_dwGold] [int] NULL,
@@ -2841,14 +2721,14 @@ CREATE TABLE [dbo].[CHARACTER_TBL_penya_check](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[CHARACTER_TBL_DEL]    Script Date: 04/03/2010 12:42:44 ******/
+/****** Object:  Table [dbo].[CHARACTER_DBF_TBL_DEL]    Script Date: 04/03/2010 12:42:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_PADDING OFF
 GO
-CREATE TABLE [dbo].[CHARACTER_TBL_DEL](
+CREATE TABLE [dbo].[CHARACTER_DBF_TBL_DEL](
 	[serverindex] [char](2) NULL,
 	[m_idPlayer] [char](7) NULL,
 	[m_szName] [varchar](32) NULL,
@@ -2861,14 +2741,14 @@ CREATE TABLE [dbo].[CHARACTER_TBL_DEL](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[CHARACTER_TBL]    Script Date: 04/03/2010 12:42:44 ******/
+/****** Object:  Table [dbo].[CHARACTER_DBF_TBL]    Script Date: 04/03/2010 12:42:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_PADDING ON
 GO
-CREATE TABLE [dbo].[CHARACTER_TBL](
+CREATE TABLE [dbo].[CHARACTER_DBF_TBL](
 	[m_idPlayer] [char](7) NULL,
 	[serverindex] [char](2) NOT NULL,
 	[account] [varchar](32) NULL,
@@ -2882,7 +2762,7 @@ CREATE TABLE [dbo].[CHARACTER_TBL](
 	[m_vPos_y] [real] NULL,
 	[m_vPos_z] [real] NULL,
 	[m_fAngle] [real] NULL,
-	[m_szCharacterKey] [varchar](32) NULL,
+	[m_szCHARACTER_DBFKey] [varchar](32) NULL,
 	[m_nHitPoint] [int] NULL,
 	[m_nManaPoint] [int] NULL,
 	[m_nFatiguePoint] [int] NULL,
@@ -2968,11 +2848,11 @@ CREATE TABLE [dbo].[CHARACTER_TBL](
 GO
 SET ANSI_PADDING OFF
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'??? ?? ???' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CHARACTER_TBL', @level2type=N'COLUMN',@level2name=N'm_nCampusPoint'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'??? ?? ???' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CHARACTER_DBF_TBL', @level2type=N'COLUMN',@level2name=N'm_nCampusPoint'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'?? Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CHARACTER_TBL', @level2type=N'COLUMN',@level2name=N'idCampus'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'?? Id' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CHARACTER_DBF_TBL', @level2type=N'COLUMN',@level2name=N'idCampus'
 GO
-EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'??? ??? ???? ??? ??? ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CHARACTER_TBL', @level2type=N'COLUMN',@level2name=N'm_aCheckedQuest'
+EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'??? ??? ???? ??? ??? ID' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'CHARACTER_DBF_TBL', @level2type=N'COLUMN',@level2name=N'm_aCheckedQuest'
 GO
 /****** Object:  UserDefinedFunction [dbo].[ChangeTime]    Script Date: 04/03/2010 12:42:46 ******/
 SET ANSI_NULLS ON
@@ -3941,9 +3821,9 @@ AS
 BEGIN 
 	
 	RETURN
-		CASE 	WHEN @Level=1 THEN CAST(@exp AS NUMERIC(12,0)) / 14.0 * 100
-				WHEN @Level=2 THEN CAST(@exp AS NUMERIC(12,0)) / 20.0 * 100
-				WHEN @Level=3 THEN CAST(@exp AS NUMERIC(12,0)) / 36.0 * 100 	
+		CASE 	WHEN @Level=1 THEN CAST(@exp AS NUMERIC(12,0)) /	14.0 * 100
+				WHEN @Level=2 THEN CAST(@exp AS NUMERIC(12,0)) /	20.0 * 100
+				WHEN @Level=3 THEN CAST(@exp AS NUMERIC(12,0)) /	36.0 * 100 	
 				WHEN @Level=4 THEN CAST(@exp AS NUMERIC(12,0)) / 	90.0 * 100 	
 				WHEN @Level=5 THEN CAST(@exp AS NUMERIC(12,0)) / 	152.0 * 100 	
 				WHEN @Level=6 THEN CAST(@exp AS NUMERIC(12,0)) / 	250.0 * 100 	
@@ -3978,169 +3858,169 @@ BEGIN
 				WHEN @Level=36 THEN CAST(@exp AS NUMERIC(12,0)) / 	105863.0 * 100 	
 				WHEN @Level=37 THEN CAST(@exp AS NUMERIC(12,0)) / 	128694.0 * 100 	
 				WHEN @Level=38 THEN CAST(@exp AS NUMERIC(12,0)) / 	182307.0 * 100 	
-		WHEN @Level=39 THEN CAST(@exp AS NUMERIC(12,0)) / 	221450.0 * 100 	
-		WHEN @Level=40 THEN CAST(@exp AS NUMERIC(12,0)) / 	269042.0 * 100 	
-		WHEN @Level=41 THEN CAST(@exp AS NUMERIC(12,0)) / 	390368.0 * 100 	
-		WHEN @Level=42 THEN CAST(@exp AS NUMERIC(12,0)) / 	438550.0 * 100 	
-		WHEN @Level=43 THEN CAST(@exp AS NUMERIC(12,0)) / 	458137.0 * 100 	
-		WHEN @Level=44 THEN CAST(@exp AS NUMERIC(12,0)) / 	468943.0 * 100 	
-		WHEN @Level=45 THEN CAST(@exp AS NUMERIC(12,0)) / 	560177.0 * 100 	
-		WHEN @Level=46 THEN CAST(@exp AS NUMERIC(12,0)) / 	669320.0 * 100 	
-		WHEN @Level=47 THEN CAST(@exp AS NUMERIC(12,0)) / 	799963.0 * 100 	
-		WHEN @Level=48 THEN CAST(@exp AS NUMERIC(12,0)) / 	1115396.0 * 100
-		WHEN @Level=49 THEN CAST(@exp AS NUMERIC(12,0)) / 	1331100.0 * 100
-		WHEN @Level=50 THEN CAST(@exp AS NUMERIC(12,0)) / 	1590273.0 * 100
-		WHEN @Level=51 THEN CAST(@exp AS NUMERIC(12,0)) / 	2306878.0 * 100
-		WHEN @Level=52 THEN CAST(@exp AS NUMERIC(12,0)) / 	2594255.0 * 100
-		WHEN @Level=53 THEN CAST(@exp AS NUMERIC(12,0)) / 	2711490.0 * 100
-		WHEN @Level=54 THEN CAST(@exp AS NUMERIC(12,0)) / 	2777349.0 * 100
-		WHEN @Level=55 THEN CAST(@exp AS NUMERIC(12,0)) / 	3318059.0 * 100
-		WHEN @Level=56 THEN CAST(@exp AS NUMERIC(12,0)) / 	3963400.0 * 100
-		WHEN @Level=57 THEN CAST(@exp AS NUMERIC(12,0)) / 	4735913.0 * 100
-		WHEN @Level=58 THEN CAST(@exp AS NUMERIC(12,0)) / 	6600425.0 * 100
-		WHEN @Level=59 THEN CAST(@exp AS NUMERIC(12,0)) / 	7886110.0 * 100
-		WHEN @Level=60 THEN CAST(@exp AS NUMERIC(12,0)) / 	9421875.0 * 100
-		WHEN @Level=61 THEN CAST(@exp AS NUMERIC(12,0)) / 	13547310.0 * 100 	
-		WHEN @Level=62 THEN CAST(@exp AS NUMERIC(12,0)) / 	15099446.0 * 100 	
-		WHEN @Level=63 THEN CAST(@exp AS NUMERIC(12,0)) / 	15644776.0 * 100 	
-		WHEN @Level=64 THEN CAST(@exp AS NUMERIC(12,0)) / 	15885934.0 * 100 	
-		WHEN @Level=65 THEN CAST(@exp AS NUMERIC(12,0)) / 	18817757.0 * 100 	
-		WHEN @Level=66 THEN CAST(@exp AS NUMERIC(12,0)) / 	22280630.0 * 100 	
-		WHEN @Level=67 THEN CAST(@exp AS NUMERIC(12,0)) / 	26392968.0 * 100 	
-		WHEN @Level=68 THEN CAST(@exp AS NUMERIC(12,0)) / 	36465972.0 * 100 	
-		WHEN @Level=69 THEN CAST(@exp AS NUMERIC(12,0)) / 	43184958.0 * 100 	
-		WHEN @Level=70 THEN CAST(@exp AS NUMERIC(12,0)) / 	51141217.0 * 100 	
-		WHEN @Level=71 THEN CAST(@exp AS NUMERIC(12,0)) / 	73556918.0 * 100 	
-		WHEN @Level=72 THEN CAST(@exp AS NUMERIC(12,0)) / 	81991117.0 * 100 	
-		WHEN @Level=73 THEN CAST(@exp AS NUMERIC(12,0)) / 	84966758.0 * 100 	
-		WHEN @Level=74 THEN CAST(@exp AS NUMERIC(12,0)) / 	86252845.0 * 100 	
-		WHEN @Level=75 THEN CAST(@exp AS NUMERIC(12,0)) / 	102171368.0 * 100 	
-		WHEN @Level=76 THEN CAST(@exp AS NUMERIC(12,0)) / 	120995493.0 * 100 	
-		WHEN @Level=77 THEN CAST(@exp AS NUMERIC(12,0)) / 	143307208.0 * 100 	
-		WHEN @Level=78 THEN CAST(@exp AS NUMERIC(12,0)) / 	198000645.0 * 100 	
-		WHEN @Level=79 THEN CAST(@exp AS NUMERIC(12,0)) / 	234477760.0 * 100 	
-		WHEN @Level=80 THEN CAST(@exp AS NUMERIC(12,0)) / 	277716683.0 * 100 	
-		WHEN @Level=81 THEN CAST(@exp AS NUMERIC(12,0)) / 	381795797.0 * 100 	
-		WHEN @Level=82 THEN CAST(@exp AS NUMERIC(12,0)) / 	406848219.0 * 100 	
-		WHEN @Level=83 THEN CAST(@exp AS NUMERIC(12,0)) / 	403044458.0 * 100 	
-		WHEN @Level=84 THEN CAST(@exp AS NUMERIC(12,0)) / 	391191019.0 * 100 	
-		WHEN @Level=85 THEN CAST(@exp AS NUMERIC(12,0)) / 	442876559.0 * 100 	
-		WHEN @Level=86 THEN CAST(@exp AS NUMERIC(12,0)) / 	501408635.0 * 100 	
-		WHEN @Level=87 THEN CAST(@exp AS NUMERIC(12,0)) / 	567694433.0 * 100 	
-		WHEN @Level=88 THEN CAST(@exp AS NUMERIC(12,0)) / 	749813704.0 * 100 	
-		WHEN @Level=89 THEN CAST(@exp AS NUMERIC(12,0)) / 	849001357.0 * 100 	
-		WHEN @Level=90 THEN CAST(@exp AS NUMERIC(12,0)) / 	961154774.0 * 100 	
-		WHEN @Level=91 THEN CAST(@exp AS NUMERIC(12,0)) / 	1309582668.0 * 100 	
-		WHEN @Level=92 THEN CAST(@exp AS NUMERIC(12,0)) / 	1382799035.0 * 100 	
-		WHEN @Level=93 THEN CAST(@exp AS NUMERIC(12,0)) / 	1357505030.0 * 100 	
-		WHEN @Level=94 THEN CAST(@exp AS NUMERIC(12,0)) / 	1305632790.0 * 100 	
-		WHEN @Level=95 THEN CAST(@exp AS NUMERIC(12,0)) / 	1464862605.0 * 100 	
-		WHEN @Level=96 THEN CAST(@exp AS NUMERIC(12,0)) / 	1628695740.0 * 100 	
-		WHEN @Level=97 THEN CAST(@exp AS NUMERIC(12,0)) / 	1810772333.0 * 100 	
-		WHEN @Level=98 THEN CAST(@exp AS NUMERIC(12,0)) / 	2348583653.0 * 100 	
-		WHEN @Level=99 THEN CAST(@exp AS NUMERIC(12,0)) / 	2611145432.0 * 100 	
-		WHEN @Level=100 THEN CAST(@exp AS NUMERIC(12,0)) / 	2903009208.0 * 100 	
-		WHEN @Level=101 THEN CAST(@exp AS NUMERIC(12,0)) / 	3919352097.0 * 100 	
-		WHEN @Level=102 THEN CAST(@exp AS NUMERIC(12,0)) / 	4063358600.0 * 100 	
-		WHEN @Level=103 THEN CAST(@exp AS NUMERIC(12,0)) / 	3916810682.0 * 100 	
-		WHEN @Level=104 THEN CAST(@exp AS NUMERIC(12,0)) / 	4314535354.0 * 100 	
-		WHEN @Level=105 THEN CAST(@exp AS NUMERIC(12,0)) / 	4752892146.0 * 100 	
-		WHEN @Level=106 THEN CAST(@exp AS NUMERIC(12,0)) / 	5235785988.0 * 100 	
-		WHEN @Level=107 THEN CAST(@exp AS NUMERIC(12,0)) / 	5767741845.0 * 100 	
-		WHEN @Level=108 THEN CAST(@exp AS NUMERIC(12,0)) / 	6353744416.0 * 100 	
-		WHEN @Level=109 THEN CAST(@exp AS NUMERIC(12,0)) / 	6999284849.0 * 100 	
-		WHEN @Level=110 THEN CAST(@exp AS NUMERIC(12,0)) / 	7710412189.0 * 100 	
-		WHEN @Level=111 THEN CAST(@exp AS NUMERIC(12,0)) / 	8493790068.0 * 100 	
-		WHEN @Level=112 THEN CAST(@exp AS NUMERIC(12,0)) / 	9356759139.0 * 100	
-		WHEN @Level=113 THEN CAST(@exp AS NUMERIC(12,0)) / 	10307405867.0 * 100 	
-		WHEN @Level=114 THEN CAST(@exp AS NUMERIC(12,0)) / 	11354638303.0 * 100 	
-		WHEN @Level=115 THEN CAST(@exp AS NUMERIC(12,0)) / 	12508269555.0 * 100 	
-		WHEN @Level=116 THEN CAST(@exp AS NUMERIC(12,0)) / 	13779109742.0 * 100 	
-		WHEN @Level=117 THEN CAST(@exp AS NUMERIC(12,0)) / 	15179067292.0 * 100 	
-		WHEN @Level=118 THEN CAST(@exp AS NUMERIC(12,0)) / 	16721260528.0 * 100 	
-		WHEN @Level=119 THEN CAST(@exp AS NUMERIC(12,0)) / 	18420140598.0 * 100 	
-		WHEN @Level=120 THEN CAST(@exp AS NUMERIC(12,0)) / 	20291626883.0 * 100 	
-		WHEN @Level=121 THEN CAST(@exp AS NUMERIC(12,0)) / 	22353256174.0 * 100 	
-		WHEN @Level=122 THEN CAST(@exp AS NUMERIC(12,0)) / 	24624347002.0 * 100 	
-		WHEN @Level=123 THEN CAST(@exp AS NUMERIC(12,0)) / 	27126180657.0 * 100 	
-		WHEN @Level=124 THEN CAST(@exp AS NUMERIC(12,0)) / 	29882200612.0 * 100 	
-		WHEN @Level=125 THEN CAST(@exp AS NUMERIC(12,0)) / 	32918232194.0 * 100 	
-		WHEN @Level=126 THEN CAST(@exp AS NUMERIC(12,0)) / 	36262724585.0 * 100 	
-		WHEN @Level=127 THEN CAST(@exp AS NUMERIC(12,0)) / 	39947017402.0 * 100 	
-		WHEN @Level=128 THEN CAST(@exp AS NUMERIC(12,0)) / 	44005634371.0 * 100 	
-		WHEN @Level=129 THEN CAST(@exp AS NUMERIC(12,0)) / 	48476606823.0 * 100 	
-		WHEN @Level=130 THEN CAST(@exp AS NUMERIC(12,0)) / 	53401830076.0 * 100 	
-		WHEN @Level=131 THEN CAST(@exp AS NUMERIC(12,0)) / 	58827456011.0 * 100 	
-		WHEN @Level=132 THEN CAST(@exp AS NUMERIC(12,0)) / 	64804325542.0 * 100 	
-		WHEN @Level=133 THEN CAST(@exp AS NUMERIC(12,0)) / 	71388445017.0 * 100 	
-		WHEN @Level=134 THEN CAST(@exp AS NUMERIC(12,0)) / 	78641511031.0 * 100 	
-		WHEN @Level=135 THEN CAST(@exp AS NUMERIC(12,0)) / 	86631488552.0 * 100 	
-		WHEN @Level=136 THEN CAST(@exp AS NUMERIC(12,0)) / 	95433247789.0 * 100 	
-		WHEN @Level=137 THEN CAST(@exp AS NUMERIC(12,0)) / 	105129265764.0 * 100 	
-		WHEN @Level=138 THEN CAST(@exp AS NUMERIC(12,0)) / 	115810399166.0 * 100 	
-		WHEN @Level=139 THEN CAST(@exp AS NUMERIC(12,0)) / 	127576735721.0 * 100 	
-		WHEN @Level=140 THEN CAST(@exp AS NUMERIC(12,0)) / 	140538532070.0 * 100 	
-		WHEN @Level=141 THEN CAST(@exp AS NUMERIC(12,0)) / 	154817246928.0 * 100 	
-		WHEN @Level=142 THEN CAST(@exp AS NUMERIC(12,0)) / 	170546679216.0 * 100 	
-		WHEN @Level=143 THEN CAST(@exp AS NUMERIC(12,0)) / 	187874221825.0 * 100 	
-		WHEN @Level=144 THEN CAST(@exp AS NUMERIC(12,0)) / 	206962242762.0 * 100 	
-		WHEN @Level=145 THEN CAST(@exp AS NUMERIC(12,0)) / 	227989606627.0 * 100 	
-		WHEN @Level=146 THEN CAST(@exp AS NUMERIC(12,0)) / 	251153350660.0 * 100 	
-		WHEN @Level=147 THEN CAST(@exp AS NUMERIC(12,0)) / 	276670531087.0 * 100 	
-		WHEN @Level=148 THEN CAST(@exp AS NUMERIC(12,0)) / 	304780257046.0 * 100 	
-		WHEN @Level=149 THEN CAST(@exp AS NUMERIC(12,0)) / 	335745931162.0 * 100 	
-		WHEN @Level=150 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=151 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=152 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=153 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=154 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=155 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=156 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=157 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=158 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=159 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=160 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=161 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=162 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=163 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=164 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=165 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=166 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=167 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=168 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=169 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=170 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=171 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=172 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=173 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=174 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=175 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=176 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=177 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=178 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=179 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=180 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=181 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=182 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=183 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=184 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=185 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=186 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=187 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=188 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=189 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=190 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=191 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=192 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=193 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=194 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=195 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=196 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=197 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=198 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=199 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-		WHEN @Level=200 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
-	    ELSE  0	END
+				WHEN @Level=39 THEN CAST(@exp AS NUMERIC(12,0)) / 	221450.0 * 100 	
+				WHEN @Level=40 THEN CAST(@exp AS NUMERIC(12,0)) / 	269042.0 * 100 	
+				WHEN @Level=41 THEN CAST(@exp AS NUMERIC(12,0)) / 	390368.0 * 100 	
+				WHEN @Level=42 THEN CAST(@exp AS NUMERIC(12,0)) / 	438550.0 * 100 	
+				WHEN @Level=43 THEN CAST(@exp AS NUMERIC(12,0)) / 	458137.0 * 100 	
+				WHEN @Level=44 THEN CAST(@exp AS NUMERIC(12,0)) / 	468943.0 * 100 	
+				WHEN @Level=45 THEN CAST(@exp AS NUMERIC(12,0)) / 	560177.0 * 100 	
+				WHEN @Level=46 THEN CAST(@exp AS NUMERIC(12,0)) / 	669320.0 * 100 	
+				WHEN @Level=47 THEN CAST(@exp AS NUMERIC(12,0)) / 	799963.0 * 100 	
+				WHEN @Level=48 THEN CAST(@exp AS NUMERIC(12,0)) / 	1115396.0 * 100
+				WHEN @Level=49 THEN CAST(@exp AS NUMERIC(12,0)) / 	1331100.0 * 100
+				WHEN @Level=50 THEN CAST(@exp AS NUMERIC(12,0)) / 	1590273.0 * 100
+				WHEN @Level=51 THEN CAST(@exp AS NUMERIC(12,0)) / 	2306878.0 * 100
+				WHEN @Level=52 THEN CAST(@exp AS NUMERIC(12,0)) / 	2594255.0 * 100
+				WHEN @Level=53 THEN CAST(@exp AS NUMERIC(12,0)) / 	2711490.0 * 100
+				WHEN @Level=54 THEN CAST(@exp AS NUMERIC(12,0)) / 	2777349.0 * 100
+				WHEN @Level=55 THEN CAST(@exp AS NUMERIC(12,0)) / 	3318059.0 * 100
+				WHEN @Level=56 THEN CAST(@exp AS NUMERIC(12,0)) / 	3963400.0 * 100
+				WHEN @Level=57 THEN CAST(@exp AS NUMERIC(12,0)) / 	4735913.0 * 100
+				WHEN @Level=58 THEN CAST(@exp AS NUMERIC(12,0)) / 	6600425.0 * 100
+				WHEN @Level=59 THEN CAST(@exp AS NUMERIC(12,0)) / 	7886110.0 * 100
+				WHEN @Level=60 THEN CAST(@exp AS NUMERIC(12,0)) / 	9421875.0 * 100
+				WHEN @Level=61 THEN CAST(@exp AS NUMERIC(12,0)) / 	13547310.0 * 100 	
+				WHEN @Level=62 THEN CAST(@exp AS NUMERIC(12,0)) / 	15099446.0 * 100 	
+				WHEN @Level=63 THEN CAST(@exp AS NUMERIC(12,0)) / 	15644776.0 * 100 	
+				WHEN @Level=64 THEN CAST(@exp AS NUMERIC(12,0)) / 	15885934.0 * 100 	
+				WHEN @Level=65 THEN CAST(@exp AS NUMERIC(12,0)) / 	18817757.0 * 100 	
+				WHEN @Level=66 THEN CAST(@exp AS NUMERIC(12,0)) / 	22280630.0 * 100 	
+				WHEN @Level=67 THEN CAST(@exp AS NUMERIC(12,0)) / 	26392968.0 * 100 	
+				WHEN @Level=68 THEN CAST(@exp AS NUMERIC(12,0)) / 	36465972.0 * 100 	
+				WHEN @Level=69 THEN CAST(@exp AS NUMERIC(12,0)) / 	43184958.0 * 100 	
+				WHEN @Level=70 THEN CAST(@exp AS NUMERIC(12,0)) / 	51141217.0 * 100 	
+				WHEN @Level=71 THEN CAST(@exp AS NUMERIC(12,0)) / 	73556918.0 * 100 	
+				WHEN @Level=72 THEN CAST(@exp AS NUMERIC(12,0)) / 	81991117.0 * 100 	
+				WHEN @Level=73 THEN CAST(@exp AS NUMERIC(12,0)) / 	84966758.0 * 100 	
+				WHEN @Level=74 THEN CAST(@exp AS NUMERIC(12,0)) / 	86252845.0 * 100 	
+				WHEN @Level=75 THEN CAST(@exp AS NUMERIC(12,0)) / 	102171368.0 * 100 	
+				WHEN @Level=76 THEN CAST(@exp AS NUMERIC(12,0)) / 	120995493.0 * 100 	
+				WHEN @Level=77 THEN CAST(@exp AS NUMERIC(12,0)) / 	143307208.0 * 100 	
+				WHEN @Level=78 THEN CAST(@exp AS NUMERIC(12,0)) / 	198000645.0 * 100 	
+				WHEN @Level=79 THEN CAST(@exp AS NUMERIC(12,0)) / 	234477760.0 * 100 	
+				WHEN @Level=80 THEN CAST(@exp AS NUMERIC(12,0)) / 	277716683.0 * 100 	
+				WHEN @Level=81 THEN CAST(@exp AS NUMERIC(12,0)) / 	381795797.0 * 100 	
+				WHEN @Level=82 THEN CAST(@exp AS NUMERIC(12,0)) / 	406848219.0 * 100 	
+				WHEN @Level=83 THEN CAST(@exp AS NUMERIC(12,0)) / 	403044458.0 * 100 	
+				WHEN @Level=84 THEN CAST(@exp AS NUMERIC(12,0)) / 	391191019.0 * 100 	
+				WHEN @Level=85 THEN CAST(@exp AS NUMERIC(12,0)) / 	442876559.0 * 100 	
+				WHEN @Level=86 THEN CAST(@exp AS NUMERIC(12,0)) / 	501408635.0 * 100 	
+				WHEN @Level=87 THEN CAST(@exp AS NUMERIC(12,0)) / 	567694433.0 * 100 	
+				WHEN @Level=88 THEN CAST(@exp AS NUMERIC(12,0)) / 	749813704.0 * 100 	
+				WHEN @Level=89 THEN CAST(@exp AS NUMERIC(12,0)) / 	849001357.0 * 100 	
+				WHEN @Level=90 THEN CAST(@exp AS NUMERIC(12,0)) / 	961154774.0 * 100 	
+				WHEN @Level=91 THEN CAST(@exp AS NUMERIC(12,0)) / 	1309582668.0 * 100 	
+				WHEN @Level=92 THEN CAST(@exp AS NUMERIC(12,0)) / 	1382799035.0 * 100 	
+				WHEN @Level=93 THEN CAST(@exp AS NUMERIC(12,0)) / 	1357505030.0 * 100 	
+				WHEN @Level=94 THEN CAST(@exp AS NUMERIC(12,0)) / 	1305632790.0 * 100 	
+				WHEN @Level=95 THEN CAST(@exp AS NUMERIC(12,0)) / 	1464862605.0 * 100 	
+				WHEN @Level=96 THEN CAST(@exp AS NUMERIC(12,0)) / 	1628695740.0 * 100 	
+				WHEN @Level=97 THEN CAST(@exp AS NUMERIC(12,0)) / 	1810772333.0 * 100 	
+				WHEN @Level=98 THEN CAST(@exp AS NUMERIC(12,0)) / 	2348583653.0 * 100 	
+				WHEN @Level=99 THEN CAST(@exp AS NUMERIC(12,0)) / 	2611145432.0 * 100 	
+				WHEN @Level=100 THEN CAST(@exp AS NUMERIC(12,0)) / 	2903009208.0 * 100 	
+				WHEN @Level=101 THEN CAST(@exp AS NUMERIC(12,0)) / 	3919352097.0 * 100 	
+				WHEN @Level=102 THEN CAST(@exp AS NUMERIC(12,0)) / 	4063358600.0 * 100 	
+				WHEN @Level=103 THEN CAST(@exp AS NUMERIC(12,0)) / 	3916810682.0 * 100 	
+				WHEN @Level=104 THEN CAST(@exp AS NUMERIC(12,0)) / 	4314535354.0 * 100 	
+				WHEN @Level=105 THEN CAST(@exp AS NUMERIC(12,0)) / 	4752892146.0 * 100 	
+				WHEN @Level=106 THEN CAST(@exp AS NUMERIC(12,0)) / 	5235785988.0 * 100 	
+				WHEN @Level=107 THEN CAST(@exp AS NUMERIC(12,0)) / 	5767741845.0 * 100 	
+				WHEN @Level=108 THEN CAST(@exp AS NUMERIC(12,0)) / 	6353744416.0 * 100 	
+				WHEN @Level=109 THEN CAST(@exp AS NUMERIC(12,0)) / 	6999284849.0 * 100 	
+				WHEN @Level=110 THEN CAST(@exp AS NUMERIC(12,0)) / 	7710412189.0 * 100 	
+				WHEN @Level=111 THEN CAST(@exp AS NUMERIC(12,0)) / 	8493790068.0 * 100 	
+				WHEN @Level=112 THEN CAST(@exp AS NUMERIC(12,0)) / 	9356759139.0 * 100	
+				WHEN @Level=113 THEN CAST(@exp AS NUMERIC(12,0)) / 	10307405867.0 * 100 	
+				WHEN @Level=114 THEN CAST(@exp AS NUMERIC(12,0)) / 	11354638303.0 * 100 	
+				WHEN @Level=115 THEN CAST(@exp AS NUMERIC(12,0)) / 	12508269555.0 * 100 	
+				WHEN @Level=116 THEN CAST(@exp AS NUMERIC(12,0)) / 	13779109742.0 * 100 	
+				WHEN @Level=117 THEN CAST(@exp AS NUMERIC(12,0)) / 	15179067292.0 * 100 	
+				WHEN @Level=118 THEN CAST(@exp AS NUMERIC(12,0)) / 	16721260528.0 * 100 	
+				WHEN @Level=119 THEN CAST(@exp AS NUMERIC(12,0)) / 	18420140598.0 * 100 	
+				WHEN @Level=120 THEN CAST(@exp AS NUMERIC(12,0)) / 	20291626883.0 * 100 	
+				WHEN @Level=121 THEN CAST(@exp AS NUMERIC(12,0)) / 	22353256174.0 * 100 	
+				WHEN @Level=122 THEN CAST(@exp AS NUMERIC(12,0)) / 	24624347002.0 * 100 	
+				WHEN @Level=123 THEN CAST(@exp AS NUMERIC(12,0)) / 	27126180657.0 * 100 	
+				WHEN @Level=124 THEN CAST(@exp AS NUMERIC(12,0)) / 	29882200612.0 * 100 	
+				WHEN @Level=125 THEN CAST(@exp AS NUMERIC(12,0)) / 	32918232194.0 * 100 	
+				WHEN @Level=126 THEN CAST(@exp AS NUMERIC(12,0)) / 	36262724585.0 * 100 	
+				WHEN @Level=127 THEN CAST(@exp AS NUMERIC(12,0)) / 	39947017402.0 * 100 	
+				WHEN @Level=128 THEN CAST(@exp AS NUMERIC(12,0)) / 	44005634371.0 * 100 	
+				WHEN @Level=129 THEN CAST(@exp AS NUMERIC(12,0)) / 	48476606823.0 * 100 	
+				WHEN @Level=130 THEN CAST(@exp AS NUMERIC(12,0)) / 	53401830076.0 * 100 	
+				WHEN @Level=131 THEN CAST(@exp AS NUMERIC(12,0)) / 	58827456011.0 * 100 	
+				WHEN @Level=132 THEN CAST(@exp AS NUMERIC(12,0)) / 	64804325542.0 * 100 	
+				WHEN @Level=133 THEN CAST(@exp AS NUMERIC(12,0)) / 	71388445017.0 * 100 	
+				WHEN @Level=134 THEN CAST(@exp AS NUMERIC(12,0)) / 	78641511031.0 * 100 	
+				WHEN @Level=135 THEN CAST(@exp AS NUMERIC(12,0)) / 	86631488552.0 * 100 	
+				WHEN @Level=136 THEN CAST(@exp AS NUMERIC(12,0)) / 	95433247789.0 * 100 	
+				WHEN @Level=137 THEN CAST(@exp AS NUMERIC(12,0)) / 	105129265764.0 * 100 	
+				WHEN @Level=138 THEN CAST(@exp AS NUMERIC(12,0)) / 	115810399166.0 * 100 	
+				WHEN @Level=139 THEN CAST(@exp AS NUMERIC(12,0)) / 	127576735721.0 * 100 	
+				WHEN @Level=140 THEN CAST(@exp AS NUMERIC(12,0)) / 	140538532070.0 * 100 	
+				WHEN @Level=141 THEN CAST(@exp AS NUMERIC(12,0)) / 	154817246928.0 * 100 	
+				WHEN @Level=142 THEN CAST(@exp AS NUMERIC(12,0)) / 	170546679216.0 * 100 	
+				WHEN @Level=143 THEN CAST(@exp AS NUMERIC(12,0)) / 	187874221825.0 * 100 	
+				WHEN @Level=144 THEN CAST(@exp AS NUMERIC(12,0)) / 	206962242762.0 * 100 	
+				WHEN @Level=145 THEN CAST(@exp AS NUMERIC(12,0)) / 	227989606627.0 * 100 	
+				WHEN @Level=146 THEN CAST(@exp AS NUMERIC(12,0)) / 	251153350660.0 * 100 	
+				WHEN @Level=147 THEN CAST(@exp AS NUMERIC(12,0)) / 	276670531087.0 * 100 	
+				WHEN @Level=148 THEN CAST(@exp AS NUMERIC(12,0)) / 	304780257046.0 * 100 	
+				WHEN @Level=149 THEN CAST(@exp AS NUMERIC(12,0)) / 	335745931162.0 * 100 	
+				WHEN @Level=150 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=151 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=152 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=153 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=154 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=155 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=156 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=157 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=158 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=159 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=160 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=161 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=162 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=163 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=164 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=165 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=166 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=167 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=168 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=169 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=170 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=171 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=172 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=173 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=174 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=175 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=176 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=177 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=178 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=179 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=180 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=181 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=182 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=183 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=184 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=185 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=186 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=187 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=188 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=189 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=190 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=191 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=192 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=193 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=194 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=195 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=196 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=197 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=198 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=199 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				WHEN @Level=200 THEN CAST(@exp AS NUMERIC(12,0)) / 	369857717768.0 * 100 	
+				ELSE  0	END
 END
 GO
 /****** Object:  Table [dbo].[EVIDANCE]    Script Date: 04/03/2010 12:42:44 ******/
@@ -4154,7 +4034,7 @@ CREATE TABLE [dbo].[EVIDANCE](
 	[account] [varchar](32) NOT NULL,
 	[gamecode] [char](4) NOT NULL,
 	[tester] [char](1) NOT NULL,
-	[m_chLoginAuthority] [char](1) NOT NULL,
+	[m_chLOGIN_DBFAuthority] [char](1) NOT NULL,
 	[regdate] [datetime] NOT NULL,
 	[BlockTime] [char](8) NULL,
 	[EndTime] [char](8) NULL,
@@ -4443,23 +4323,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
-/*============================================================    
-1. ??? : ???    
-2. ??? : 2009.11.23    
-3. ???? ? : usp_GuildFurniture_Log    
-4. ???? ?? : ?? ??? ?? Log ??    
-5. ????    
- @serverindex char(2)   ???    
- @m_idGuild  char (6)  ?????    
- @SEQ   int     SEQ  ( 0 ??? GuildHouse ? ???? ?? ?? ?)  
-6. ???      
-7. ?? ??    
-8. ?? ?? ??    
-    EXEC usp_GuildFurniture_Log '05', '123456'    
-9. ?? ? ident ? ???    
- select * from tblGuildHouse_FurnitureLog    
- delete tblGuildHouse_FurnitureLog    
-============================================================*/    
     
 CREATE proc [dbo].[usp_GuildFurniture_Log]    
  @serverindex char(2),    
@@ -4473,7 +4336,7 @@ set xact_abort on
 if @SEQ = 0  
 begin  
 -- EXEC('  insert into LOG_' + @serverindex + '_DBF.dbo.tblGuildHouse_FurnitureLog   
- EXEC('  insert into LOGGING_01_DBF.dbo.tblGuildHouse_FurnitureLog   
+ EXEC('  insert into LOGIN_DBF.dbo.tblGuildHouse_FurnitureLog   
    (  
     serverindex, m_idGuild, SEQ, ItemIndex, bSetup, s_date, set_date  
    )  
@@ -4485,7 +4348,7 @@ end
 else if @SEQ <> 0  
 begin  
 -- EXEC('  insert into LOG_' + @serverindex + '_DBF.dbo.tblGuildHouse_FurnitureLog   
- EXEC('  insert into LOGGING_01_DBF.dbo.tblGuildHouse_FurnitureLog    (  
+ EXEC('  insert into LOGIN_DBF.dbo.tblGuildHouse_FurnitureLog    (  
     serverindex, m_idGuild, SEQ, ItemIndex, bSetup, s_date, set_date  
    )  
   SELECT  serverindex, m_idGuild, SEQ, ItemIndex, bSetup, s_date, set_date  
@@ -4500,25 +4363,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
-/*============================================================  
-1. ??? : ???  
-2. ??? : 2009.11.23  
-3. ???? ? : usp_GuildHouse_Log  
-4. ???? ?? : ?? ??? Log ??  
-5. ????  
- @serverindex char(2)   ???  
- @m_idGuild  char (6)  ?????  
- @SEQ   int     SEQ  
- @dwItemId    int    ?? ITEM  
- @bSetup   int    ?? ??  
-6. ???    
-7. ?? ??  
-8. ?? ?? ??  
-    EXEC usp_GuildHouse_Log '05', '123456'  
-9. ?? ? ident ? ???  
- select * from tblGuildHouse  
- delete tblGuildHouse  
-============================================================*/  
   
 CREATE      proc [dbo].[usp_GuildHouse_Log]  
 	@serverindex char(2),  
@@ -4530,7 +4374,7 @@ set nocount on
 set xact_abort on  
 
 --	EXEC('  insert into LOG_' + @serverindex + '_DBF.dbo.tblGuildHouse_FurnitureLog 
-	EXEC('  insert into LOGGING_01_DBF.dbo.tblGuildHouseLog 			(
+	EXEC('  insert into LOGIN_DBF.dbo.tblGuildHouseLog 			(
 				serverindex, m_idGuild, dwWorldID, tKeepTime, m_szGuild
 			)
 		SELECT  serverindex, m_idGuild, dwWorldID, tKeepTime, m_szGuild
@@ -4591,7 +4435,7 @@ create proc [dbo].[uspSetSealCharUpdate]
 AS
 SET NOCOUNT ON
 
-UPDATE	CHARACTER_TBL
+UPDATE	CHARACTER_DBF_TBL
 SET	isblock = 'F' ,account = @account, playerslot = @nPlayerSlot
 WHERE	m_idPlayer = @im_idPlayerW AND serverindex = @serverindex AND isblock = 'S'
 
@@ -4609,7 +4453,7 @@ create proc [dbo].[uspSetSealChar]
 AS
 SET NOCOUNT ON
 
-UPDATE CHARACTER_TBL
+UPDATE CHARACTER_DBF_TBL
 SET	isblock = 'S' 
 WHERE 	m_idPlayer = @im_idPlayer AND serverindex = @serverindex
 
@@ -4676,12 +4520,12 @@ SELECT idPlayer, iDeposit, szPledge, nVote, tCreate
 FROM tblLordCandidates
 WHERE nServer = @nServer AND idElection = @idElection AND IsLeftOut = 'F'
 GO
-/****** Object:  StoredProcedure [dbo].[uspReservRemoveItemFromCharacter]    Script Date: 04/03/2010 12:42:40 ******/
+/****** Object:  StoredProcedure [dbo].[uspReservRemoveItemFromCHARACTER_DBF]    Script Date: 04/03/2010 12:42:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
-CREATE  Procedure [dbo].[uspReservRemoveItemFromCharacter]
+CREATE  Procedure [dbo].[uspReservRemoveItemFromCHARACTER_DBF]
 		@pserverindex		char(2),
 		@pPlayerID			char(7),
 		@pItemIndex			int,
@@ -4852,7 +4696,7 @@ IF @iGu = 'S1'
 			    AND serverindex = @iserverindex
 
 		SELECT A.m_idPlayer,A.serverindex,B.m_szName,szMsg = ISNULL(A.szMsg,''),A.penya,A.s_date
-		   FROM WANTED_TBL A,CHARACTER_TBL B
+		   FROM WANTED_TBL A,CHARACTER_DBF_TBL B
 		 WHERE A.m_idPlayer = B.m_idPlayer
 		      AND A.serverindex = B.serverindex
 	END
@@ -4880,12 +4724,12 @@ IF @iGu = 'D1'
 RETURN
 SET NOCOUNT OFF
 GO
-/****** Object:  View [dbo].[viwCharacterItem]    Script Date: 04/03/2010 12:42:48 ******/
+/****** Object:  View [dbo].[viwCHARACTER_DBFItem]    Script Date: 04/03/2010 12:42:48 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE VIEW [dbo].[viwCharacterItem]
+CREATE VIEW [dbo].[viwCHARACTER_DBFItem]
 AS
 	SELECT 	a.m_idPlayer,
 			a.serverindex,
@@ -4895,7 +4739,7 @@ AS
 			c.m_extInventory,
 			d.m_Bank,
 			e.m_extBank
-	FROM	CHARACTER_TBL a 
+	FROM	CHARACTER_DBF_TBL a 
 			INNER JOIN INVENTORY_TBL b ON (a.m_idPlayer=b.m_idPlayer)
 			INNER JOIN INVENTORY_EXT_TBL c ON (a.m_idPlayer=c.m_idPlayer)
 			INNER JOIN BANK_TBL d ON (a.m_idPlayer=d.m_idPlayer)
@@ -4912,32 +4756,32 @@ select a.m_idPlayer, a.serverindex, b.m_Inventory,c.m_Bank,
 	(select top 1 szItem from tblPocket with (nolock) where nPocket = 0 and idPlayer = a.m_idPlayer) as szItem0,
 	(select top 1 szItem from tblPocket with (nolock) where nPocket = 1 and idPlayer = a.m_idPlayer) as szItem1,
 	(select top 1 szItem from tblPocket with (nolock) where nPocket = 2 and idPlayer = a.m_idPlayer) as szItem2
-from CHARACTER_TBL as a with (nolock)
+from CHARACTER_DBF_TBL as a with (nolock)
 			inner join INVENTORY_TBL as b with (nolock) on a.serverindex = b.serverindex and a.m_idPlayer = b.m_idPlayer
 			inner join BANK_TBL as c with (nolock) on a.serverindex = c.serverindex and a.m_idPlayer = c.m_idPlayer
 where a.isblock = 'F'
 GO
-/****** Object:  View [dbo].[view_character_level]    Script Date: 04/03/2010 12:42:48 ******/
+/****** Object:  View [dbo].[view_CHARACTER_DBF_level]    Script Date: 04/03/2010 12:42:48 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE view [dbo].[view_character_level]
+CREATE view [dbo].[view_CHARACTER_DBF_level]
 as
 select a.m_idPlayer,a.serverindex,a.m_szName,m_nLevel=(a.m_nLevel/10)+1,b.m_Inventory,c.m_Bank
-from CHARACTER_TBL a,INVENTORY_TBL b,BANK_TBL c
+from CHARACTER_DBF_TBL a,INVENTORY_TBL b,BANK_TBL c
 where a.m_idPlayer = b.m_idPlayer
 and b.m_idPlayer = c.m_idPlayer
 GO
-/****** Object:  View [dbo].[view_character]    Script Date: 04/03/2010 12:42:48 ******/
+/****** Object:  View [dbo].[view_CHARACTER_DBF]    Script Date: 04/03/2010 12:42:48 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
-CREATE view [dbo].[view_character]
+CREATE view [dbo].[view_CHARACTER_DBF]
 as
 select a.m_idPlayer, a.serverindex, b.m_Inventory, c.m_Bank, d.szItem
-from CHARACTER_TBL as a inner join INVENTORY_TBL as b on a.m_idPlayer = b.m_idPlayer
+from CHARACTER_DBF_TBL as a inner join INVENTORY_TBL as b on a.m_idPlayer = b.m_idPlayer
 			inner join BANK_TBL as c on a.m_idPlayer = c.m_idPlayer
 			inner join tblPocket as d on a.m_idPlayer = d.idPlayer
 where a.isblock = 'F'
@@ -4971,7 +4815,7 @@ AS
 SET NOCOUNT ON
 
 select TOP 3 playerslot,m_idPlayer,m_szName
-from CHARACTER_TBL
+from CHARACTER_DBF_TBL
 where serverindex=@serverindex and account= @account and isblock='F'
 order by playerslot
 
@@ -5012,7 +4856,7 @@ CREATE  PROCEDURE [dbo].[uspLoadPlayerData]
 AS
 SET NOCOUNT ON
 
-	SELECT m_idPlayer, m_szName, m_dwSex, m_nLevel, m_nJob, m_nMessengerState FROM CHARACTER_TBL
+	SELECT m_idPlayer, m_szName, m_dwSex, m_nLevel, m_nJob, m_nMessengerState FROM CHARACTER_DBF_TBL
 	WHERE	serverindex = @iserverindex ORDER BY m_idPlayer
  
 SET NOCOUNT OFF
@@ -5055,7 +4899,7 @@ SET NOCOUNT ON
 
 	SELECT	a.f_idPlayer, b.m_nJob, b.m_dwSex, a.m_dwState
 	FROM	dbo.MESSENGER_TBL a
-			INNER JOIN dbo.CHARACTER_TBL b
+			INNER JOIN dbo.CHARACTER_DBF_TBL b
 				ON (a.serverindex=b.serverindex AND a.f_idPlayer=b.m_idPlayer)
 	WHERE	a.serverindex=@pserverindex
 		AND	a.m_idPlayer=@pPlayerID
@@ -5173,12 +5017,12 @@ SET NOCOUNT ON
  
 SET NOCOUNT OFF
 GO
-/****** Object:  StoredProcedure [dbo].[uspProvideItemToCharacter]    Script Date: 04/03/2010 12:42:40 ******/
+/****** Object:  StoredProcedure [dbo].[uspProvideItemToCHARACTER_DBF]    Script Date: 04/03/2010 12:42:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
-CREATE  Procedure [dbo].[uspProvideItemToCharacter]
+CREATE  Procedure [dbo].[uspProvideItemToCHARACTER_DBF]
 		@pPlayerID			char(7),
 		@pserverindex		char(2),
 		@pItemIndex			int,
@@ -5254,9 +5098,7 @@ GO
 CREATE  PROCEDURE [dbo].[uspLordEventTick]
 
              @nServer            int,
-
              @idPlayer           int,
-
              @nTick               int
 
 AS
@@ -5279,7 +5121,7 @@ CREATE	PROCEDURE [dbo].[uspInitMultiServer]
 		@pMultiServer	int
 AS
 SET NOCOUNT ON
-	UPDATE CHARACTER_TBL SET MultiServer=0
+	UPDATE CHARACTER_DBF_TBL SET MultiServer=0
 		WHERE serverindex=@pserverindex AND MultiServer=@pMultiServer
 
 	SELECT 1
@@ -5299,12 +5141,12 @@ SET NOCOUNT ON
 
 UPDATE tblLordEvent SET nTick = 0 WHERE nServer = @nServer
 GO
-/****** Object:  StoredProcedure [dbo].[uspLoadCharacterSkill]    Script Date: 04/03/2010 12:42:40 ******/
+/****** Object:  StoredProcedure [dbo].[uspLoadCHARACTER_DBFSkill]    Script Date: 04/03/2010 12:42:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE  PROCEDURE [dbo].[uspLoadCharacterSkill]
+CREATE  PROCEDURE [dbo].[uspLoadCHARACTER_DBFSkill]
 		@serverindex	char(2),
 		@pPlayerID		char(7)
 AS
@@ -5349,7 +5191,7 @@ SET NOCOUNT ON
 
 SET NOCOUNT OFF
 GO
-/****** Object:  StoredProcedure [dbo].[uspConvertCharacterSkill]    Script Date: 04/03/2010 12:42:40 ******/
+/****** Object:  StoredProcedure [dbo].[uspConvertCHARACTER_DBFSkill]    Script Date: 04/03/2010 12:42:40 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5358,21 +5200,21 @@ GO
 SELECT count(*) FROM tblSkillPoint
 
 SELECT * FROM tblSkillPoint
-SELECT m_idPlayer FROM CHARACTER_TBL WHERE serverindex='01' and m_idPlayer='033924'
+SELECT m_idPlayer FROM CHARACTER_DBF_TBL WHERE serverindex='01' and m_idPlayer='033924'
 TRUNCATE TABLE tblSkillPoint
-dbo.uspConvertCharacterSkill '01', '033924'
-SELECT serverindex, m_szName, m_idPlayer, m_nJob, m_nLevel, m_aJobSkill, m_nExp1 FROM CHARACTER_TBL WHERE m_aJobSkill=''
+dbo.uspConvertCHARACTER_DBFSkill '01', '033924'
+SELECT serverindex, m_szName, m_idPlayer, m_nJob, m_nLevel, m_aJobSkill, m_nExp1 FROM CHARACTER_DBF_TBL WHERE m_aJobSkill=''
 
-SELECT serverindex, m_szName, m_idPlayer, m_nJob, m_nLevel, m_aJobSkill, m_nExp1 FROM CHARACTER_TBL WHERE m_szName='???'
+SELECT serverindex, m_szName, m_idPlayer, m_nJob, m_nLevel, m_aJobSkill, m_nExp1 FROM CHARACTER_DBF_TBL WHERE m_szName='???'
 select * from tblSkillPoint WHERE PlayerID='009672'
 
 20,1,1,1/0,1,2,1/0,1,3,1/0,1,-1,1/0,1,-1,1/0,1,-1,1/0,1,-1,1/0,1,-1,1/0,1,-1,1/0,1,-1,1/0,1,-1,1/0,1,-1,1/0,1,-1,1/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/0,1,-1,0/$
 
 
---SELECT * FROM CHARACTER_TBL WHERE m_szName='ccasse'
+--SELECT * FROM CHARACTER_DBF_TBL WHERE m_szName='ccasse'
 */
 
-CREATE              Procedure [dbo].[uspConvertCharacterSkill]
+CREATE              Procedure [dbo].[uspConvertCHARACTER_DBFSkill]
 		@serverindex		char(2),
 		@pPlayerID			char(7)='',
 		@pSkillList			varchar(5000)=''
@@ -5403,7 +5245,7 @@ SET NOCOUNT ON
 			-1 as SkillStatus
     INTO   #TMP
 
-	DECLARE 	@CharacterLevel int,
+	DECLARE 	@CHARACTER_DBFLevel int,
 				@Job	int,
 				@CharExp	bigint
 
@@ -5421,23 +5263,23 @@ SET NOCOUNT ON
 	END
 
 	IF @pPlayerID='' BEGIN
-		DECLARE curCharacter CURSOR FOR
-			SELECT m_idPlayer, m_nJob, m_nLevel, m_aJobSkill, m_nExp1 FROM CHARACTER_TBL WHERE serverindex=@serverindex AND isblock<>'D'
+		DECLARE curCHARACTER_DBF CURSOR FOR
+			SELECT m_idPlayer, m_nJob, m_nLevel, m_aJobSkill, m_nExp1 FROM CHARACTER_DBF_TBL WHERE serverindex=@serverindex AND isblock<>'D'
 	END
 	ELSE BEGIN
-		DECLARE curCharacter CURSOR FOR
-			SELECT m_idPlayer, m_nJob, m_nLevel, m_aJobSkill, m_nExp1 FROM CHARACTER_TBL WHERE serverindex=@serverindex and m_idPlayer=@pPlayerID
+		DECLARE curCHARACTER_DBF CURSOR FOR
+			SELECT m_idPlayer, m_nJob, m_nLevel, m_aJobSkill, m_nExp1 FROM CHARACTER_DBF_TBL WHERE serverindex=@serverindex and m_idPlayer=@pPlayerID
 	END
 
-	OPEN curCharacter
+	OPEN curCHARACTER_DBF
 
-	FETCH NEXT FROM curCharacter INTO @pPlayerID, @Job, @CharacterLevel, @pSkillList, @CharExp
+	FETCH NEXT FROM curCHARACTER_DBF INTO @pPlayerID, @Job, @CHARACTER_DBFLevel, @pSkillList, @CharExp
 
 	--PRINT 'START'	
 	WHILE(@@FETCH_STATUS=0) BEGIN
 		--PRINT 'START'
 		-- READ FROM TABLE
-		--SELECT @CharacterLevel=m_nLevel , @pSkillList=m_aJobSkill FROM CHARACTER_TBL WHERE m_idPlayer=@pPlayerID and serverindex=@serverindex
+		--SELECT @CHARACTER_DBFLevel=m_nLevel , @pSkillList=m_aJobSkill FROM CHARACTER_DBF_TBL WHERE m_idPlayer=@pPlayerID and serverindex=@serverindex
 	
 	    SELECT @SkillStringLength = LEN(@pSkillList)
 	    SELECT @SkillSetStartPos = 0             
@@ -5532,7 +5374,7 @@ SET NOCOUNT ON
 								 ELSE 0	END
 		
 		-- EXTRA POINT FOR LEVEL EXP
-		SELECT @LevelExpRatio = dbo.fn_GetExpRatio(@CharacterLevel, @CharExp)
+		SELECT @LevelExpRatio = dbo.fn_GetExpRatio(@CHARACTER_DBFLevel, @CharExp)
 
 		SELECT @ExtraPointForLevelExp = CASE WHEN @LevelExpRatio < 33 THEN 0
 											WHEN @LevelExpRatio BETWEEN 33 AND 65 THEN 1
@@ -5542,18 +5384,18 @@ SET NOCOUNT ON
 
 		SET @FinalSkillPoint = @SkillPoint + @ExtraPointForLevelExp + @ExtraPointForJob
 
-		IF @FinalSkillPoint < (@CharacterLevel - 1) * 3 + @ExtraPointForJob + @ExtraPointForLevelExp BEGIN
-			SET @FinalSkillPoint = (@CharacterLevel - 1) * 3 + @ExtraPointForJob + @ExtraPointForLevelExp
+		IF @FinalSkillPoint < (@CHARACTER_DBFLevel - 1) * 3 + @ExtraPointForJob + @ExtraPointForLevelExp BEGIN
+			SET @FinalSkillPoint = (@CHARACTER_DBFLevel - 1) * 3 + @ExtraPointForJob + @ExtraPointForLevelExp
 		END
 
 
-		UPDATE CHARACTER_TBL SET m_SkillExp=0, m_SkillPoint=@FinalSkillPoint, m_SkillLv=@FinalSkillPoint WHERE m_idPlayer=@pPlayerID AND serverindex=@serverindex
+		UPDATE CHARACTER_DBF_TBL SET m_SkillExp=0, m_SkillPoint=@FinalSkillPoint, m_SkillLv=@FinalSkillPoint WHERE m_idPlayer=@pPlayerID AND serverindex=@serverindex
 
-		FETCH NEXT FROM curCharacter INTO @pPlayerID, @Job, @CharacterLevel, @pSkillList, @CharExp
+		FETCH NEXT FROM curCHARACTER_DBF INTO @pPlayerID, @Job, @CHARACTER_DBFLevel, @pSkillList, @CharExp
 	END	-- END OF CURSOR
 
-	CLOSE curCharacter
-	DEALLOCATE curCharacter
+	CLOSE curCHARACTER_DBF
+	DEALLOCATE curCHARACTER_DBF
 
 	RETURN
 
@@ -6064,7 +5906,7 @@ as
 set nocount on
 
 select master.dbo.dec2bin(dwEventFlag)
-from CHARACTER_TBL
+from CHARACTER_DBF_TBL
 where serverindex = @serverindex and m_idPlayer = @m_idPlayer--m_szName = @m_szName
 GO
 /****** Object:  StoredProcedure [dbo].[uspAddPropose]    Script Date: 04/03/2010 12:42:39 ******/
@@ -6241,10 +6083,10 @@ CREATE    PROCEDURE [dbo].[uspChangeMultiServer]
 		@aab varchar(32) = ''
 AS
 SET NOCOUNT ON	
-	UPDATE CHARACTER_TBL SET MultiServer = @pMultiServer WHERE m_idPlayer = @pidPlayer --and serverindex=@pserverindex
-	SELECT @account = account FROM CHARACTER_TBL WHERE m_idPlayer=@pidPlayer and serverindex=@pserverindex
-	SELECT @aaa = a.m_chLoginAuthority, @aab = c.m_chAuthority
-	FROM CHARACTER_TBL c
+	UPDATE CHARACTER_DBF_TBL SET MultiServer = @pMultiServer WHERE m_idPlayer = @pidPlayer --and serverindex=@pserverindex
+	SELECT @account = account FROM CHARACTER_DBF_TBL WHERE m_idPlayer=@pidPlayer and serverindex=@pserverindex
+	SELECT @aaa = a.m_chLOGIN_DBFAuthority, @aab = c.m_chAuthority
+	FROM CHARACTER_DBF_TBL c
 	LEFT JOIN ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL a ON a.account = c.account
 	WHERE m_idPlayer = @pidPlayer
 
@@ -6254,7 +6096,7 @@ SET NOCOUNT ON
 	IF @aaa <> @aab
 	BEGIN
 		IF @aaa <> 'F'
-		UPDATE CHARACTER_TBL SET m_chAuthority = @aaa WHERE m_idPlayer = @pidPlayer
+		UPDATE CHARACTER_DBF_TBL SET m_chAuthority = @aaa WHERE m_idPlayer = @pidPlayer
 	END
 	
 	IF @pMultiServer <> '0'
@@ -6473,7 +6315,7 @@ set xact_abort on
 declare @CHR_MAX int, @LOGGING_MAX int 
 	
 	select @CHR_MAX = max(SEQ) from tblGuildHouse_Furniture (nolock)
-	select @LOGGING_MAX = max(SEQ) from LOGGING_01_DBF.dbo.tblGuildHouse_FurnitureLog
+	select @LOGGING_MAX = max(SEQ) from LOGIN_DBF.dbo.tblGuildHouse_FurnitureLog
 
 	if @CHR_MAX > @LOGGING_MAX 
 		select @CHR_MAX as SEQ
@@ -6566,7 +6408,7 @@ set xact_abort on
 	INSERT INTO tblGuildHouse (serverindex, m_idGuild, dwWorldID, tKeepTime, m_szGuild)
 	select @serverindex, @m_idGuild, @dwWorldId, @tKeepTime, @m_szGuild
 
-	insert into LOGGING_01_DBF.dbo.tblGuildHouseLog (serverindex, m_idGuild, dwWorldID, tKeepTime, m_szGuild)
+	insert into LOGIN_DBF.dbo.tblGuildHouseLog (serverindex, m_idGuild, dwWorldID, tKeepTime, m_szGuild)
 	select @serverindex, @m_idGuild, @dwWorldId, @tKeepTime, @m_szGuild
 GO
 /****** Object:  StoredProcedure [dbo].[usp_GuildHouse_Expired]    Script Date: 04/03/2010 12:42:39 ******/
@@ -6761,25 +6603,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 /****** Object:  Stored Procedure dbo.usp_Campus_Insert    Script Date: 2009-12-01 ?? 2:41:44 ******/
-
-
-/*============================================================
-1. ??? : ???
-2. ??? : 2009.11.20
-3. ???? ? : usp_Campus_Insert
-4. ???? ?? : ?? ??? ??
-5. ????
-	@idCampus		int			: ?? ID
-	@serverindex	char(2)		: ???
-6. ??? 	
-7. ?? ??
-8. ?? ?? ??
-    EXEC usp_Campus_Insert 123, '05'
-9. ?? ? ident ? ???
-	select * from tblCampus
-	delete tblCampus
-============================================================*/
-
 CREATE       proc [dbo].[usp_Campus_Insert]
 
 	@idCampus int, 
@@ -6799,24 +6622,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 /****** Object:  Stored Procedure dbo.usp_Campus_Delete    Script Date: 2009-12-01 ?? 2:41:44 ******/
-
-
-/*============================================================
-1. ??? : ???
-2. ??? : 2009.11.20
-3. ???? ? : usp_Campus_Delete
-4. ???? ?? : ?? ??? ??
-5. ????
-	@idCampus		int			: ?? ID
-	@serverindex	char(2)		: ???
-6. ??? 	
-7. ?? ??
-8. ?? ?? ??
-    EXEC usp_Campus_Delete 123, '05'
-9. ?? ? ident ? ???
-	select * from tblCampus
-	delete tblCampus
-============================================================*/
 
 CREATE       proc [dbo].[usp_Campus_Delete]
 
@@ -6847,13 +6652,13 @@ set nocount on
 
 SELECT a.m_nLevel as m_nLevel, a.m_szName as m_szName, cast(a.m_dwGold as bigint) + cast(b.m_dwGoldBank as bigint) as total,
        a.m_dwGold as m_dwGold, b.m_dwGoldBank as m_dwGoldBank
-FROM   CHARACTER_TBL a, BANK_TBL b
+FROM   CHARACTER_DBF_TBL a, BANK_TBL b
 WHERE  a.serverindex = @serverindex
 	AND    cast(a.m_dwGold as bigint) + cast(b.m_dwGoldBank as bigint) >= @lpenya AND cast(a.m_dwGold as bigint) + cast(b.m_dwGoldBank as bigint) <= @hpenya
 	AND    a.serverindex = b.serverindex AND a.m_idPlayer = b.m_idPlayer
 	AND    a.account not in ( SELECT account 
 				FROM   ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL 
-				WHERE  m_chLoginAuthority <> 'F' ) 
+				WHERE  m_chloginauthority <> 'F' ) 
 ORDER BY cast(a.m_dwGold as bigint) + cast(b.m_dwGoldBank as bigint) DESC
 GO
 /****** Object:  StoredProcedure [dbo].[usp_bbb_level]    Script Date: 04/03/2010 12:42:39 ******/
@@ -6873,13 +6678,13 @@ set nocount on
 
 SELECT a.m_nLevel as m_nLevel, a.m_szName as m_szName, cast(a.m_dwGold as bigint) + cast(b.m_dwGoldBank as bigint) as total,
        a.m_dwGold as m_dwGold, b.m_dwGoldBank as m_dwGoldBank
-FROM   CHARACTER_TBL a, BANK_TBL b
+FROM   CHARACTER_DBF_TBL a, BANK_TBL b
 WHERE  a.serverindex = @serverindex
 	AND    a.m_nLevel >= @llevel AND a.m_nLevel <= @hlevel
 	AND    a.serverindex = b.serverindex AND a.m_idPlayer = b.m_idPlayer
 	AND    a.account not in ( SELECT account 
 				FROM   ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL 
-				WHERE  m_chLoginAuthority <> 'F' ) 
+				WHERE  m_chloginAuthority <> 'F' ) 
 ORDER BY a.m_nLevel DESC
 GO
 /****** Object:  StoredProcedure [dbo].[usp_BankPW_Check]    Script Date: 04/03/2010 12:42:39 ******/
@@ -6887,23 +6692,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-/*============================================================
-1. ??? : ???
-2. ??? : 2009.12.10
-3. ???? ? : usp_BankPW_Check
-4. ???? ?? : BANK ???? ?? 
-5. ????
-	@serverindex	char(2)		: ???
-	@m_idPlayer		char(7)		: ??? ID
-	@BankPW			char(4)		: Bank PW
-6. ??? 	
-	f_check			: 0 - ??, 1 - ???
-7. ?? ??
-8. ?? ?? ??
-    EXEC usp_BankPW_Check '75', '1452296', '0001'
-9. ?? ? ident ? ???
-	select * from BANK_TBL
-============================================================*/
 
 create    proc [dbo].[usp_BankPW_Check] 
 
@@ -6929,26 +6717,6 @@ GO
 SET QUOTED_IDENTIFIER OFF
 GO
 /****** Object:  Stored Procedure dbo.usp_GuildFurniture_Load    Script Date: 2009-12-01 ?? 2:41:44 ******/
-
-
-
-/*============================================================
-1. ??? : ???
-2. ??? : 2009.11.23
-3. ???? ? : usp_GuildFurniture_Load
-4. ???? ?? : ?? ?? ??
-5. ????
-	@serverindex	char(2)		: ???
-	@m_idGuild		char(6)		: ?? ID
-6. ??? 	
-7. ?? ??
-8. ?? ?? ??
-    EXEC usp_GuildFurniture_Load '05', '123456'
-9. ?? ? ident ? ???
-	select * from tblGuildHouse_Furniture
-	delete tblGuildHouse_Furniture
-============================================================*/
-
 create proc [dbo].[usp_GuildFurniture_Load]
 
 	@serverindex char(2),
@@ -6969,26 +6737,6 @@ GO
 SET QUOTED_IDENTIFIER OFF
 GO
 /****** Object:  Stored Procedure dbo.usp_GuildFurniture_Insert    Script Date: 2009-12-01 ?? 2:41:44 ******/
-/*============================================================    
-1. ??? : ???    
-2. ??? : 2009.11.23    
-3. ???? ? : usp_GuildFurniture_Insert    
-4. ???? ?? : ?? ?? ??    
-5. ????    
- @serverindex char(2)  ???    
- @m_idGuild char(6)   ??ID    
- @ItemIndex int    ??? ID    
- @tKeepTime int    ??? ????    
-6. ???      
- SEQ int      ?? SEQ ??    
-7. ?? ??    
-8. ?? ?? ??    
- exec usp_GuildHouse_Insert '01', '123456', 240, 30    
-    EXEC usp_GuildFurniture_Insert '01', '123456', 3, 12345, 30    
-9. ?? ? ident ? ???    
- select * from tblGuildHouse_Furniture    
- delete tblGuildHouse_Furniture    
-============================================================*/    
     
 CREATE proc [dbo].[usp_GuildFurniture_Insert]    
 	@serverindex char(2),     
@@ -7016,22 +6764,6 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-/*============================================================  
-1. ??? : ???  
-2. ??? : 2009.11.23  
-3. ???? ? : usp_GuildFurniture_Delete  
-4. ???? ?? : ?? ?? ??  
-5. ????  
- @serverindex char(2)  : ???  
- @m_idGuild  char(6)  : ?? ID  
-6. ???    
-7. ?? ??  
-8. ?? ?? ??  
-    EXEC usp_GuildFurniture_Delete '05', '123456'  
-9. ?? ? ident ? ???  
- select * from tblGuildHouse_Furniture_Furniture  
- delete tblGuildHouse_Furniture_Furniture  
-============================================================*/  
   
 CREATE   proc [dbo].[usp_GuildFurniture_Delete]  
 	@serverindex char(2),  
@@ -7277,7 +7009,7 @@ end
 begin tran
 declare @s_date datetime, @account varchar(32)
 select @s_date = getdate(), @account = account
-from CHARACTER_TBL (nolock)
+from CHARACTER_DBF_TBL (nolock)
 where serverindex = @serverindex and m_idPlayer = @m_idPlayer
 
 insert into tblFunnyCoin (account, serverindex, m_idPlayer, Item_Name, Item_Cash, Item_UniqueNo, s_date, fid)
@@ -7312,7 +7044,7 @@ set nocount on
 begin tran
 declare @s_date datetime, @account varchar(32)
 select @s_date = getdate(), @account = account
-from CHARACTER_TBL (nolock)
+from CHARACTER_DBF_TBL (nolock)
 where serverindex = @serverindex and m_idPlayer = @m_idPlayer
 
 insert into tblFunnyCoin (account, serverindex, m_idPlayer, Item_Name, Item_Cash, Item_UniqueNo, s_date, fid)
@@ -7419,13 +7151,13 @@ SET NOCOUNT ON
 			DELETE MESSENGER_TBL
 			WHERE m_idPlayer NOT IN
 			(SELECT m_idPlayer 
-				FROM CHARACTER_TBL where serverindex = @iserverindex)
+				FROM CHARACTER_DBF_TBL where serverindex = @iserverindex)
 				and  serverindex = @iserverindex
 
 			DELETE MESSENGER_TBL
 			WHERE f_idPlayer NOT IN
 			(SELECT m_idPlayer 
-				FROM CHARACTER_TBL where serverindex = @iserverindex)
+				FROM CHARACTER_DBF_TBL where serverindex = @iserverindex)
 				and  serverindex = @iserverindex
 
 			DELETE MESSENGER_TBL
@@ -7503,7 +7235,7 @@ SELECT TOP 20 Gu = 'R1',s_date = @currDate,-- m_Title = '????',
 				m_nWinPoint = ISNULL(MAX(A.m_nWinPoint),0),
 				m_nPlayTime = ISNULL(SUM(E.TotalPlayTime),0),
 				CreateTime = MAX(A.CreateTime)
-    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_TBL E
+    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_DBF_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_DBF_TBL E
   WHERE A.m_idGuild = B.m_idGuild
 		AND A.serverindex = E.serverindex
 		AND C.m_idPlayer =  E.m_idPlayer
@@ -7512,7 +7244,7 @@ SELECT TOP 20 Gu = 'R1',s_date = @currDate,-- m_Title = '????',
 		AND A.serverindex = B.serverindex
 		AND B.serverindex = C.serverindex
 		AND C.serverindex = @iserverindex
-		AND D.m_chLoginAuthority ='F'
+		AND D.m_chLOGIN_DBFAuthority ='F'
 		AND C.account = D.account
   GROUP BY B.m_idGuild
 ORDER BY m_nWinPoint DESC,m_nWin DESC
@@ -7554,7 +7286,7 @@ SELECT TOP 20 Gu = 'R2',s_date = @currDate,--m_Title = '???',
 				m_nWinPoint = ISNULL(MAX(A.m_nWinPoint),0),
 				m_nPlayTime = ISNULL(SUM(E.TotalPlayTime),0),
 				CreateTime = MAX(A.CreateTime)
-    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_TBL E
+    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_DBF_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_DBF_TBL E
   WHERE A.m_idGuild = B.m_idGuild
        AND A.serverindex = E.serverindex
 		AND C.m_idPlayer =  E.m_idPlayer
@@ -7563,7 +7295,7 @@ SELECT TOP 20 Gu = 'R2',s_date = @currDate,--m_Title = '???',
 		AND A.serverindex = B.serverindex
 		AND B.serverindex = C.serverindex
 		AND C.serverindex = @iserverindex
-		AND D.m_chLoginAuthority = 'F'
+		AND D.m_chLOGIN_DBFAuthority = 'F'
 		AND C.account = D.account
   GROUP BY B.m_idGuild
 ORDER BY m_nWin DESC,CreateTime
@@ -7605,7 +7337,7 @@ SELECT TOP 20 Gu = 'R3',s_date = @currDate,-- m_Title = '???',
 				m_nWinPoint = ISNULL(MAX(A.m_nWinPoint),0),
 				m_nPlayTime = ISNULL(SUM(E.TotalPlayTime),0),
 				CreateTime = MAX(A.CreateTime)
-    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_TBL E
+    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_DBF_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_DBF_TBL E
   WHERE A.m_idGuild = B.m_idGuild
        AND A.serverindex = E.serverindex
 		AND C.m_idPlayer =  E.m_idPlayer
@@ -7614,7 +7346,7 @@ SELECT TOP 20 Gu = 'R3',s_date = @currDate,-- m_Title = '???',
 		AND A.serverindex = B.serverindex
 		AND B.serverindex = C.serverindex
 		AND C.serverindex = @iserverindex
-		AND D.m_chLoginAuthority = 'F'
+		AND D.m_chLOGIN_DBFAuthority = 'F'
 		AND C.account = D.account
   GROUP BY B.m_idGuild
 ORDER BY m_nLose DESC,m_nSurrender DESC
@@ -7654,7 +7386,7 @@ SELECT TOP 20 Gu = 'R4',s_date = @currDate,-- m_Title = '?????',
 				m_nWinPoint = ISNULL(MAX(A.m_nWinPoint),0),
 				m_nPlayTime = ISNULL(SUM(E.TotalPlayTime),0),
 				CreateTime = MAX(A.CreateTime)
-    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_TBL E
+    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_DBF_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_DBF_TBL E
   WHERE A.m_idGuild = B.m_idGuild
        AND A.serverindex = E.serverindex
 		AND C.m_idPlayer =  E.m_idPlayer
@@ -7663,7 +7395,7 @@ SELECT TOP 20 Gu = 'R4',s_date = @currDate,-- m_Title = '?????',
 		AND A.serverindex = B.serverindex
 		AND B.serverindex = C.serverindex
 		AND C.serverindex = @iserverindex
-		AND D.m_chLoginAuthority = 'F'
+		AND D.m_chLOGIN_DBFAuthority = 'F'
 		AND C.account = D.account
   GROUP BY B.m_idGuild
 ORDER BY m_nSurrender DESC,m_nLose DESC
@@ -7703,7 +7435,7 @@ SELECT TOP 20 Gu = 'R5',s_date = @currDate,-- m_Title = '?????',
 				m_nWinPoint = ISNULL(MAX(A.m_nWinPoint),0),
 				m_nPlayTime = ISNULL(SUM(E.TotalPlayTime),0),
 				CreateTime = MAX(A.CreateTime)
-    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_TBL E
+    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_DBF_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_DBF_TBL E
   WHERE A.m_idGuild = B.m_idGuild
        AND A.serverindex = E.serverindex
 		AND C.m_idPlayer =  E.m_idPlayer
@@ -7712,7 +7444,7 @@ SELECT TOP 20 Gu = 'R5',s_date = @currDate,-- m_Title = '?????',
 		AND A.serverindex = B.serverindex
 		AND B.serverindex = C.serverindex
 		AND C.serverindex = @iserverindex
-		AND D.m_chLoginAuthority = 'F'
+		AND D.m_chLOGIN_DBFAuthority = 'F'
 		AND C.account = D.account
   GROUP BY B.m_idGuild
 ORDER BY m_MaximumUnity DESC,CreateTime
@@ -7754,7 +7486,7 @@ SELECT TOP 20 Gu = 'R6', s_date = @currDate,-- m_Title = '????',
 				m_nWinPoint = ISNULL(MAX(A.m_nWinPoint),0),
 				m_nPlayTime = ISNULL(SUM(E.TotalPlayTime),0),
 				CreateTime = MAX(A.CreateTime)
-    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_TBL E
+    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_DBF_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_DBF_TBL E
   WHERE A.m_idGuild = B.m_idGuild
       	AND A.serverindex = E.serverindex
 		AND C.m_idPlayer =  E.m_idPlayer
@@ -7763,7 +7495,7 @@ SELECT TOP 20 Gu = 'R6', s_date = @currDate,-- m_Title = '????',
 		AND A.serverindex = B.serverindex
 		AND B.serverindex = C.serverindex
 		AND C.serverindex = @iserverindex
-		AND D.m_chLoginAuthority = 'F'
+		AND D.m_chLOGIN_DBFAuthority = 'F'
 		AND C.account = D.account
 	and A.m_nGuildGold > 0
   GROUP BY B.m_idGuild
@@ -7784,7 +7516,7 @@ SELECT TOP 20 Gu = 'R6', s_date = @currDate,-- m_Title = '????',
 				m_nWinPoint = ISNULL(MAX(A.m_nWinPoint),0),
 				m_nPlayTime = ISNULL(SUM(E.TotalPlayTime),0),
 				CreateTime = MAX(A.CreateTime)
-    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_TBL E
+    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_DBF_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_DBF_TBL E
   WHERE A.m_idGuild = B.m_idGuild
       	AND A.serverindex = E.serverindex
 		AND C.m_idPlayer =  E.m_idPlayer
@@ -7793,7 +7525,7 @@ SELECT TOP 20 Gu = 'R6', s_date = @currDate,-- m_Title = '????',
 		AND A.serverindex = B.serverindex
 		AND B.serverindex = C.serverindex
 		AND C.serverindex = @iserverindex
-		AND D.m_chLoginAuthority = 'F'
+		AND D.m_chLOGIN_DBFAuthority = 'F'
 		AND C.account = D.account
 	and A.m_nGuildGold < 0
   GROUP BY B.m_idGuild
@@ -7814,7 +7546,7 @@ order by m_nGuildGold desc, CreateTime
 				m_nWinPoint = ISNULL(MAX(A.m_nWinPoint),0),
 				m_nPlayTime = ISNULL(SUM(E.TotalPlayTime),0),
 				CreateTime = MAX(A.CreateTime)
-    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_TBL E
+    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_DBF_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_DBF_TBL E
   WHERE A.m_idGuild = B.m_idGuild
       	AND A.serverindex = E.serverindex
 		AND C.m_idPlayer =  E.m_idPlayer
@@ -7823,7 +7555,7 @@ order by m_nGuildGold desc, CreateTime
 		AND A.serverindex = B.serverindex
 		AND B.serverindex = C.serverindex
 		AND C.serverindex = @iserverindex
-		AND D.m_chLoginAuthority = 'F'
+		AND D.m_chLOGIN_DBFAuthority = 'F'
 		AND C.account = D.account
   GROUP BY B.m_idGuild
 ORDER BY m_nGuildGold DESC,CreateTime
@@ -7864,7 +7596,7 @@ SELECT TOP 20 Gu = 'R7',s_date = @currDate,-- m_Title = '????',
 				m_nWinPoint = ISNULL(MAX(A.m_nWinPoint),0),
 				m_nPlayTime = ISNULL(SUM(E.TotalPlayTime),0),
 				CreateTime = MAX(A.CreateTime)
-    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_TBL E
+    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_DBF_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_DBF_TBL E
   WHERE A.m_idGuild = B.m_idGuild
        AND A.serverindex = E.serverindex
 		AND C.m_idPlayer =  E.m_idPlayer
@@ -7873,7 +7605,7 @@ SELECT TOP 20 Gu = 'R7',s_date = @currDate,-- m_Title = '????',
 		AND A.serverindex = B.serverindex
 		AND B.serverindex = C.serverindex
 		AND C.serverindex = @iserverindex
-		AND D.m_chLoginAuthority = 'F'
+		AND D.m_chLOGIN_DBFAuthority = 'F'
 		AND C.account = D.account
   GROUP BY B.m_idGuild
 ORDER BY m_AvgLevel DESC,CreateTime
@@ -7913,7 +7645,7 @@ SELECT TOP 20 Gu = 'R8',s_date = @currDate,-- m_Title = '????',
 				m_nWinPoint = ISNULL(MAX(A.m_nWinPoint),0),
 				m_nPlayTime = ISNULL(SUM(E.TotalPlayTime),0),
 				CreateTime = MAX(A.CreateTime)
-    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_TBL E
+    FROM GUILD_TBL A,GUILD_MEMBER_TBL B,CHARACTER_DBF_TBL C,ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL D,CHARACTER_DBF_TBL E
   WHERE A.m_idGuild = B.m_idGuild
       	AND C.serverindex = E.serverindex
 		AND C.m_idPlayer =  E.m_idPlayer
@@ -7922,7 +7654,7 @@ SELECT TOP 20 Gu = 'R8',s_date = @currDate,-- m_Title = '????',
 		AND A.serverindex = B.serverindex
 		AND B.serverindex = C.serverindex
 		AND C.serverindex = @iserverindex
-		AND D.m_chLoginAuthority = 'F'
+		AND D.m_chLOGIN_DBFAuthority = 'F'
 		AND C.account = D.account
   GROUP BY B.m_idGuild
 ORDER BY m_nPlayTime DESC,CreateTime
@@ -7950,7 +7682,7 @@ create table #temp (id int identity(1,1),m_idPlayer char(7),serverindex char(2),
 insert #temp
 (m_idPlayer,serverindex,m_lpQuestCntArray )
 select m_idPlayer,serverindex,m_lpQuestCntArray 
-from CHARACTER_TBL 
+from CHARACTER_DBF_TBL 
 --where m_lpQuestCntArray <> '$'
 order by m_idPlayer,serverindex
 
@@ -8393,7 +8125,7 @@ IF @iGu = 'S2'
 		SELECT 	A.m_idPlayer,A.serverindex,A.m_idGuild,A.m_szAlias,A.m_nWin,A.m_nLose,A.m_nSurrender,
 						A.m_nMemberLv,A.m_nClass,A.m_nGiveGold,A.m_nGivePxp,B.m_nJob,B.m_nLevel,B.m_dwSex,
 						m_idWar=ISNULL(A.m_idWar,0),m_idVote=ISNULL(A.m_idVote,0)
-		   FROM GUILD_MEMBER_TBL A, CHARACTER_TBL B
+		   FROM GUILD_MEMBER_TBL A, CHARACTER_DBF_TBL B
 		 WHERE A.m_idPlayer = B.m_idPlayer
 		      AND A.serverindex = B.serverindex
 				AND B.serverindex = @iserverindex
@@ -8789,12 +8521,12 @@ ELSE
 IF @iGu = 'D1'
 	BEGIN
 		
-			UPDATE CHARACTER_TBL
+			UPDATE CHARACTER_DBF_TBL
 	         	SET m_tGuildMember = CONVERT(CHAR(8),DATEADD(d,2,GETDATE()),112) 
 										+ RIGHT('00' + CONVERT(VARCHAR(2),DATEPART(hh,DATEADD(d,2,GETDATE()))),2) 
 										+ RIGHT('00' + CONVERT(VARCHAR(2),DATEPART(mi,DATEADD(d,2,GETDATE()))),2) 
 										+ RIGHT('00' + CONVERT(VARCHAR(2),DATEPART(ss,DATEADD(d,2,GETDATE()))),2)
-				FROM CHARACTER_TBL A,GUILD_MEMBER_TBL B
+				FROM CHARACTER_DBF_TBL A,GUILD_MEMBER_TBL B
 			 WHERE A.m_idPlayer = B.m_idPlayer
 					AND B.m_idGuild = @im_idGuild
 					AND A.serverindex = B.serverindex
@@ -8860,7 +8592,7 @@ ELSE
 IF @iGu = 'D2'
 	BEGIN
 
-		UPDATE CHARACTER_TBL
+		UPDATE CHARACTER_DBF_TBL
          	SET m_tGuildMember = CONVERT(CHAR(8),DATEADD(d,2,GETDATE()),112) 
 									+ RIGHT('00' + CONVERT(VARCHAR(2),DATEPART(hh,DATEADD(d,2,GETDATE()))),2) 
 									+ RIGHT('00' + CONVERT(VARCHAR(2),DATEPART(mi,DATEADD(d,2,GETDATE()))),2) 
@@ -9288,26 +9020,26 @@ IF @iGu = 'D1'
 */
 set nocount off
 GO
-/****** Object:  StoredProcedure [dbo].[DEL_FALSE_CHARACTER_STR]    Script Date: 04/03/2010 12:42:39 ******/
+/****** Object:  StoredProcedure [dbo].[DEL_FALSE_CHARACTER_DBF_STR]    Script Date: 04/03/2010 12:42:39 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE   PROC [dbo].[DEL_FALSE_CHARACTER_STR]
+CREATE   PROC [dbo].[DEL_FALSE_CHARACTER_DBF_STR]
 @serverindex char(2) = '01'
 AS
-UPDATE CHARACTER_TBL
+UPDATE CHARACTER_DBF_TBL
 SET isblock = 'D'
- --select m_idPlayer,TotalPlayTime  from CHARACTER_TBL
+ --select m_idPlayer,TotalPlayTime  from CHARACTER_DBF_TBL
   where m_idPlayer in (
 			select x.m_idPlayer
 			from 
 			(
 				select a.m_idPlayer 
-				  from CHARACTER_TBL a,
+				  from CHARACTER_DBF_TBL a,
 					     (
 	                          select account, playerslot
-					        from CHARACTER_TBL 
+					        from CHARACTER_DBF_TBL 
 					      where isblock='F'
 							and serverindex =@serverindex
 					       group by account,playerslot 
@@ -9319,7 +9051,7 @@ SET isblock = 'D'
 				    and a.isblock = 'F'
 			) x
 			where x.m_idPlayer NOT IN(  select m_idPlayer = min(m_idPlayer) 
-													   from CHARACTER_TBL
+													   from CHARACTER_DBF_TBL
 													 where isblock='F'
 														  and serverindex =@serverindex
 													   group by account,playerslot 
@@ -9463,7 +9195,7 @@ IF 	@iGu = 'A1'
 		ELSE
 			BEGIN
 
-			UPDATE CHARACTER_TBL SET m_idCompany = @im_idCompany WHERE m_idPlayer = @im_leaderid AND  serverindex = @iserverindex 
+			UPDATE CHARACTER_DBF_TBL SET m_idCompany = @im_idCompany WHERE m_idPlayer = @im_leaderid AND  serverindex = @iserverindex 
 			INSERT COMPANY_TBL
 				(m_idCompany,serverindex,m_szCompany,m_leaderid,isuse)
 			VALUES
@@ -9486,7 +9218,7 @@ IF 	@iGu = 'A1'
 ELSE
 IF	@iGu = 'A2'
 	BEGIN
-		UPDATE  CHARACTER_TBL
+		UPDATE  CHARACTER_DBF_TBL
 			   SET m_idCompany = @im_idCompany
 		 WHERE m_idPlayer = @im_leaderid
 		      AND serverindex = @iserverindex
@@ -9530,7 +9262,7 @@ IF @iGu = 'D1'
 		WHERE m_idCompany = @im_idCompany
 		    AND serverindex = @iserverindex
 
-		UPDATE CHARACTER_TBL
+		UPDATE CHARACTER_DBF_TBL
 			SET m_idCompany = '000000'
 		WHERE m_idCompany = @im_idCompany
 		    AND serverindex = @iserverindex
@@ -9549,7 +9281,7 @@ IF @iGu = 'D1'
 ELSE
 IF @iGu = 'D2'
 	BEGIN
-		UPDATE CHARACTER_TBL
+		UPDATE CHARACTER_DBF_TBL
 			SET  m_idCompany = '000000'
 		WHERE m_idPlayer = @im_idCompany
 		    AND serverindex = @iserverindex
@@ -9658,24 +9390,24 @@ IF 	@iGu = 'U'
 
 */
 GO
-USE [CHARACTER_01_DBF]
+USE [CHARACTER_DBF]
 GO
 
-/****** Object:  StoredProcedure [dbo].[CHARACTER_STR]    Script Date: 11.06.2014 13:17:39 ******/
+/****** Object:  StoredProcedure [dbo].[CHARACTER_DBF_STR]    Script Date: 11.06.2014 13:17:39 ******/
 SET ANSI_NULLS ON
 GO
 
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE proc [dbo].[CHARACTER_STR]
+CREATE proc [dbo].[CHARACTER_DBF_STR]
 	@iGu        		  				CHAR(2) 			= 'S1', 
 	@im_idPlayer   				CHAR(7) 			= '0000001',
 	@iserverindex  				CHAR(2) 			= '01',
 	/**********************************************
 	 INSERT ¢¯e
 	**********************************************/
-	-- CHARACTER_TBL
+	-- CHARACTER_DBF_TBL
 	@iaccount 						VARCHAR(32)	= '',
 	@im_szName 				VARCHAR(32)	= '',
 	@iplayerslot 					INT						= 0,
@@ -9684,7 +9416,7 @@ CREATE proc [dbo].[CHARACTER_STR]
 	@im_vPos_x 					REAL 					= 0,
 	@im_vPos_y 					REAL 					= 0,
 	@im_vPos_z 					REAL 					= 0,
-	@im_szCharacterKey 	VARCHAR(32)	= '',
+	@im_szCHARACTER_DBFKey 	VARCHAR(32)	= '',
 	@im_dwSkinSet 			INT						= 0,
 	@im_dwHairMesh 		INT						= 0,
 	@im_dwHairColor 		INT						= 0,
@@ -9693,7 +9425,7 @@ CREATE proc [dbo].[CHARACTER_STR]
 	/**********************************************
 	 UPDATE ¢¯e
 	**********************************************/
-	-- CHARACTER_TBL
+	-- CHARACTER_DBF_TBL
 	@im_vScale_x				REAL					=	0,
 	@im_dwMotion				INT						=	0,
 	@im_fAngle					REAL					=	0,
@@ -9818,8 +9550,8 @@ CREATE proc [dbo].[CHARACTER_STR]
 
 2005.04.11 updated
 
-ALTER TABLE  CHARACTER_TBL  ADD   m_aCompleteQuest  varchar(1024) NULL
-ALTER TABLE CHARACTER_TBL  ALTER COLUMN   m_lpQuestCntArray	VARCHAR(3072) NULL
+ALTER TABLE  CHARACTER_DBF_TBL  ADD   m_aCompleteQuest  varchar(1024) NULL
+ALTER TABLE CHARACTER_DBF_TBL  ALTER COLUMN   m_lpQuestCntArray	VARCHAR(3072) NULL
 
 *******************************************************/
 AS
@@ -9827,7 +9559,7 @@ set nocount on
 declare @last_connect tinyint
 set @last_connect = 1
 
-DECLARE @om_chLoginAuthority CHAR(1),@oaccount VARCHAR(32),@oplayerslot INT
+DECLARE @om_chLOGIN_DBFAuthority CHAR(1),@oaccount VARCHAR(32),@oplayerslot INT
 
 IF @iGu = 'S2' -- ¨ö¨ö¡¤O¢¯¢® ¥ìu¢¬¡Í CA¡¤©öAI¨úi¢¬¢ç¨ö¨¬¨¡¢ç AI¨¬¡ÍAa¢¬¢çA¢´¨¬¢¬  ¡Æ¢®A¢ç¢¯A¡¾a
 	BEGIN
@@ -9839,7 +9571,7 @@ IF @iGu = 'S2' -- ¨ö¨ö¡¤O¢¯¢® ¥ìu¢¬¡Í CA¡¤©öAI¨úi¢¬¢ç�
 
 		select playerslot,max(m_idPlayer) as m_idplayer
 		into #temp_realPlayerslot
-		from dbo.CHARACTER_TBL A
+		from dbo.CHARACTER_DBF_TBL A
 		where A.isblock = 'F' AND A.account = @iaccount AND A.serverindex = @iserverindex  
 		group by playerslot
 
@@ -9880,7 +9612,7 @@ IF @iGu = 'S2' -- ¨ö¨ö¡¤O¢¯¢® ¥ìu¢¬¡Í CA¡¤©öAI¨úi¢¬¢ç�
 							------------- ver. 13
 							A.m_nHonor,
 							last_connect = @last_connect
-			FROM CHARACTER_TBL as A 
+			FROM CHARACTER_DBF_TBL as A 
 				inner join INVENTORY_TBL as B on A.m_idPlayer = B.m_idPlayer and A.serverindex = B.serverindex
 				inner join INVENTORY_EXT_TBL as D on B.serverindex = D.serverindex and B.m_idPlayer = D.m_idPlayer
 				inner join #temp_realPlayerslot as ttt on A.m_idPlayer = ttt.m_idPlayer AND A.playerslot= ttt.playerslot
@@ -9890,9 +9622,9 @@ IF @iGu = 'S2' -- ¨ö¨ö¡¤O¢¯¢® ¥ìu¢¬¡Í CA¡¤©öAI¨úi¢¬¢ç�
 				AND A.serverindex = @iserverindex
 			ORDER BY A.playerslot
 
-insert into CHARACTER_TBL_penya_check (account, m_szName, m_dwGold, check_sec, serverindex)
+insert into CHARACTER_DBF_TBL_penya_check (account, m_szName, m_dwGold, check_sec, serverindex)
 select @iaccount, m_szName, m_dwGold, 9, @iserverindex
-from CHARACTER_TBL (nolock)
+from CHARACTER_DBF_TBL (nolock)
 where account = @iaccount and serverindex = @iserverindex and TotalPlayTime < 1 and m_dwGold >= 1
 
 				RETURN
@@ -9901,8 +9633,8 @@ where account = @iaccount and serverindex = @iserverindex and TotalPlayTime < 1 
 	
 	 ¨ö¨ö¡¤O¢¯¢® ¥ìu¢¬¡Í CA¡¤©öAI¨úi¢¬¢ç¨ö¨¬¨¡¢ç AI¨¬¡ÍAa¢¬¢çA¢´¨¬¢¬  ¡Æ¢®A¢ç¢¯A¡¾a
 	 ex ) 
-	 CHARACTER_STR 'S2',@im_idPlayer (iMode),@iserverindex,@iaccount,@im_szName (iPassword)
-	 CHARACTER_STR 'S2','0','02','seghope','1234'
+	 CHARACTER_DBF_STR 'S2',@im_idPlayer (iMode),@iserverindex,@iaccount,@im_szName (iPassword)
+	 CHARACTER_DBF_STR 'S2','0','02','seghope','1234'
 
 
 */
@@ -9911,7 +9643,7 @@ ELSE
 IF @iGu = 'S3' -- ¨ù¡©©öo¡Æ¢® A©øA¨ö¨öCCaA¡í CO¢¥e A©ø¢¬?AIAC idPlayer¢¬| ¢¥U ¡Æ¢®Ao¡Æi¢¯E
 	BEGIN
 		 SELECT m_szName, m_idPlayer,m_idCompany
-			FROM CHARACTER_TBL 
+			FROM CHARACTER_DBF_TBL 
 		 WHERE serverindex = @iserverindex 
 --			  AND  isblock = 'F'
 		 ORDER BY m_idPlayer
@@ -9921,8 +9653,8 @@ IF @iGu = 'S3' -- ¨ù¡©©öo¡Æ¢® A©øA¨ö¨öCCaA¡í CO¢¥e A©ø¢¬
 	
 	 ¨ù¡©©öo¡Æ¢® A©øA¨ö¨öCCaA¡í CO¢¥e A©ø¢¬?AIAC idPlayer¢¬| ¢¥U ¡Æ¢®Ao¡Æi¢¯E
 	 ex ) 
-	 CHARACTER_STR 'S3','',@iserverindex
-	 CHARACTER_STR 'S3','','01'
+	 CHARACTER_DBF_STR 'S3','',@iserverindex
+	 CHARACTER_DBF_STR 'S3','','01'
 
 
 
@@ -9954,8 +9686,8 @@ IF @iGu = 'S4' -- A©¬¡Æ¢®CO ¨ú¨¡AIAU E¢çAI
 
 	 ¨ú¨¡AIAU E¢çAI
 	 ex ) 
-	 CHARACTER_STR 'S4',@im_idPlayer,@iserverindex
-	 CHARACTER_STR 'S4','000001','01'
+	 CHARACTER_DBF_STR 'S4',@im_idPlayer,@iserverindex
+	 CHARACTER_DBF_STR 'S4','000001','01'
 
 */
 
@@ -9975,8 +9707,8 @@ IF @iGu = 'S5' -- ¨ú¨¡AIAU Ao¡¾¨­EA A¡¿AI¨¬i¢¯¢®¨ù¡© ¨ú¨�
 	
 	 ¨ú¨¡AIAU Ao¡¾¨­EA A¡¿AI¨¬i¢¯¢®¨ù¡© ¨ú¨¡AIAU ¡íeA|
 	 ex ) 
-	 CHARACTER_STR 'S5',@im_idPlayer,@iserverindex,@iaccount
-	 CHARACTER_STR 'S5','000001','01','¨¬©ªAU¡¤c',1,1
+	 CHARACTER_DBF_STR 'S5',@im_idPlayer,@iserverindex,@iaccount
+	 CHARACTER_DBF_STR 'S5','000001','01','¨¬©ªAU¡¤c',1,1
 */
 
 ELSE
@@ -9999,8 +9731,8 @@ IF @iGu = 'S6' -- ¡íeA|CO ¨ú¨¡AIAU E¢çAI
 /*
 	¨ú¨¡AIAU E¢çAI
 	ex )
-	 CHARACTER_STR 'S6',@im_idPlayer,@iserverindex
-	 CHARACTER_STR 'S6','000001','01'
+	 CHARACTER_DBF_STR 'S6',@im_idPlayer,@iserverindex
+	 CHARACTER_DBF_STR 'S6','000001','01'
 */	
 
 ELSE
@@ -10019,20 +9751,20 @@ IF @iGu = 'S7' -- ¨ú¨¡AIAU ¡íeA|EA A¡¿AI¨¬i¢¯¢®¨ù¡© ¨ú¨¡AI
 /*
 	 ¨ú¨¡AIAU Ao¡¾¨­EA A¡¿AI¨¬i¢¯¢®¨ù¡© ¨ú¨¡AIAU ¡íeA|
 	 ex ) 
-	 CHARACTER_STR 'S7',@im_idPlayer,@iserverindex,@iaccount
-	 CHARACTER_STR 'S7','000001','01','¨¬©ªAU¡¤c',1,1
+	 CHARACTER_DBF_STR 'S7',@im_idPlayer,@iserverindex,@iaccount
+	 CHARACTER_DBF_STR 'S7','000001','01','¨¬©ªAU¡¤c',1,1
 */
 
 IF @iGu = 'S8' -- ¥ì¡ÍAIAI AuA¨ù ¡Æ¢®A¢ç¢¯A¡¾a
 	BEGIN
 
-				-- ©ö©£A¨Ï A¢´¨¬¢¬ ¡Æ¢®A¢ç¢¯A¡¾a character ¨¬¡Æ
+				-- ©ö©£A¨Ï A¢´¨¬¢¬ ¡Æ¢®A¢ç¢¯A¡¾a CHARACTER_DBF ¨¬¡Æ
 
-				SELECT @om_chLoginAuthority = m_chLoginAuthority
+				SELECT @om_chLOGIN_DBFAuthority = m_chLOGIN_DBFAuthority
 				  FROM  ACCOUNT_DBF.dbo.ACCOUNT_TBL_DETAIL 
 				WHERE account   = @iaccount
 				
-				SELECT	m_chLoginAuthority = @om_chLoginAuthority,
+				SELECT	m_chLOGIN_DBFAuthority = @om_chLOGIN_DBFAuthority,
 								A.account,
 								A.m_idPlayer,
 								A.playerslot,
@@ -10046,7 +9778,7 @@ IF @iGu = 'S8' -- ¥ì¡ÍAIAI AuA¨ù ¡Æ¢®A¢ç¢¯A¡¾a
 								A.m_vPos_y,
 								A.m_vPos_z,
 								A.m_fAngle,
-								A.m_szCharacterKey,
+								A.m_szCHARACTER_DBFKey,
 								A.m_idPlayer,
 								A.m_nHitPoint,
 								A.m_nManaPoint,
@@ -10151,7 +9883,7 @@ IF @iGu = 'S8' -- ¥ì¡ÍAIAI AuA¨ù ¡Æ¢®A¢ç¢¯A¡¾a
 								, A.idCampus
 								, isnull(R.m_nRestPoint, 0) m_nRestPoint
 								, isnull(R.m_LogOutTime, 0) m_LogOutTime
-			FROM CHARACTER_TBL A 
+			FROM CHARACTER_DBF_TBL A 
 					inner join TASKBAR_TBL B on A.m_idPlayer   = B.m_idPlayer and A.serverindex  = B.serverindex
 					inner join TASKBAR_ITEM_TBL C on B.m_idPlayer   = C.m_idPlayer and B.serverindex  = C.serverindex
 					inner join INVENTORY_TBL D on C.m_idPlayer   = D.m_idPlayer and C.serverindex  = D.serverindex
@@ -10164,16 +9896,16 @@ IF @iGu = 'S8' -- ¥ì¡ÍAIAI AuA¨ù ¡Æ¢®A¢ç¢¯A¡¾a
 					AND A.serverindex = @iserverindex
 					AND A.account = lower(@iaccount)
 
-insert into CHARACTER_TBL_validity_check (m_idPlayer, serverindex, account, m_szName, TotalPlayTime, m_dwGold, m_nLevel, m_nJob, sum_ability, CreateTime)
+insert into CHARACTER_DBF_TBL_validity_check (m_idPlayer, serverindex, account, m_szName, TotalPlayTime, m_dwGold, m_nLevel, m_nJob, sum_ability, CreateTime)
 select m_idPlayer, serverindex, account, m_szName, TotalPlayTime, m_dwGold, m_nLevel, m_nJob, (m_nStr + m_nSta + m_nDex + m_nInt), CreateTime
-from CHARACTER_TBL (nolock)
+from CHARACTER_DBF_TBL (nolock)
 where m_idPlayer = @im_idPlayer and TotalPlayTime <= 1
 	and (m_dwGold >= 1 or m_nLevel >= 2 or m_nJob >= 1 or (m_nStr + m_nSta + m_nDex + m_nInt) > 60)
 
 
 declare @m_dwGold_old bigint, @m_dwGold_now bigint
 select @m_dwGold_old = m_dwGold from tblLogout_Penya (nolock) where m_idPlayer = @im_idPlayer
-select @m_dwGold_now = m_dwGold from CHARACTER_TBL (nolock) where serverindex = @iserverindex and m_idPlayer = @im_idPlayer
+select @m_dwGold_now = m_dwGold from CHARACTER_DBF_TBL (nolock) where serverindex = @iserverindex and m_idPlayer = @im_idPlayer
 if (@m_dwGold_old <> @m_dwGold_now)
 begin
 	insert into tblLogout_Penya_Diff_Log (serverindex, m_idPlayer, m_dwGold_old, regdate_old, m_dwGold_now)
@@ -10189,7 +9921,7 @@ end
 -- 				INSERT @bank
 -- 				(m_idPlayer,serverindex,playerslot)
 --               SELECT m_idPlayer,serverindex,playerslot 
---               FROM CHARACTER_TBL 
+--               FROM CHARACTER_DBF_TBL 
 --               WHERE account = @iaccount 
 --               AND isblock = 'F'
 --               ORDER BY playerslot
@@ -10206,7 +9938,7 @@ end
 								,b.szBankPet
 				   FROM 	dbo.BANK_TBL a,
                             dbo.BANK_EXT_TBL b,	
-                            dbo.CHARACTER_TBL  c
+                            dbo.CHARACTER_DBF_TBL  c
                WHERE 	a.m_idPlayer = b.m_idPlayer
                     AND a.serverindex = b.serverindex
                     AND b.m_idPlayer = c.m_idPlayer
@@ -10236,13 +9968,13 @@ end
 	
 	 ¥ì¡ÍAIAI AuA¨ù ¡Æ¢®A¢ç¢¯A¡¾a New
 	 ex ) 
-	 CHARACTER_STR 'S8',@im_idPlayer,@iserverindex,@iaccount
-	 CHARACTER_STR 'S8','425120','01','ata3k'
+	 CHARACTER_DBF_STR 'S8',@im_idPlayer,@iserverindex,@iaccount
+	 CHARACTER_DBF_STR 'S8','425120','01','ata3k'
 */
 ELSE
 IF @iGu = 'U1' -- A©ø¢¬?AI AuAa
 	BEGIN
-		UPDATE CHARACTER_TBL
+		UPDATE CHARACTER_DBF_TBL
 		      SET	dwWorldID 				= @idwWorldID,
 						m_dwIndex 				= @im_dwIndex,			
 						m_dwSex	 				= @im_dwSex,
@@ -10255,7 +9987,7 @@ IF @iGu = 'U1' -- A©ø¢¬?AI AuAa
 						m_dwHairColor	    	= @im_dwHairColor,
 						m_dwHeadMesh	   	= @im_dwHeadMesh,  -- 2004/11/08   A©¬¡Æ¢®  
 						m_fAngle 					= 0, --@im_fAngle,
-						m_szCharacterKey 	= @im_szCharacterKey,
+						m_szCHARACTER_DBFKey 	= @im_szCHARACTER_DBFKey,
 						m_nHitPoint 				= @im_nHitPoint,
 						m_nManaPoint 			= @im_nManaPoint,
 						m_nFatiguePoint 		= @im_nFatiguePoint,
@@ -10342,7 +10074,7 @@ set m_dwGold = @im_dwGold, regdate = getdate()
 where m_idPlayer = @im_idPlayer and serverindex = @iserverindex
 
 		IF @im_nLevel>=120 BEGIN
-			UPDATE 	CHARACTER_TBL 
+			UPDATE 	CHARACTER_DBF_TBL 
 				SET FinalLevelDt=getdate() 
 			WHERE 	serverindex=@iserverindex 
 				AND m_idPlayer=@im_idPlayer 
@@ -10438,14 +10170,14 @@ where m_idPlayer = @im_idPlayer and serverindex = @iserverindex
 	
 	A¢´¨¬¢¬¨ú¡À¥ì¡ÍAI¨¡¢ç
 	 ex ) 
-	 CHARACTER_STR 'C1', ALL ...
-	 CHARACTER_STR 'C1','000001','01' ...
+	 CHARACTER_DBF_STR 'C1', ALL ...
+	 CHARACTER_DBF_STR 'C1','000001','01' ...
 */
 
 ELSE
 IF @iGu = 'U2' --AN AI¢¯e¨öA¡Æ¡Ì ¨ùoA¢´
 	BEGIN
-		UPDATE CHARACTER_TBL
+		UPDATE CHARACTER_DBF_TBL
 		      SET	TotalPlayTime 			= TotalPlayTime + @iplayerslot 
 		 WHERE	m_szName  				= @im_szName 	
 			  AND 	serverindex 				= @iserverindex
@@ -10455,14 +10187,14 @@ IF @iGu = 'U2' --AN AI¢¯e¨öA¡Æ¡Ì ¨ùoA¢´
 
 	AN AI¢¯e¨öA¡Æ¡Ì ¨ùoA¢´
 	 ex ) 
-	 CHARACTER_STR 'U2','',@iserverindex,'',@im_szName,@iplayerslot (@iTotalPlayTime)
-	 CHARACTER_STR 'U2','','01','','beat',10234
+	 CHARACTER_DBF_STR 'U2','',@iserverindex,'',@im_szName,@iplayerslot (@iTotalPlayTime)
+	 CHARACTER_DBF_STR 'U2','','01','','beat',10234
 */
 
 ELSE
 IF @iGu = 'U3' --AN AI¢¯e¨öA¡Æ¡Ì ¨ùoA¢´ new
 	BEGIN
-		UPDATE CHARACTER_TBL
+		UPDATE CHARACTER_DBF_TBL
 		      SET	TotalPlayTime 			= TotalPlayTime + @iplayerslot 
 		 WHERE 	m_idPlayer   				= @im_idPlayer 	
 			  AND 	serverindex 				= @iserverindex
@@ -10472,20 +10204,20 @@ IF @iGu = 'U3' --AN AI¢¯e¨öA¡Æ¡Ì ¨ùoA¢´ new
 
 	AN AI¢¯e¨öA¡Æ¡Ì ¨ùoA¢´ (new)
 	 ex ) 
-	 CHARACTER_STR 'U3',@im_idPlayer,@iserverindex,'','',@iplayerslot (@iTotalPlayTime)
-	 CHARACTER_STR 'U3','000001','01','','',10234
+	 CHARACTER_DBF_STR 'U3',@im_idPlayer,@iserverindex,'','',@iplayerslot (@iTotalPlayTime)
+	 CHARACTER_DBF_STR 'U3','000001','01','','',10234
 */
 
 ELSE
 IF @iGu = 'U4' --A©ø¢¬?AI ¢¬i ¨¬?¡Æ©¡
 	BEGIN
-		IF EXISTS(SELECT m_idPlayer FROM CHARACTER_TBL WHERE m_szName  = @im_szName  AND serverindex	= @iserverindex)
+		IF EXISTS(SELECT m_idPlayer FROM CHARACTER_DBF_TBL WHERE m_szName  = @im_szName  AND serverindex	= @iserverindex)
 			BEGIN
 				SELECT fError = '0'
 			END
 		ELSE
 			BEGIN
-				UPDATE CHARACTER_TBL
+				UPDATE CHARACTER_DBF_TBL
 				      SET	m_szName			= @im_szName
 				 WHERE 	m_idPlayer   				= @im_idPlayer 	
 					  AND 	serverindex 				= @iserverindex
@@ -10499,16 +10231,16 @@ IF @iGu = 'U4' --A©ø¢¬?AI ¢¬i ¨¬?¡Æ©¡
 ELSE
 IF @iGu = 'U5' --¡ícA| ¨¡¡ÀAI¨¡¢ç ¨ú¡À¥ì¡ÍAI¨¡¢ç A©¬¡Æ¢®
 	BEGIN
-		IF EXISTS(SELECT m_idPlayer FROM CHARACTER_TBL WHERE m_idPlayer = @im_idPlayer AND serverindex	= @iserverindex)
+		IF EXISTS(SELECT m_idPlayer FROM CHARACTER_DBF_TBL WHERE m_idPlayer = @im_idPlayer AND serverindex	= @iserverindex)
 			BEGIN
-				UPDATE CHARACTER_TBL
+				UPDATE CHARACTER_DBF_TBL
 				      SET	m_nCampusPoint			= m_nCampusPoint + @iplayerslot
 				 WHERE 	m_idPlayer   				= @im_idPlayer 	
 					  AND 	serverindex 				= @iserverindex
 
 				declare @u5m_nCampusPoint int
 
-				select @u5m_nCampusPoint = m_nCampusPoint from CHARACTER_TBL (nolock) WHERE  m_idPlayer = @im_idPlayer AND serverindex	= @iserverindex
+				select @u5m_nCampusPoint = m_nCampusPoint from CHARACTER_DBF_TBL (nolock) WHERE  m_idPlayer = @im_idPlayer AND serverindex	= @iserverindex
 				SELECT fError = '1', @u5m_nCampusPoint  m_nCampusPoint
 			END
 		ELSE
@@ -10517,9 +10249,9 @@ IF @iGu = 'U5' --¡ícA| ¨¡¡ÀAI¨¡¢ç ¨ú¡À¥ì¡ÍAI¨¡¢ç A©¬¡Æ
 ELSE
 IF @iGu = 'U6' -- ¡ícA| ID ¨ú¡À¥ì¡ÍAI¨¡¢ç A©¬¡Æ¢®
 	BEGIN
-		IF EXISTS(SELECT m_idPlayer FROM CHARACTER_TBL WHERE  m_idPlayer = @im_idPlayer AND serverindex	= @iserverindex)
+		IF EXISTS(SELECT m_idPlayer FROM CHARACTER_DBF_TBL WHERE  m_idPlayer = @im_idPlayer AND serverindex	= @iserverindex)
 			BEGIN
-				UPDATE CHARACTER_TBL
+				UPDATE CHARACTER_DBF_TBL
 				      SET	idCampus			= @iplayerslot
 				 WHERE 	m_idPlayer   				= @im_idPlayer 	
 					  AND 	serverindex 				= @iserverindex
@@ -10537,8 +10269,8 @@ IF @iGu = 'U6' -- ¡ícA| ID ¨ú¡À¥ì¡ÍAI¨¡¢ç A©¬¡Æ¢®
 
 	A©ø¢¬?AI ¢¬i ¨¬?¡Æ©¡
 	 ex ) 
-	 CHARACTER_STR 'U4',@im_idPlayer,@iserverindex,@iaccount,@im_szName
-	 CHARACTER_STR 'U4','000001','01','','¡íu¨¬¡Æ¡Æ©ªAO'
+	 CHARACTER_DBF_STR 'U4',@im_idPlayer,@iserverindex,@iaccount,@im_szName
+	 CHARACTER_DBF_STR 'U4','000001','01','','¡íu¨¬¡Æ¡Æ©ªAO'
 */
 ELSE
 IF @iGu = 'D1' -- A©ø¢¬?AI ¡íeA|
@@ -10548,7 +10280,7 @@ IF @iGu = 'D1' -- A©ø¢¬?AI ¡íeA|
 			SELECT fError = '1', fText = '2A¡À ¨¬n©ö¨¢©ö©ªE¡Ì ¨¡©÷¢¬©÷'
 			RETURN
 		END
-			if not exists (select * from CHARACTER_TBL where m_idPlayer = @im_idPlayer and account = @iaccount and serverindex = @iserverindex)
+			if not exists (select * from CHARACTER_DBF_TBL where m_idPlayer = @im_idPlayer and account = @iaccount and serverindex = @iserverindex)
 			begin
 				select fError = '1'
 				return
@@ -10589,7 +10321,7 @@ set @Exists = 1
 						END
 					ELSE
 						BEGIN
-						UPDATE CHARACTER_TBL
+						UPDATE CHARACTER_DBF_TBL
 							  SET isblock 						= 'D',
 									  End_Time						= @currDate ,	
 									  BlockTime					= LEFT(@currDate,8)
@@ -10632,8 +10364,8 @@ set @Exists = 1
 
 	A©ø¢¬?AI ¡íeA|
 	 ex ) 
-	 CHARACTER_STR 'D1',@im_idPlayer,@iserverindex,@iaccount (isblock)
-	 CHARACTER_STR 'D1','001068','01','ata3k','1019311'
+	 CHARACTER_DBF_STR 'D1',@im_idPlayer,@iserverindex,@iaccount (isblock)
+	 CHARACTER_DBF_STR 'D1','001068','01','ata3k','1019311'
 
 */
 
@@ -10641,7 +10373,7 @@ ELSE
 IF @iGu = 'I1' -- AE¡¾a A¢´¨¬¢¬ AO¡¤A
 	BEGIN
 
-	IF (SELECT COUNT(*) AS [Count] FROM [CHARACTER_TBL] WHERE [account] = @iaccount AND [isblock] = 'F' AND [playerslot] = @iplayerslot AND [serverindex] = @iserverindex) > 0
+	IF (SELECT COUNT(*) AS [Count] FROM [CHARACTER_DBF_TBL] WHERE [account] = @iaccount AND [isblock] = 'F' AND [playerslot] = @iplayerslot AND [serverindex] = @iserverindex) > 0
 		BEGIN
 			SELECT fError = '0', fText = 'Can not overwrite player!'
 			RETURN
@@ -10649,14 +10381,14 @@ IF @iGu = 'I1' -- AE¡¾a A¢´¨¬¢¬ AO¡¤A
 
 	-- 20100218 ¡íy¨ù¨¬ A©ø¢¬?AI 3¡Æ©ø AE¡Æu ¨öA
 	declare @i1_cnt int
-	select @i1_cnt = count(*) from CHARACTER_TBL where account = @iaccount and isblock = 'F'
+	select @i1_cnt = count(*) from CHARACTER_DBF_TBL where account = @iaccount and isblock = 'F'
 	if @i1_cnt > 2
 	begin
 		SELECT  fError = '0', fText = 'A©ø¢¬?AI ¢¬©öA¨ö!' 
 		RETURN
 	end
 
-	IF EXISTS(SELECT m_szName FROM CHARACTER_TBL
+	IF EXISTS(SELECT m_szName FROM CHARACTER_DBF_TBL
 		  WHERE  m_szName = @im_szName AND serverindex = @iserverindex)
 		BEGIN
 			SELECT  fError = '0', fText = 'A©ø¢¬?AI A©¬¨¬©ö!' 
@@ -10733,9 +10465,9 @@ IF @iGu = 'I1' -- AE¡¾a A¢´¨¬¢¬ AO¡¤A
 								, @om_nCampusPoint int 
 								, @om_idCampus int
 
-				 IF EXISTS (SELECT * FROM CHARACTER_TBL WHERE  serverindex = @iserverindex)
+				 IF EXISTS (SELECT * FROM CHARACTER_DBF_TBL WHERE  serverindex = @iserverindex)
 				 SELECT @om_idPlayer = RIGHT('0000000' + CONVERT(VARCHAR(7),MAX(m_idPlayer)+1),7)
-			       FROM CHARACTER_TBL
+			       FROM CHARACTER_DBF_TBL
 				  WHERE  serverindex = @iserverindex
 				ELSE		
 				SELECT @om_idPlayer = '0000001'	
@@ -10810,7 +10542,7 @@ IF @iGu = 'I1' -- AE¡¾a A¢´¨¬¢¬ AO¡¤A
 			
 
 
-				INSERT CHARACTER_TBL
+				INSERT CHARACTER_DBF_TBL
 							(
 								m_idPlayer,
 								serverindex,
@@ -10825,7 +10557,7 @@ IF @iGu = 'I1' -- AE¡¾a A¢´¨¬¢¬ AO¡¤A
 								m_vPos_y,
 								m_vPos_z,
 								m_fAngle,
-								m_szCharacterKey,
+								m_szCHARACTER_DBFKey,
 								m_nHitPoint,
 								m_nManaPoint,
 								m_nFatiguePoint,
@@ -10909,7 +10641,7 @@ IF @iGu = 'I1' -- AE¡¾a A¢´¨¬¢¬ AO¡¤A
 								@im_vPos_y,
 								@im_vPos_z,
 								@om_fAngle,
-								@im_szCharacterKey,
+								@im_szCHARACTER_DBFKey,
 								@om_nHitPoint,
 								@om_nManaPoint,
 								@om_nFatiguePoint,
@@ -11177,10 +10909,10 @@ IF @iGu = 'I1' -- AE¡¾a A¢´¨¬¢¬ AO¡¤A
 	
 
 	 ex ) 
-	 CHARACTER_STR 'I1','',@iserverindex,@iaccount,@im_szName,@iplayerslot,@idwWorldID,
-											@im_dwIndex,@im_vPos_x,@im_vPos_y,@im_vPos_z,@im_szCharacterKey,
+	 CHARACTER_DBF_STR 'I1','',@iserverindex,@iaccount,@im_szName,@iplayerslot,@idwWorldID,
+											@im_dwIndex,@im_vPos_x,@im_vPos_y,@im_vPos_z,@im_szCHARACTER_DBFKey,
 											@im_dwSkinSet,@im_dwHairMesh,@im_dwHairColor,@im_dwHeadMesh,@im_dwSex
-	 CHARACTER_STR 'I1','','01','beat','¡íu¨¬¡Æ¡Æ©ªAO3',0,0,
+	 CHARACTER_DBF_STR 'I1','','01','beat','¡íu¨¬¡Æ¡Æ©ªAO3',0,0,
 											0,0,0,0,'',
 											0,0,0,0,0
 
@@ -11189,17 +10921,17 @@ set nocount off
 RETURN
 
 GO
-/****** Object:  StoredProcedure [dbo].[CHARACTER_DELETE_STR]    Script Date: 04/03/2010 12:42:39 ******/
+/****** Object:  StoredProcedure [dbo].[CHARACTER_DBF_DELETE_STR]    Script Date: 04/03/2010 12:42:39 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
-CREATE         PROC [dbo].[CHARACTER_DELETE_STR]
+CREATE         PROC [dbo].[CHARACTER_DBF_DELETE_STR]
 AS
 DECLARE @serverindex char(2)
 
 DECLARE Delete_Server CURSOR FOR 
-SELECT serverindex FROM CHARACTER_TBL GROUP BY serverindex ORDER BY serverindex
+SELECT serverindex FROM CHARACTER_DBF_TBL GROUP BY serverindex ORDER BY serverindex
 
 OPEN Delete_Server
 
@@ -11211,16 +10943,16 @@ BEGIN
 
 ---		DECLARE @DeleteDelayDay int
 ---		set @DeleteDelayDay = '-7'
----		SELECT * FROM CHARACTER_TBL WHERE isblock='D' AND End_Time <= convert(char(8), DATEADD(d,@DeleteDelayDay,getdate()),112)
+---		SELECT * FROM CHARACTER_DBF_TBL WHERE isblock='D' AND End_Time <= convert(char(8), DATEADD(d,@DeleteDelayDay,getdate()),112)
 
-					DELETE CHARACTER_TBL WHERE isblock='D' AND  End_Time <= convert(char(8),DATEADD(d,-7,getdate()),112) and serverindex = @serverindex
+					DELETE CHARACTER_DBF_TBL WHERE isblock='D' AND  End_Time <= convert(char(8),DATEADD(d,-7,getdate()),112) and serverindex = @serverindex
 					
 					DECLARE @name varchar(256)
 					DECLARE Delete_Cursor CURSOR FOR 
 					SELECT	B.name
 						FROM	syscolumns A,sysobjects B
 						WHERE	A.id = B.id
-					   AND B.name NOT IN('CHARACTER_TBL','MESSENGER_TBL')
+					   AND B.name NOT IN('CHARACTER_DBF_TBL','MESSENGER_TBL')
 					   AND A.name = 'm_idPlayer' and A.name = 'serverindex'
 					   AND B.type='U'
 					ORDER BY B.name
@@ -11233,27 +10965,27 @@ BEGIN
 					WHILE @@FETCH_STATUS = 0
 					BEGIN
 						PRINT @name + '??'
-						EXEC('DELETE ' + @name + ' WHERE m_idPlayer NOT IN (SELECT m_idPlayer FROM CHARACTER_TBL where serverindex = ''' + @serverindex + ''') and serverindex = ''' + @serverindex + '''')
+						EXEC('DELETE ' + @name + ' WHERE m_idPlayer NOT IN (SELECT m_idPlayer FROM CHARACTER_DBF_TBL where serverindex = ''' + @serverindex + ''') and serverindex = ''' + @serverindex + '''')
 					   FETCH NEXT FROM Delete_Cursor 
 					   INTO @name
 					END
 					
-					DELETE TAG_TBL  WHERE f_idPlayer NOT IN (SELECT m_idPlayer FROM CHARACTER_TBL where serverindex = @serverindex) and serverindex = @serverindex
+					DELETE TAG_TBL  WHERE f_idPlayer NOT IN (SELECT m_idPlayer FROM CHARACTER_DBF_TBL where serverindex = @serverindex) and serverindex = @serverindex
 					
 					PRINT '??? ?? ??'
 					-- ?? 2009-09-16 ??? ?? ?? ?? (EXEC MESSENGER_STR 'D2','',@serverindex ?? ?? ??)
 					delete tblMessenger
-					where idPlayer not in (select m_idPlayer from CHARACTER_TBL where serverindex = @serverindex)
+					where idPlayer not in (select m_idPlayer from CHARACTER_DBF_TBL where serverindex = @serverindex)
 
 					delete tblMessenger
-					where idFriend not in (select m_idPlayer from CHARACTER_TBL where serverindex = @serverindex)
+					where idFriend not in (select m_idPlayer from CHARACTER_DBF_TBL where serverindex = @serverindex)
 
 --					EXEC MESSENGER_STR 'D2','',@serverindex
 
 					
 					PRINT 'Delete Skill'
 					DELETE 	tblSkillPoint 
-					WHERE 	PlayerID NOT IN (SELECT m_idPlayer FROM CHARACTER_TBL WHERE serverindex=@serverindex) 
+					WHERE 	PlayerID NOT IN (SELECT m_idPlayer FROM CHARACTER_DBF_TBL WHERE serverindex=@serverindex) 
 					AND 	serverindex=@serverindex
 
 
@@ -11334,7 +11066,7 @@ ELSE
 IF @iGu = 'S1'
 	BEGIN
 		SELECT a.f_idPlayer, b.m_szName, a.m_Message,CreateTime=CONVERT(CHAR(8),a.CreateTime,112)
-		   FROM TAG_TBL a, CHARACTER_TBL b
+		   FROM TAG_TBL a, CHARACTER_DBF_TBL b
 		WHERE a.m_idPlayer = @im_idPlayer
 			AND a.m_idPlayer = b.m_idPlayer
 		    AND a.serverindex = @iserverindex
@@ -11367,12 +11099,12 @@ IF	@iGu = 'D1'
 		DELETE TAG_TBL
 		WHERE m_idPlayer NOT IN
 		   (SELECT m_idPlayer 
-			FROM CHARACTER_TBL)
+			FROM CHARACTER_DBF_TBL)
 
 		DELETE TAG_TBL
 		WHERE f_idPlayer NOT IN
 		   (SELECT m_idPlayer 
-			FROM CHARACTER_TBL)
+			FROM CHARACTER_DBF_TBL)
 
 		DELETE TAG_TBL
 		WHERE State = 'D'
@@ -11910,13 +11642,13 @@ SET NOCOUNT ON
 			DELETE MESSENGER_TBL
 			WHERE m_idPlayer NOT IN
 			(SELECT m_idPlayer 
-				FROM CHARACTER_TBL where serverindex = @iserverindex)
+				FROM CHARACTER_DBF_TBL where serverindex = @iserverindex)
 				and  serverindex = @iserverindex
 
 			DELETE MESSENGER_TBL
 			WHERE f_idPlayer NOT IN
 			(SELECT m_idPlayer 
-				FROM CHARACTER_TBL where serverindex = @iserverindex)
+				FROM CHARACTER_DBF_TBL where serverindex = @iserverindex)
 				and  serverindex = @iserverindex
 
 			DELETE MESSENGER_TBL
@@ -12310,28 +12042,6 @@ SET QUOTED_IDENTIFIER ON
 GO
 /****** Object:  Stored Procedure dbo.usp_CampusMember_Insert    Script Date: 2009-12-01 ?? 2:41:44 ******/
 
-
-/*============================================================
-1. ??? : ???
-2. ??? : 2009.11.20
-3. ???? ? : usp_CampusMember_Insert
-4. ???? ?? : ?? ?? ??? ??
-5. ????
-	@idCampus		int			: ?? ID
-	@serverindex	char(2)		: ???
-	@m_idPlayer		char(7)		: ???? ID
-	@nMemberLv		int			: ?? ???? ??? ??
-6. ??? 	
-7. ?? ??
-8. ?? ?? ??
-    EXEC usp_Campus_Insert 123, '05'
-    EXEC usp_CampusMember_Insert 123, '05', '0745479', 2
-9. ?? ? ident ? ???
-	select * from tblCampus
-	select * from tblCampusMember
-    EXEC usp_Campus_Delete 123, '05'
-============================================================*/
-
 CREATE       proc [dbo].[usp_CampusMember_Insert]
 
 	@idCampus	int,
@@ -12356,29 +12066,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 /****** Object:  Stored Procedure dbo.usp_CampusMember_Delete    Script Date: 2009-12-01 ?? 2:41:44 ******/
-
-
-
-
-
-/*============================================================
-1. ??? : ???
-2. ??? : 2009.11.20
-3. ???? ? : usp_CampusMember_Delete
-4. ???? ?? : ?? ?? ??? ??
-5. ????
-	@serverindex	char(2)		: ???
-	@m_idPlayer		char(7)		: ???? ID
-	@nMemberLv		int			: ?? ???? ?? ??
-6. ??? 	
-7. ?? ??
-8. ?? ?? ??
-    EXEC usp_CampusMember_Delete 123, '0745479'
-9. ?? ? ident ? ???
-	select * from tblCampus
-	select * from tblCampusMember
-    EXEC usp_Campus_Delete '05', '0745479', 2
-============================================================*/
 
 CREATE         proc [dbo].[usp_CampusMember_Delete]
 
@@ -12853,7 +12540,7 @@ AS
 SET NOCOUNT ON
 
 	SELECT	a.PlayerID, max(b.m_nJob) as Job, sum(a.Point) as PointSummary
-	  FROM	tblCombatJoinPlayer a INNER JOIN CHARACTER_TBL b ON (a.PlayerID=b.m_idPlayer)
+	  FROM	tblCombatJoinPlayer a INNER JOIN CHARACTER_DBF_TBL b ON (a.PlayerID=b.m_idPlayer)
 	GROUP BY	a.PlayerID
 	HAVING sum(a.Point)>0
 	ORDER BY sum(a.Point)
@@ -13000,68 +12687,68 @@ GO
 /****** Object:  Default [DF_BANK_m_dwGoldBank]    Script Date: 04/03/2010 12:42:44 ******/
 ALTER TABLE [dbo].[BANK_TBL] ADD  CONSTRAINT [DF_BANK_m_dwGoldBank]  DEFAULT ((0)) FOR [m_dwGoldBank]
 GO
-/****** Object:  Default [DF_CHARACTER_TBL_m_nFuel]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_TBL_m_nFuel]  DEFAULT ((-1)) FOR [m_nFuel]
+/****** Object:  Default [DF_CHARACTER_DBF_TBL_m_nFuel]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_TBL_m_nFuel]  DEFAULT ((-1)) FOR [m_nFuel]
 GO
-/****** Object:  Default [DF_CHARACTER_MultiServer]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_MultiServer]  DEFAULT ((0)) FOR [MultiServer]
+/****** Object:  Default [DF_CHARACTER_DBF_MultiServer]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_MultiServer]  DEFAULT ((0)) FOR [MultiServer]
 GO
-/****** Object:  Default [DF_CHARACTER_dwEventFlag]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_dwEventFlag]  DEFAULT ((0)) FOR [dwEventFlag]
+/****** Object:  Default [DF_CHARACTER_DBF_dwEventFlag]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_dwEventFlag]  DEFAULT ((0)) FOR [dwEventFlag]
 GO
-/****** Object:  Default [DF_CHARACTER_dwEventTime]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_dwEventTime]  DEFAULT ((0)) FOR [dwEventTime]
+/****** Object:  Default [DF_CHARACTER_DBF_dwEventTime]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_dwEventTime]  DEFAULT ((0)) FOR [dwEventTime]
 GO
-/****** Object:  Default [DF_CHARACTER_dwEventElapsed]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_dwEventElapsed]  DEFAULT ((0)) FOR [dwEventElapsed]
+/****** Object:  Default [DF_CHARACTER_DBF_dwEventElapsed]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_dwEventElapsed]  DEFAULT ((0)) FOR [dwEventElapsed]
 GO
-/****** Object:  Default [DF_CHARACTER_PKValue]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_PKValue]  DEFAULT ((0)) FOR [PKValue]
+/****** Object:  Default [DF_CHARACTER_DBF_PKValue]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_PKValue]  DEFAULT ((0)) FOR [PKValue]
 GO
-/****** Object:  Default [DF_CHARACTER_PKPropensity]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_PKPropensity]  DEFAULT ((0)) FOR [PKPropensity]
+/****** Object:  Default [DF_CHARACTER_DBF_PKPropensity]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_PKPropensity]  DEFAULT ((0)) FOR [PKPropensity]
 GO
-/****** Object:  Default [DF_CHARACTER_PKExp]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_PKExp]  DEFAULT ((0)) FOR [PKExp]
+/****** Object:  Default [DF_CHARACTER_DBF_PKExp]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_PKExp]  DEFAULT ((0)) FOR [PKExp]
 GO
-/****** Object:  Default [DF_CHARACTER_AngelExp]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_AngelExp]  DEFAULT ((0)) FOR [AngelExp]
+/****** Object:  Default [DF_CHARACTER_DBF_AngelExp]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_AngelExp]  DEFAULT ((0)) FOR [AngelExp]
 GO
-/****** Object:  Default [DF_CHARACTER_AngelLevel]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_AngelLevel]  DEFAULT ((0)) FOR [AngelLevel]
+/****** Object:  Default [DF_CHARACTER_DBF_AngelLevel]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_AngelLevel]  DEFAULT ((0)) FOR [AngelLevel]
 GO
-/****** Object:  Default [DF_CHARACTER_FinalLevelDt]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_FinalLevelDt]  DEFAULT ('2000-01-01') FOR [FinalLevelDt]
+/****** Object:  Default [DF_CHARACTER_DBF_FinalLevelDt]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_FinalLevelDt]  DEFAULT ('2000-01-01') FOR [FinalLevelDt]
 GO
-/****** Object:  Default [DF__CHARACTER__m_dwP__6B0FDBE9]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF__CHARACTER__m_dwP__6B0FDBE9]  DEFAULT ((-1)) FOR [m_dwPetId]
+/****** Object:  Default [DF__CHARACTER_DBF__m_dwP__6B0FDBE9]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF__CHARACTER_DBF__m_dwP__6B0FDBE9]  DEFAULT ((-1)) FOR [m_dwPetId]
 GO
-/****** Object:  Default [DF__CHARACTER__m_nEx__7E22B05D]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF__CHARACTER__m_nEx__7E22B05D]  DEFAULT ((0)) FOR [m_nExpLog]
+/****** Object:  Default [DF__CHARACTER_DBF__m_nEx__7E22B05D]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF__CHARACTER_DBF__m_nEx__7E22B05D]  DEFAULT ((0)) FOR [m_nExpLog]
 GO
-/****** Object:  Default [DF__CHARACTER__m_nAn__7F16D496]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF__CHARACTER__m_nAn__7F16D496]  DEFAULT ((0)) FOR [m_nAngelExpLog]
+/****** Object:  Default [DF__CHARACTER_DBF__m_nAn__7F16D496]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF__CHARACTER_DBF__m_nAn__7F16D496]  DEFAULT ((0)) FOR [m_nAngelExpLog]
 GO
-/****** Object:  Default [DF__CHARACTER__m_nCo__05A3D694]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  DEFAULT ((0)) FOR [m_nCoupon]
+/****** Object:  Default [DF__CHARACTER_DBF__m_nCo__05A3D694]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  DEFAULT ((0)) FOR [m_nCoupon]
 GO
-/****** Object:  Default [DF_CHARACTER_TBL_m_nHonor]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_TBL_m_nHonor]  DEFAULT ((-1)) FOR [m_nHonor]
+/****** Object:  Default [DF_CHARACTER_DBF_TBL_m_nHonor]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_TBL_m_nHonor]  DEFAULT ((-1)) FOR [m_nHonor]
 GO
-/****** Object:  Default [DF_CHARACTER_TBL_m_nLayer]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_TBL_m_nLayer]  DEFAULT ((0)) FOR [m_nLayer]
+/****** Object:  Default [DF_CHARACTER_DBF_TBL_m_nLayer]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_TBL_m_nLayer]  DEFAULT ((0)) FOR [m_nLayer]
 GO
-/****** Object:  Default [DF_CHARACTER_TBL_m_nCampusPoint]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_TBL_m_nCampusPoint]  DEFAULT ((0)) FOR [m_nCampusPoint]
+/****** Object:  Default [DF_CHARACTER_DBF_TBL_m_nCampusPoint]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_TBL_m_nCampusPoint]  DEFAULT ((0)) FOR [m_nCampusPoint]
 GO
-/****** Object:  Default [DF_CHARACTER_TBL_idCampus]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_TBL_idCampus]  DEFAULT ((0)) FOR [idCampus]
+/****** Object:  Default [DF_CHARACTER_DBF_TBL_idCampus]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_TBL_idCampus]  DEFAULT ((0)) FOR [idCampus]
 GO
-/****** Object:  Default [DF_CHARACTER_TBL_m_aCheckedQuest]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL] ADD  CONSTRAINT [DF_CHARACTER_TBL_m_aCheckedQuest]  DEFAULT ('$') FOR [m_aCheckedQuest]
+/****** Object:  Default [DF_CHARACTER_DBF_TBL_m_aCheckedQuest]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL] ADD  CONSTRAINT [DF_CHARACTER_DBF_TBL_m_aCheckedQuest]  DEFAULT ('$') FOR [m_aCheckedQuest]
 GO
-/****** Object:  Default [DF_CHARACTER_TBL_validity_check_regdate]    Script Date: 04/03/2010 12:42:44 ******/
-ALTER TABLE [dbo].[CHARACTER_TBL_validity_check] ADD  CONSTRAINT [DF_CHARACTER_TBL_validity_check_regdate]  DEFAULT (getdate()) FOR [regdate]
+/****** Object:  Default [DF_CHARACTER_DBF_TBL_validity_check_regdate]    Script Date: 04/03/2010 12:42:44 ******/
+ALTER TABLE [dbo].[CHARACTER_DBF_TBL_validity_check] ADD  CONSTRAINT [DF_CHARACTER_DBF_TBL_validity_check_regdate]  DEFAULT (getdate()) FOR [regdate]
 GO
 /****** Object:  Default [DF_GUILD_BANK_EXT_TBL_szGuildBankPet]    Script Date: 04/03/2010 12:42:44 ******/
 ALTER TABLE [dbo].[GUILD_BANK_EXT_TBL] ADD  CONSTRAINT [DF_GUILD_BANK_EXT_TBL_szGuildBankPet]  DEFAULT ('$') FOR [szGuildBankPet]
@@ -13603,10 +13290,10 @@ ON DELETE CASCADE
 GO
 ALTER TABLE [dbo].[tblCouplePlayer] CHECK CONSTRAINT [FK_tblCouplePlayer]
 GO
---RAISERROR( 'Step 13: Configure [LOGGING_01_DBF]',0,1) WITH NOWAIT
+--RAISERROR( 'Step 13: Configure [LOGIN_DBF]',0,1) WITH NOWAIT
 GO
 
-USE [LOGGING_01_DBF]
+USE [LOGIN_DBF]
 GO
 /****** Object:  Table [dbo].[LOG_DEATH_TBL]    Script Date: 04/03/2010 12:45:46 ******/
 SET ANSI_NULLS ON
@@ -13632,14 +13319,14 @@ CREATE TABLE [dbo].[LOG_DEATH_TBL](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[LOG_CHARACTER_TBL]    Script Date: 04/03/2010 12:45:46 ******/
+/****** Object:  Table [dbo].[LOG_CHARACTER_DBF_TBL]    Script Date: 04/03/2010 12:45:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_PADDING ON
 GO
-CREATE TABLE [dbo].[LOG_CHARACTER_TBL](
+CREATE TABLE [dbo].[LOG_CHARACTER_DBF_TBL](
 	[m_idPlayer] [char](7) NULL,
 	[serverindex] [char](2) NOT NULL,
 	[account] [varchar](32) NULL,
@@ -13751,14 +13438,14 @@ declare @c_date datetime
 	return @c_date 
 end
 GO
-/****** Object:  Table [dbo].[CHARACTER_TBL]    Script Date: 04/03/2010 12:45:46 ******/
+/****** Object:  Table [dbo].[CHARACTER_DBF_TBL]    Script Date: 04/03/2010 12:45:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_PADDING ON
 GO
-CREATE TABLE [dbo].[CHARACTER_TBL](
+CREATE TABLE [dbo].[CHARACTER_DBF_TBL](
 	[m_idPlayer] [char](7) NULL,
 	[serverindex] [char](2) NOT NULL,
 	[account] [varchar](32) NULL,
@@ -13958,14 +13645,14 @@ CREATE TABLE [dbo].[LOG_PK_PVP_TBL](
 GO
 SET ANSI_PADDING OFF
 GO
-/****** Object:  Table [dbo].[LOG_LOGIN_TBL]    Script Date: 04/03/2010 12:45:46 ******/
+/****** Object:  Table [dbo].[LOG_LOGIN_DBF_TBL]    Script Date: 04/03/2010 12:45:46 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 SET ANSI_PADDING ON
 GO
-CREATE TABLE [dbo].[LOG_LOGIN_TBL](
+CREATE TABLE [dbo].[LOG_LOGIN_DBF_TBL](
 	[m_idPlayer] [char](7) NULL,
 	[serverindex] [char](2) NOT NULL,
 	[dwWorldID] [int] NULL,
@@ -14871,25 +14558,25 @@ set nocount on
 declare @q1 nvarchar(4000), @q2 nvarchar(4000)
 
 set @q1 = '
-delete CHARACTER_[&serverindex&]_DBF.dbo.tblElection
+delete CHARACTER_DBF_[&serverindex&]_DBF.dbo.tblElection
 where s_week = cast(datepart(yy, getdate()) as varchar(10)) + right(''00'' + cast(datepart(ww, getdate()) as varchar(30)), 2)'
 set @q2 = replace(@q1, '[&serverindex&]', @serverindex)
 exec sp_executesql @q2
 
 set @q1 = '
-insert into CHARACTER_[&serverindex&]_DBF.dbo.tblElection (s_week, chrcount)
+insert into CHARACTER_DBF_[&serverindex&]_DBF.dbo.tblElection (s_week, chrcount)
 select cast(datepart(yy, getdate()) as varchar(10)) + right(''00'' + cast(datepart(ww, getdate()) as varchar(30)), 2), count(distinct m_idPlayer)
-from LOGGING_[&serverindex&]_DBF.dbo.LOG_LOGIN_TBL
+from LOGGING_[&serverindex&]_DBF.dbo.LOG_LOGIN_DBF_TBL
 where Start_Time >= convert(varchar(20), dateadd(m, -1, getdate()), 112) and CharLevel >= 60'
 set @q2 = replace(@q1, '[&serverindex&]', @serverindex)
 exec sp_executesql @q2
 GO
-/****** Object:  StoredProcedure [dbo].[uspTransferLoginLog]    Script Date: 04/03/2010 12:45:45 ******/
+/****** Object:  StoredProcedure [dbo].[uspTransferLOGIN_DBFLog]    Script Date: 04/03/2010 12:45:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER OFF
 GO
-CREATE  PROCEDURE [dbo].[uspTransferLoginLog]
+CREATE  PROCEDURE [dbo].[uspTransferLOGIN_DBFLog]
 		@pserverindex		char(2),
 		@debug				bit=0
 AS
@@ -14912,22 +14599,22 @@ SET NOCOUNT ON
 									+ RIGHT('00' + CONVERT(VARCHAR(2),DATEPART(ss,@preDate)),2)
 
 
-	/* LOG_LOGIN_TBL *********************************************************************************/
+	/* LOG_LOGIN_DBF_TBL *********************************************************************************/
 	EXEC('
-	INSERT LOG_' + @pserverindex + '_DBF.dbo.LOG_LOGIN_TBL
+	INSERT LOG_' + @pserverindex + '_DBF.dbo.LOG_LOGIN_DBF_TBL
 		(
 			m_idPlayer,serverindex,dwWorldID,Start_Time,End_Time,TotalPlayTime,m_dwGold,remoteIP,account
 		)
 	SELECT
 			m_idPlayer,serverindex,dwWorldID,Start_Time,End_Time,TotalPlayTime,m_dwGold,remoteIP,account
-	FROM LOG_LOGIN_TBL,
+	FROM LOG_LOGIN_DBF_TBL,
 				(SELECT max_date = CASE WHEN max(End_Time)  IS NULL THEN ''00000000000000'' ELSE max(End_Time) END
-					FROM LOG_' + @pserverindex + '_DBF.dbo.LOG_LOGIN_TBL  
+					FROM LOG_' + @pserverindex + '_DBF.dbo.LOG_LOGIN_DBF_TBL  
 					WHERE serverindex = ''' + @pserverindex + ''') x
 	WHERE End_Time > x.max_date
 		AND End_Time <= ''' + @os_date + '''
 	IF @@ROWCOUNT > 0
-	DELETE LOG_LOGIN_TBL WHERE End_Time <= ''' + @os_date + '''')
+	DELETE LOG_LOGIN_DBF_TBL WHERE End_Time <= ''' + @os_date + '''')
 
 
 SET NOCOUNT OFF
@@ -14979,23 +14666,23 @@ SET NOCOUNT ON
 	IF @@ROWCOUNT > 0
 	DELETE LOG_DEATH_TBL WHERE s_date <= ''' + @os_date + '''')
 	
-	/* LOG_LOGIN_TBL*********************************************************************************/
+	/* LOG_LOGIN_DBF_TBL*********************************************************************************/
 	/*
 	EXEC('
-	INSERT CRM'+@pserverindex+'.LOG_' + @pserverindex + '_DBF.dbo.LOG_LOGIN_TBL
+	INSERT CRM'+@pserverindex+'.LOG_' + @pserverindex + '_DBF.dbo.LOG_LOGIN_DBF_TBL
 		(
 			m_idPlayer,serverindex,dwWorldID,Start_Time,End_Time,TotalPlayTime,m_dwGold,remoteIP
 		)
 	SELECT
 			m_idPlayer,serverindex,dwWorldID,Start_Time,End_Time,TotalPlayTime,m_dwGold,remoteIP 
-	   FROM LOG_LOGIN_TBL,
+	   FROM LOG_LOGIN_DBF_TBL,
 				 (SELECT max_date = CASE WHEN max(End_Time)  IS NULL THEN ''00000000000000'' ELSE max(End_Time) END
-					  FROM CRM'+@pserverindex+'.LOG_' + @pserverindex + '_DBF.dbo.LOG_LOGIN_TBL  
+					  FROM CRM'+@pserverindex+'.LOG_' + @pserverindex + '_DBF.dbo.LOG_LOGIN_DBF_TBL  
 					WHERE serverindex = ''' + @pserverindex + ''') x
 	 WHERE End_Time > x.max_date
 	      AND End_Time <= ''' + @os_date + '''
 	IF @@ROWCOUNT > 0
-	DELETE LOG_LOGIN_TBL WHERE End_Time <= ''' + @os_date + '''')
+	DELETE LOG_LOGIN_DBF_TBL WHERE End_Time <= ''' + @os_date + '''')
 	*/
 	
 	
@@ -15813,12 +15500,12 @@ SET NOCOUNT ON
 	
 SET NOCOUNT OFF
 GO
-/****** Object:  StoredProcedure [dbo].[uspLoggingLogin]    Script Date: 04/03/2010 12:45:45 ******/
+/****** Object:  StoredProcedure [dbo].[uspLoggingLOGIN_DBF]    Script Date: 04/03/2010 12:45:45 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE    Procedure [dbo].[uspLoggingLogin]
+CREATE    Procedure [dbo].[uspLoggingLOGIN_DBF]
 		@pPlayerID		char(7),
 		@pserverindex	char(2),
 		@pAccount		varchar(32),
@@ -15840,7 +15527,7 @@ SET NOCOUNT ON
 										+ RIGHT('00' + CONVERT(VARCHAR(2),DATEPART(ss,GETDATE())),2)
 
 
-	INSERT  LOG_LOGIN_TBL 
+	INSERT  LOG_LOGIN_DBF_TBL 
 		(
 			m_idPlayer,
 			serverindex,
@@ -16439,7 +16126,7 @@ CREATE PROC [dbo].[LOG_STR]
 	@iItem_count					INT 							= 0,
 	--4:LOG_UNIQUE_TBL
 	@iItem_AddLv 				INT 							= 0,
-	--5:LOG_LOGIN_TBL
+	--5:LOG_LOGIN_DBF_TBL
 	@iStart_Time					CHAR(14) 				= '',
 	@iTotalPlayTime			INT 							= 0,	
 	@iremoteIP						VARCHAR(16) 		= '',
@@ -16807,7 +16494,7 @@ IF @iGu = 'L5'
 				@iGu = 'L5'
 			
 			*************************************************************/
-			INSERT  LOG_LOGIN_TBL 
+			INSERT  LOG_LOGIN_DBF_TBL 
 				(
 					m_idPlayer,
 					serverindex,
@@ -18306,8 +17993,8 @@ GO
 /****** Object:  Default [DF_LOG_ITEM_TBL_adwUMItemId4]    Script Date: 04/03/2010 12:45:46 ******/
 ALTER TABLE [dbo].[LOG_ITEM_TBL] ADD  CONSTRAINT [DF_LOG_ITEM_TBL_adwUMItemId4]  DEFAULT ((0)) FOR [adwUMItemId4]
 GO
-/****** Object:  Default [DF_LOG_LOGIN_TBL_State]    Script Date: 04/03/2010 12:45:46 ******/
-ALTER TABLE [dbo].[LOG_LOGIN_TBL] ADD  CONSTRAINT [DF_LOG_LOGIN_TBL_State]  DEFAULT ((0)) FOR [State]
+/****** Object:  Default [DF_LOG_LOGIN_DBF_TBL_State]    Script Date: 04/03/2010 12:45:46 ******/
+ALTER TABLE [dbo].[LOG_LOGIN_DBF_TBL] ADD  CONSTRAINT [DF_LOG_LOGIN_DBF_TBL_State]  DEFAULT ((0)) FOR [State]
 GO
 /****** Object:  Default [DF_tblCampus_PointLog_s_date]    Script Date: 04/03/2010 12:45:46 ******/
 ALTER TABLE [dbo].[tblCampus_PointLog] ADD  CONSTRAINT [DF_tblCampus_PointLog_s_date]  DEFAULT (getdate()) FOR [s_date]
@@ -18423,8 +18110,8 @@ CREATE   VIEW [dbo].[view_last_3_month]
 AS
 SELECT X.account FROM 
 (
-SELECT A.account FROM LOGGING_01_DBF.dbo.CHARACTER_TBL A,
-(SELECT m_idPlayer,serverindex FROM LOGGING_01_DBF.dbo.VIEW_LOG_LOGIN_TBL 
+SELECT A.account FROM LOGIN_DBF.dbo.CHARACTER_DBF_TBL A,
+(SELECT m_idPlayer,serverindex FROM LOGIN_DBF.dbo.VIEW_LOG_LOGIN_DBF_TBL 
 WHERE End_Time >= CONVERT(CHAR(8),DATEADD(m,-3,GETDATE()) ,112)
 GROUP BY m_idPlayer,serverindex
 HAVING MIN(End_Time) >= CONVERT(CHAR(8),DATEADD(m,-3,GETDATE()) ,112)) B
@@ -18442,8 +18129,8 @@ CREATE    VIEW [dbo].[view_last_1_month]
 AS
 SELECT X.account FROM 
 (
-SELECT A.account FROM LOGGING_01_DBF.dbo.CHARACTER_TBL A,
-(SELECT m_idPlayer,serverindex FROM LOGGING_01_DBF.dbo.VIEW_LOG_LOGIN_TBL 
+SELECT A.account FROM LOGIN_DBF.dbo.CHARACTER_DBF_TBL A,
+(SELECT m_idPlayer,serverindex FROM LOGIN_DBF.dbo.VIEW_LOG_LOGIN_DBF_TBL 
 WHERE End_Time >= CONVERT(CHAR(8),DATEADD(m,-1,GETDATE()) ,112)
 GROUP BY m_idPlayer,serverindex
 HAVING MIN(End_Time) >= CONVERT(CHAR(8),DATEADD(m,-1,GETDATE()) ,112)) B
@@ -18466,7 +18153,7 @@ SET NOCOUNT ON
 IF @iGu = 'S1'
 	BEGIN 
 	SELECT TOP 100 m_idPlayer,s_date,m_Item,m_nAbilityOption,Item_count
-		   FROM LOGGING_01_DBF.dbo.LOG_GUILD_BANK_TBL 
+		   FROM LOGIN_DBF.dbo.LOG_GUILD_BANK_TBL 
 		 WHERE m_idGuild = @im_idGuild  AND serverindex = @iserverindex AND State='A'  ORDER BY s_date DESC
 	END 
 /*
@@ -18476,7 +18163,7 @@ ELSE
 IF @iGu = 'S2'
 	BEGIN
 	SELECT TOP 100 m_idPlayer,s_date,m_Item,m_nAbilityOption,Item_count
-		   FROM LOGGING_01_DBF.dbo.LOG_GUILD_BANK_TBL 
+		   FROM LOGIN_DBF.dbo.LOG_GUILD_BANK_TBL 
 		 WHERE m_idGuild = @im_idGuild  AND serverindex = @iserverindex  AND State='D'   ORDER BY s_date DESC
 	END
 /*
@@ -18486,7 +18173,7 @@ ELSE
 IF @iGu = 'S3'
 	BEGIN
 	SELECT TOP 100 m_idPlayer,s_date,m_Item,m_nAbilityOption,Item_count
-		   FROM LOGGING_01_DBF.dbo.LOG_GUILD_BANK_TBL 
+		   FROM LOGIN_DBF.dbo.LOG_GUILD_BANK_TBL 
 		 WHERE m_idGuild = @im_idGuild  AND serverindex = @iserverindex  AND State='I'   ORDER BY s_date DESC
 	END
 /*
@@ -18496,7 +18183,7 @@ ELSE
 IF @iGu = 'S4'
 	BEGIN
 	SELECT TOP 100 m_idPlayer,s_date,m_Item,m_nAbilityOption,Item_count
-		   FROM LOGGING_01_DBF.dbo.LOG_GUILD_BANK_TBL 
+		   FROM LOGIN_DBF.dbo.LOG_GUILD_BANK_TBL 
 		 WHERE m_idGuild = @im_idGuild  AND serverindex = @iserverindex AND State='O'    ORDER BY s_date DESC
 	END
 /*
@@ -18551,7 +18238,7 @@ RETURN
 GO
 --RAISERROR( 'Step 15: Installation AiO Database SQL 2012 complete',0,1) WITH NOWAIT
 GO
-USE [LOGGING_01_DBF]
+USE [LOGIN_DBF]
 GO
 
 ALTER TABLE [tblTradeItemLog] DROP CONSTRAINT [DF_tblTradeItemLog_RandomOpt]

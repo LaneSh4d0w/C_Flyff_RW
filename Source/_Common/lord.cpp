@@ -85,7 +85,7 @@ void IElection::sProperty::Serialize( CAr & ar )
 			m_vItems[iIndex].clear();
 			ar >> nSize;
 			int n;
-			for( int i = 0; i < nSize; i++ )
+			for( unsigned int i = 0; i < nSize; i++ )
 			{
 				ar >> n;
 				m_vItems[iIndex].push_back( n );

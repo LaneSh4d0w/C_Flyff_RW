@@ -709,27 +709,27 @@ BOOL CWndGuideSystem::LoadGuide( LPCTSTR lpszFileName )
 			script.GetToken();
 			guidestruct.m_str	= script.Token;
 			script.GetToken();
-			if( strcmpi( script.token, "SEQUENCE" ) == 0 )
+			if( _strcmpi( script.token, "SEQUENCE" ) == 0 )
 			{
 				guidestruct.m_nSequence = script.GetNumber();
 				script.GetToken();
 			}
-			if( strcmpi( script.token, "LEVEL" ) == 0 )
+			if( _strcmpi( script.token, "LEVEL" ) == 0 )
 			{
 				guidestruct.m_nLevel = script.GetNumber();
 				script.GetToken();
 			}
-			if( strcmpi( script.token, "CONDITION" ) == 0 )
+			if( _strcmpi( script.token, "CONDITION" ) == 0 )
 			{
 				guidestruct.m_nVicCondition = script.GetNumber();
 				script.GetToken();
 			}
-			if( strcmpi( script.token, "INPUTCHAR" ) == 0 )
+			if( _strcmpi( script.token, "INPUTCHAR" ) == 0 )
 			{
 				guidestruct.m_nInput = script.GetNumber();
 				script.GetToken();
 			}
-			if( strcmpi( script.token, "INPUTSTR" ) == 0 )
+			if( _strcmpi( script.token, "INPUTSTR" ) == 0 )
 			{
 				script.GetToken();
 				guidestruct.m_strInput = script.Token;

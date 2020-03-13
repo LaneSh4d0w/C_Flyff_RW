@@ -3956,7 +3956,7 @@ void CWndListCtrl::PaintFrame( C2DRender* p2DRender )
 	//if( IsWndStyle( WLVS_REPORT ) )
 	{
 		int i, x = NULL;
-		for( ; i < m_aColumns.GetSize(); i++ )
+		for( i = NULL; i < m_aColumns.GetSize(); i++ )
 		{
 			LVCOLUMN* pColumn = (LVCOLUMN*)m_aColumns.GetAt( i );
 			p2DRender->TextOut( x + 4, 4, pColumn->pszText ); 

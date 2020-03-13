@@ -409,7 +409,7 @@ BOOL LoadImage( LPCTSTR lpszFileName, LPIMAGE lpImage ) //LPBYTE* lppData, SIZE*
 {
 	TCHAR szFileName[ MAX_PATH ];
 	strcpy( szFileName, lpszFileName );
-	strlwr( szFileName );
+	_strlwr( szFileName );
 	if( strstr( szFileName, ".tga" ) )
 	{
 		return LoadTGA( lpszFileName, lpImage );

@@ -616,7 +616,7 @@ BOOL CALLBACK MaxConnDlgProc( HWND hDlg, UINT iMessage, WPARAM wParam, LPARAM lP
 		case WM_INITDIALOG:
 			{
 				char lpString[16];
-				itoa( (int)g_dpSrvr.m_nMaxConn, lpString, 10 );
+				_itoa( (int)g_dpSrvr.m_nMaxConn, lpString, 10 );
 				SetDlgItemText( hDlg, IDC_EDIT_MAX_CONN, lpString );
 				break;
 			}

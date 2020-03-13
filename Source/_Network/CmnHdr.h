@@ -226,7 +226,9 @@ inline void GetStrPaFromStr(char *pBuf, char *strReturn, int *pLocation)
 
 inline BOOL chWindows9x( void )
 {
-	OSVERSIONINFO vi	= { sizeof(vi) };
+	OSVERSIONINFO vi;
+	ZeroMemory(&vi, sizeof(OSVERSIONINFO));
+	vi.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
 	GetVersionEx( &vi );
 	return( vi.dwPlatformId != VER_PLATFORM_WIN32_NT );
 }
@@ -585,7 +587,7 @@ typedef	struct	_LogItemInfo	// ItemLogæ≤¿”
 	SERIALNUMBER	ItemNo;
 	int		Negudo;
 	int		MaxNegudo;
-//	LPCTSTR ItemName;
+	LPCTSTR ItemName;
 	TCHAR	szItemName[32];
 	DWORD	itemNumber;
 	int		nAbilityOption;

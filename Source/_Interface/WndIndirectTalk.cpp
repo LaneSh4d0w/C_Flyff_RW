@@ -23,9 +23,9 @@ void CWndIndirectTalk::OnDraw( C2DRender* p2DRender )
 	CWndEdit* pWndEdit = (CWndEdit*)GetDlgItem( WIDC_EDIT1 );
 	TCHAR szNum[ 32 ];
 	if( pMover && pMover->GetType() == OT_MOVER )
-		itoa( pMover->GetId(), szNum, 10 );
+		_itoa( pMover->GetId(), szNum, 10 );
 	else
-		itoa( 0, szNum, 10 );
+		_itoa( 0, szNum, 10 );
 	pWndEdit->SetString( szNum );
 } 
 void CWndIndirectTalk::OnInitialUpdate() 

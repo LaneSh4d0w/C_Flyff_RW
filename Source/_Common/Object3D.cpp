@@ -371,7 +371,7 @@ CObject3D		*CObject3DMng :: LoadObject3D( LPDIRECT3DDEVICE9 pd3dDevice, LPCTSTR 
 #ifdef __JEFF_11_5
 	char sFile[MAX_PATH]	= { 0,};
 	strcpy( sFile, szFileName );
-	strlwr( sFile );
+	_strlwr( sFile );
 
 	map<string, CObject3D*>::iterator i		= m_mapObject3D.find( sFile );
 	if( i != m_mapObject3D.end() )
@@ -930,7 +930,7 @@ int		CObject3D :: LoadObject( LPCTSTR szFileName )
 	// 파일명 카피
 	char szName[MAX_PATH];
 	strcpy( m_szFileName, szFileName );
-	strlwr( m_szFileName );
+	_strlwr( m_szFileName );
 //	strcpy( szName, GetFileName(szFileName) );
 	GetFileName( szFileName, szName );
 
@@ -948,7 +948,7 @@ int		CObject3D :: LoadObject( LPCTSTR szFileName )
 	}
 
 	buff[cLen] = 0;	// 끝에 널 붙임.
-	if( strcmpi( szName, buff ) != 0 )	// 헤더의 파일명과 비교해보고 틀리면 에러.
+	if( _strcmpi( szName, buff ) != 0 )	// 헤더의 파일명과 비교해보고 틀리면 에러.
 	{
 		Error( "잘못된 파일 : %s, %s, %s", szFileName, szName, buff );
 		return 0;
@@ -1355,7 +1355,7 @@ int		CObject3D::LoadGMObject( CResFile *file, GMOBJECT *pObject )
 			if( nLen > sizeof(szBitmap) )		
 				Error( "CObject3D::LoadGMObject : %s 텍스쳐 파일명이 너무길다 : 길이 = %d", m_szFileName, nLen );
 			file->Read( szBitmap, nLen, 1 );
-			strlwr( szBitmap );		// 소문자로 변환
+			_strlwr( szBitmap );		// 소문자로 변환
 			
 			pObject->m_MaterialAry[i].m_Material = mMaterial;
 
@@ -1517,7 +1517,7 @@ void	CObject3D::ChangeTexture( LPCTSTR szSrc, LPCTSTR szDest )
 	char	szBuff[128];
 
 	strcpy( szBuff, szSrc );
-	strlwr( szBuff );
+	_strlwr( szBuff );
 	TCHAR szBitMapFileName[ 16 ][ 128 ];
 	for( k = 0; k < MAX_GROUP; k++ )
 	{
@@ -3355,7 +3355,7 @@ void	CObject3D::RenderNormal( LPDIRECT3DDEVICE9 pd3dDevice, GMOBJECT *pObj, cons
 
 		if( CEnvironment::GetInstance()->GetSeason() == SEASON_SPRING )
 		{
-			if( stricmp( m_szFileName, "obj_macoprtr16.o3d" ) == 0 || stricmp( m_szFileName, "obj_macoprtr17.o3d" ) == 0 )
+			if( _stricmp( m_szFileName, "obj_macoprtr16.o3d" ) == 0 || stricmp( m_szFileName, "obj_macoprtr17.o3d" ) == 0 )
 			{
 				pd3dDevice->SetTextureStageState( 0, D3DTSS_COLOROP,   D3DTOP_MODULATE2X );
 			}

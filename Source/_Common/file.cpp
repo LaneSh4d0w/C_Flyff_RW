@@ -164,11 +164,11 @@ void CResFile::AddResource( TCHAR* lpszResName )
 		lpRes->byEncryptionKey = byEncryptionKey;
 		lpRes->bEncryption = bEncryption;
 		strcpy( lpRes->szResourceFile, lpszResName );
-		strlwr( lpRes->szResourceFile );
+		_strlwr( lpRes->szResourceFile );
 
 		strcpy( szFullFileName, dir );
 		strcat( szFullFileName, szFileName );
-		strlwr( szFullFileName );
+		_strlwr( szFullFileName );
 
 
 #ifdef __CLIENT
@@ -228,7 +228,7 @@ void CResFile::ScanResource( LPCTSTR lpszRootPath )
 	{
 		do
 		{
-			strlwr( c_file.name );
+			_strlwr( c_file.name );
 			strcpy( szPath, lpszRootPath );
 			if( c_file.attrib & _A_SUBDIR )//if( CFile::GetStatus( name, fileStatus) == TRUE )
 			{
@@ -297,7 +297,7 @@ BOOL CResFile::Open( LPCTSTR lpszFileName, TCHAR *mode )
 	TCHAR szFileName[ MAX_PATH ];
 	RESOURCE* lpRes;
 	strcpy( szFileName, lpszFileName );
-	strlwr( szFileName );
+	_strlwr( szFileName );
 	m_bResouceInFile = FALSE;
 	if( m_mapResource.Lookup( szFileName, (void*&) lpRes ) )
 	{
@@ -726,7 +726,7 @@ BOOL CFileFinder::FindFirst( LPCTSTR lpFilespec, struct _finddata_t *fileinfo )
 #if defined( __CLIENT )
 	CHAR filespec[ MAX_PATH ];
 	strcpy( filespec, lpFilespec );
-	strlwr( filespec );
+	_strlwr( filespec );
 
 	CHAR szPath [ MAX_PATH ];
 	CHAR szFile[ MAX_PATH ];
@@ -747,7 +747,7 @@ BOOL CFileFinder::FindFirst( LPCTSTR lpFilespec, struct _finddata_t *fileinfo )
 		_tcscat( m_szFilespec, "\\" );
 		_tcscat( m_szFilespec, lpFilespec );
 	}
-	strlwr( m_szFilespec );
+	_strlwr( m_szFilespec );
 
 	CString strNameName;
 	RESOURCE* lpRes;
@@ -758,7 +758,7 @@ BOOL CFileFinder::FindFirst( LPCTSTR lpFilespec, struct _finddata_t *fileinfo )
 		_tcscpy( szFile, szPath );
 		_tcscat( szFile, "\\" );
 		_tcscat( szFile, strNameName );
-		strlwr( szFile );
+		_strlwr( szFile );
 
 		if( WildCmp( m_szFilespec, szFile ) )
 		{
@@ -796,7 +796,7 @@ BOOL CFileFinder::FindNext( struct _finddata_t *fileinfo )
 			_tcscpy( szFile, szPath );
 			_tcscat( szFile, "\\" );
 			_tcscat( szFile, strNameName );
-			strlwr( szFile );
+			_strlwr( szFile );
 
 			if( WildCmp( m_szFilespec, szFile ) )
 			{

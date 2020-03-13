@@ -231,7 +231,7 @@ void CDPDBSrvr::SendPlayerCount( void )
 #ifdef __LOG_PLAYERCOUNT_CHANNEL
 					ar << nChannel;
 #endif // __LOG_PLAYERCOUNT_CHANNEL
-					ar <<cbSize;
+					ar << cbSize;
 					ar.Write( (void*)anCount, sizeof(int) * cbSize );
 					SEND( ar, this, adpid[dwParent] );
 				}

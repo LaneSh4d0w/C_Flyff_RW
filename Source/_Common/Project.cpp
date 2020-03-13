@@ -2656,7 +2656,7 @@ BOOL CProject::LoadPropMoverEx( LPCTSTR szFileName )
 				script.GetToken(); 
 				continue; 
 			} 
-			if( strcmpi( script.Token, "AI" ) == 0 )		// AI블럭
+			if( _strcmpi( script.Token, "AI" ) == 0 )		// AI블럭
 			{
 				BOOL bRet = LoadPropMoverEx_AI( szFileName, script, nVal );
 				if ( bRet == FALSE )

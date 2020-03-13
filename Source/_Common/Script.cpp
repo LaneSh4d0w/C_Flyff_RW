@@ -575,7 +575,7 @@ void CScript::Compile()
 				if((r=IsFunc(token))!=-1) 
 				{
 					str[0] = '$';	
-					itoa(r,&str[1],10);
+					_itoa(r,&str[1],10);
 					Write(&cplProg,str);
 				}
 				else 
@@ -598,7 +598,7 @@ void CScript::Compile()
 						GetTkn(); // ;
 						break;
 					default:
-						str[0] = '@';	itoa(cmd,&str[1],10);
+						str[0] = '@';	_itoa(cmd,&str[1],10);
 						Write(&cplProg,str);
 						break;
 				}

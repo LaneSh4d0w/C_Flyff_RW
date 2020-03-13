@@ -39,7 +39,7 @@ void CDPAdbill::UserMessageHandler( LPDPMSG_GENERIC lpMsg, DWORD dwMsgSize, DPID
 	memcpy( (void*)pbi3, lpMsg, sizeof(BUYING_INFO) );
 	pbi3->dpid	= idFrom;
 	pbi3->dwKey	= m_dwKey++;
-	pbi3->dwTickCount	= GetTickCount();
+	pbi3->dwTickCount	= GetTickCount64();
 
 	CBuyingInfoMng::GetInstance()->Add( pbi3 );
 	g_dpDbSrvr.SendBuyingInfo( (PBUYING_INFO2)pbi3 );

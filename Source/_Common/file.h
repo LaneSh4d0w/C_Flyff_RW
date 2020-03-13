@@ -27,11 +27,11 @@ public:
 	virtual size_t Read( void *ptr, size_t size, size_t n = 1 )	{ return fread( ptr, size, n, fp ); }
 	virtual LPVOID Read();
 
-	int  Handle() { return fileno( fp ); }
+	int  Handle() { return _fileno( fp ); }
 	int  Error()  { return ferror( fp ); }
 	int  Eof() { return feof( fp ); }
 	int  PutC( char c ) { return putc( c, fp ); }
-	int  PutW( WORD w ) { return putw( w, fp ); }
+	int  PutW( WORD w ) { return _putw( w, fp ); }
 	int  PutDW( DWORD dw ) { return fwrite( &dw, sizeof( dw ), 1, fp ); }
 	size_t Write( LPVOID ptr, size_t size, size_t n = 1 ) { return fwrite( ptr, size, n, fp ); }
 	int PutString( LPCTSTR lpszString ) { return _ftprintf( fp, lpszString ); }

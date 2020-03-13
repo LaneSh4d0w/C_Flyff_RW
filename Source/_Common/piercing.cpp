@@ -67,7 +67,7 @@ void CPiercing::Serialize( CAr & ar )
 		m_vUltimatePiercing.clear();
 		ar >> nSize;
 		SetUltimatePiercingSize( nSize );
-		for( int i = 0; i < nSize; i++ )
+		for( unsigned int i = 0; i < nSize; i++ )
 		{
 			DWORD dwItem;
 			ar >> dwItem;
@@ -77,7 +77,7 @@ void CPiercing::Serialize( CAr & ar )
 #if __VER >= 15 // __PETVIS
 		ar >> nSize;
 		SetVisKeepTimeSize( nSize );
-		for( int i=0; i<nSize; i++ )
+		for( unsigned int i=0; i<nSize; i++ )
 		{
 			time_t tmTemp;
 			ar >> tmTemp;
